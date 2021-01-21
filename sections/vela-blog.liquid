@@ -1,0 +1,306 @@
+{%- assign owlColumn1 = section.settings.column1 | plus:0 -%}
+{%- assign owlColumn2 = section.settings.column2 | plus:0 -%}
+{%- assign owlColumn3 = section.settings.column3 | plus:0 -%}
+{%- assign owlColumn4 = section.settings.column4 | plus:0 -%}
+{%- assign blogLimit = section.settings.limit | plus:0 -%}
+{%- assign blogImageSize = section.settings.image_size -%}
+{%- assign blogName = section.settings.blog_handle -%}
+<div class="container{% if section.settings.full_with %}-full{% endif %}">
+    <div class="blogCarousel" style="{% if section.settings.img_bg !=blank %}background: url({{ section.settings.img_bg | img_url: "master" }});{% endif %}
+                                     {% if section.settings.margin_block !=blank %}margin:{{section.settings.margin_block}}; {% endif %}
+                                     {% if section.settings.padding_block !=blank %}padding:{{section.settings.padding_block}}; {% endif %}">
+       {% if section.settings.title != blank %}
+		<h3 class="velaTitle velaHomeTitle">
+          	{% if section.settings.subfix != blank %}
+          		<span class="subfix"><span>{{ section.settings.subfix }}</span></span>
+         	{% endif %}
+          	{% if section.settings.title != blank  %}
+          		<span class="title">{{ section.settings.title }}</span>
+          	{% endif %}
+          	{% if section.settings.subtitle != blank %}
+          	<span class="subtitle">{{ section.settings.subtitle }}</span>
+          	{% endif %}
+		</h3>
+		{% endif %}
+        <div class="velaContent">
+            <div class="velaOwlRow owlCarouselPlay">
+                <div class="owl-carousel"   data-nav="{{ section.settings.navigation }}" 
+                                            data-autoplay="{{ section.settings.autoplay }}" 
+                                            data-autospeed="{{ section.settings.autoplay_speed }}" 
+                                            data-speed="{{ section.settings.speed }}" 
+                                            data-columnone="{{ owlColumn1 }}" 
+                                            data-columntwo="{{ owlColumn2 }}" 
+                                            data-columnthree="{{ owlColumn3 }}"
+                                            data-columnfour="{{ owlColumn4 }}">
+                    {% for article in blogs[blogName].articles limit:blogLimit %}
+                  		<div class="item">
+                          <div class="blogArticle velaArticleItem">
+                              <h4 class="articleTitile"><a href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a></h4>
+                              <p class="articleMeta"><span class="articleMeta-author"><span>{{ 'blogs.article.author' | t }}</span> {{ article.author }}</span>&nbsp;/&nbsp;<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time></p>
+                              {% if section.settings.image_featured %}
+                                  {% if article.image %}
+                                      <div class="articleImage">
+                                        <a class="effect-2" href="{{ article.url }}" title="{{ article.title }}">
+                                          <img class="img-responsive" src="{{ article.image | img_url: blogImageSize }}" alt="{{ article.title }}" />
+                                        </a>
+                                        <a class="btn" href="{{ article.url }}">
+											<i class="fa fa-link"></i>
+										</a>
+                                      </div>
+                                  {% endif %}
+                              {% endif %}
+                              <div class="rte">
+                                  {% if article.excerpt.size > 0 %}
+                                      {{ article.excerpt }}
+                                  {% else %}
+                                      <p>{{ article.content | strip_html | truncatewords: 20 }}</p>
+                                  {% endif %}
+                              </div>
+                            {%- assign number_comments = article.comments_count -%}
+                            {% if article.comments_enabled? %}
+                            	<div class="articleMeta-comment"><span>{{ 'blogs.comments.comments_with_count' | t: count: number_comments }}</span></div>
+                            {% endif %}
+                          </div>
+                  		</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% schema %}
+    {
+        "name": "Vela Blogs Homepage",
+        "class": "velaFramework",
+        "settings":[
+			{
+                "type": "header",
+                "content": "Design Block"
+            },
+			{
+				"type": "image_picker",
+				"id": "img_bg",
+				"label": "background image for block"
+			},
+			{
+                "type": "text",
+                "id": "margin_block",
+                "label": "Margin",
+                "placeholder": "0px 0px"
+            },
+			{
+                "type": "text",
+                "id": "padding_block",
+                "label": "Padding",
+                "placeholder": "0px 0px"
+            },
+			{
+                "type": "checkbox",
+                "id": "full_with",
+                "label": "Enabel Full Width?"
+            },
+            {
+                "type": "header",
+                "content": "General Settings"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "placeholder": "Title of Blog"
+            },
+			{
+                "type": "text",
+                "id": "subfix",
+                "label": "Subfix",
+                "placeholder": "subfix of Blog"
+            },
+			{
+                "type": "text",
+                "id": "subtitle",
+                "label": "subtitle",
+                "placeholder": "subtitle of Blog"
+            },
+            {
+                "type": "blog",
+                "id": "blog_handle",
+                "label": "Blog"
+            },
+            {
+                "type": "checkbox",
+                "id": "image_featured",
+                "label": "Show Featured Image",
+                "default": true
+            },
+            {
+                "type": "text",
+                "id": "image_size",
+                "label": "Featured Image Size",
+                "default": "480x",
+                "info": "[Size parameters](https://help.shopify.com/themes/liquid/filters/url-filters#size-parameters)"
+            },
+            {
+                "type": "header",
+                "content": "Carousel Settings"
+            },
+            {
+                "type": "select",
+                "id": "column1",
+                "label": "#Column 1",
+                "default": "4",
+                "info": "Large desktops",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column2",
+                "label": "#Column 2",
+                "default": "3",
+                "info": "Desktops & Tablets landscape",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column3",
+                "label": "#Column 3",
+                "info": "Tablets & Phones landscape",
+                "default": "2",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column4",
+                "label": "#Column 4",
+                "default": "2",
+                "info": "Smartphones",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "text",
+                "id": "limit",
+                "label": "Limit",
+                "default": "8"
+            },
+            {
+                "type": "checkbox",
+                "id": "navigation",
+                "label": "Show Navigation",
+                "default": true
+            },
+            {
+                "type": "checkbox",
+                "id": "autoplay",
+                "label": "Auto Play",
+                "default": false
+            },
+            {
+                "type": "text",
+                "id": "autoplay_speed",
+                "label": "Auto Play Speed",
+                "info": "Default: 10000(ms)",
+                "default": "10000"
+            },
+            {
+                "type": "text",
+                "id": "speed",
+                "label": "Speed",
+                "info": "Slide/Fade animation speed",
+                "default": "300"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Vela Blogs",
+                "category": "3. Vela Blog",
+                "settings": {
+                    "title": "Blogs on Homepage",
+					"blog_handle": "news"
+                }
+            }
+        ]
+    }
+{% endschema %}

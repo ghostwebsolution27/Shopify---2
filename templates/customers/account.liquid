@@ -1,0 +1,88 @@
+<section id="pageContent">
+    <div class="container">
+        <div id="velaAccount" class="velaAccountContainer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-3">
+                    {% include 'vela-account-sidebar' %}
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    <div class="addressBox">
+                        <h4 class="addressBoxTitle">{{ 'customer.account.details' | t }}</h4>
+                        <div class="addressBoxContent">
+                            <h5 class="adressName">{{ customer.name }}</h5>
+                            {% if customer.default_address != nil %}
+                                <ul class="adressInfo list-unstyled">
+                                    {% if customer.default_address.phone != blank %}
+                                        <li>
+                                            <label>{{ 'customer.addresses.phone' | t }}:</label> {{ customer.default_address.phone }}
+                                        </li>
+                                    {% endif %}
+                                    <li>
+                                        <label>{{ 'customer.addresses.address1' | t }}:</label> 
+                                        {{ customer.default_address.address1 }}
+                                        {% if customer.default_address.city != blank %}
+                                            , {{ customer.default_address.city }}
+                                        {% endif %}
+                                        {% if customer.default_address.province_code != blank %}
+                                            , {{ customer.default_address.province_code }}
+                                        {% endif %}
+                                        {% if customer.default_address.zip != blank %}
+                                            &nbsp;{{ customer.default_address.zip | upcase }}
+                                        {% endif %}
+                                    </li>
+                                    {% if customer.default_address.address2 != blank %}
+                                        <li><label>{{ 'customer.addresses.address2' | t }}:</label> {{ customer.default_address.address2 }}</li>
+                                    {% endif %}
+                                    <li>
+                                        <label>{{ 'customer.addresses.country' | t }}:</label> {{ order.billing_address.country }}
+                                    </li>
+                                </ul>
+                                <p><a href="/account/addresses">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="orderBox">
+                        <h4 class="orderBoxTitle">{{ 'customer.orders.title' | t }}</h4>
+                        <div class="orderBoxContent">
+                            {% paginate customer.orders by 20 %}
+                                {% if customer.orders.size != 0 %}
+                                    <div class="table-responsive">
+                                        <table class="table tableOrder table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ 'customer.orders.order_number' | t }}</th>
+                                                    <th>{{ 'customer.orders.date' | t }}</th>
+                                                    <th>{{ 'customer.orders.payment_status' | t }}</th>
+                                                    <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                                                    <th>{{ 'customer.orders.total' | t }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for order in customer.orders %}
+                                                    <tr>
+                                                        <td>{{ order.name | link_to: order.customer_url }}</td>
+                                                        <td>{{ order.created_at | date: format: 'month_day_year' }}</td>
+                                                        <td>{{ order.financial_status_label }}</td>
+                                                        <td>{{ order.fulfillment_status_label }}</td>
+                                                        <td>{{ order.total_price | money }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-info">{{ 'customer.orders.none' | t }}</div>
+                                {% endif %}
+                                {% if paginate.pages > 1 %}
+                                    <div class="pagination">
+                                      {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+                                    </div>
+                                {% endif %}
+                            {% endpaginate %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,156 @@
+{% if section.settings.sidebar_categories_enable %}
+	{% assign velaCategories = section.settings.sidebar_categories_menu %}
+	<div id="velaCategories" class="velaCategoriesSidebar">
+  		<h3 class="titleSidebar">{{ section.settings.sidebar_categories_title }}</h3>
+      	{% if linklists[velaCategories] != empty %}
+            <div class="velaContent">
+              	{% for linkItem in linklists[velaCategories].links %}
+              		<div class="itemCategory">
+                        <h4 class="cateTitle">
+                          	{% if linklists[linkItem.handle] != empty %}
+                          		<a class="cateItem hasSubCategory{% if linkItem.active %} active{% endif %} collapsed" data-toggle="collapse" href="#subCategory{{ forloop.index }}" >{{ linkItem.title }}</a>
+                          	{% else %}
+                          		<a class="cateItem {% if linkItem.active %}active{% endif %}" href="{{ linkItem.url }}">{{ linkItem.title }}</a>
+                            {% endif %}
+                        </h4>
+                      	{% if linklists[linkItem.handle] != empty %}
+                            <div id="subCategory{{ forloop.index }}" class="collapse">
+                                <div class="panel-body">
+                                  	<ul class="listSidebar list-unstyled">
+                                  		{% for linkChildItem in linklists[linkItem.handle].links %}
+                                      		<li><a href="{{ linkChildItem.url }}" title="{{ linkChildItem.title }}">{{ linkChildItem.title }}</a></li>
+                                  		{% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                      	{% endif %}
+                	</div>
+                {% endfor %}
+            </div>
+      	{% endif %}
+	</div>
+{% endif %}
+{% if section.settings.sidebar_filtervendor_enable %}
+    <div class="velaFilter">
+        <h3 class="titleSidebar">{{ section.settings.sidebar_filtervendor_title }}</h3>
+        <div class="velaContent">
+            <ul class="listSidebar list-unstyled">
+                {% assign itemArray = section.settings.sidebar_filtervendor_list | split:"," %}
+                {% for itemVendor in itemArray %}
+                    {% if shop.vendors contains itemVendor %}
+                        {% if collection.current_vendor == itemVendor %}
+                            <li class="active">
+                                {{ itemVendor | link_to_vendor }}
+                            </li>
+                        {% else %}
+                            <li>
+                                {{ itemVendor | link_to_vendor }}
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+{% if section.settings.sidebar_filtertype_enable %}
+    <div class="velaFilter">
+        <h3 class="titleSidebar">{{ section.settings.sidebar_filtertype_title }}</h3>
+        <div class="velaContent">
+            <ul class="listSidebar list-unstyled">
+                {% assign itemArray = section.settings.sidebar_filtertype_list | split:"," %}
+                {% for itemType in itemArray %}
+                    {% if shop.types contains itemType %}
+                        {% if collection.current_vendor == itemType %}
+                            <li class="active">
+                                {{ itemType | link_to_vendor }}
+                            </li>
+                        {% else %}
+                            <li>
+                                {{ itemType | link_to_vendor }}
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+{% schema %}
+    {
+        "name": "Sidebar Categories",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Sidebar Categories"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_categories_enable",
+                "label": "Enable Sidebar Categories?"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_categories_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title"
+            },
+            {
+                "type": "link_list",
+                "id": "sidebar_categories_menu",
+                "label": "Menu",
+                "info": "Choose menu for block. Add new menu: Admin->Navigation->Menu"
+            },
+            {
+                "type": "header",
+                "content": "Sidebar Filter By Vendor"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_filtervendor_enable",
+                "label": "Enable Filter By Vendor?"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filtervendor_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title"
+            },
+            {
+                "type": "textarea",
+                "id": "sidebar_filtervendor_list",
+                "placeholder": "Vendor1,Vendor2",
+                "label": "Vendors List",
+                "info": "Separate by a comma \",\""
+            },
+            {
+                "type": "header",
+                "content": "Sidebar Filter By Type"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_filtertype_enable",
+                "label": "Enable Filter By Type?"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filtertype_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title"
+            },
+            {
+                "type": "textarea",
+                "id": "sidebar_filtertype_list",
+                "placeholder": "Product Type,Product Vendor2",
+                "label": "Product Types List",
+                "info": "Separate by a comma \",\""
+            }
+        ]
+    }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

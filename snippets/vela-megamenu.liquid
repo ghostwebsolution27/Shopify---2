@@ -1,0 +1,89 @@
+<li class="hasMenuDropdown hasMegaMenu{% if velaLink.active %} active{% endif %}">
+	<a href="{{ velaLink.url }}" title="">{{ velaLink.title }}</a>
+	<div class="menuDropdown megaMenu" {% if block.settings.img_bg !=blank %}style="background-image: url({{ block.settings.img_bg | img_url: "master" }});"{% endif %}>
+		<div class="menuGroup row">
+			{% if block.settings.velamenu_menu_enable %}
+				<div class="{{ block.settings.velamenu_menu_col }}">
+					<div class="row">
+                      	{% for velaLink1 in linklists[linkHandle].links %}
+                            {% assign linkHandle = velaLink1.title | handleize %}
+                            <div class="col-xs-12 {{ block.settings.velamenu_menu_menucol }}">
+                                <ul class="velaMenuLinks">
+                                    <li class="menuTitle{% if velaLink1.active %} active{% endif %}">
+                                        <a href="{{ velaLink1.url }}" title="">{{ velaLink1.title }}</a>
+                                    </li>
+                                    {% for velaLink2 in linklists[linkHandle].links %}
+                                        <li class="{% if velaLink2.active %}active{% endif %}">
+                                            <a href="{{ velaLink2.url }}" title="">{{ velaLink2.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
+					</div>
+				</div>
+			{% endif %}
+			{% if block.settings.velamenu_product_enable %}
+				<div class="{{ block.settings.velamenu_product_col }}">
+					<div class="velaMenuProducts">
+                        {% if block.settings.velamenu_product_title != blank %}
+                            <div class="menuTitle"><span>{{ block.settings.velamenu_product_title }}</span></div>
+                        {% endif %}
+                        <div class="listProduct">
+                            {% assign collectionTitle = block.settings.velamenu_product_collection %}
+                            {% for product in collections[collectionTitle].products limit:3 %}
+                                {% assign onSale = false %}
+                                {% if product.compare_at_price > product.price %}
+                                    {% assign onSale = true %}
+                                {% endif %}
+                                <div class="blockProMenu media">
+                                    <div class="proImage proImageMenu pull-left">
+                                        <a class="proImageLink" href="{{ product.url }}" title="">
+                                            <img class="img-responsive" src="{{ product.featured_image | product_img_url:'small' }}" alt="{{ product.featured_image.alt }}">
+                                        </a>
+                                    </div>
+                                    <div class="proMeta proMetaMenu media-body">
+                                        <h5 class="proName">
+                                            <a href="{{ product.url }}" title="">{{ product.title }}</a>
+                                        </h5>
+                                        <div class="boxProPrice">
+                                            {% if onSale %}
+                                                <span class="oldPrice proPrice">{{ product.compare_at_price | money }}</span>
+                                            {% endif %}
+                                            <span class="curPrice proPrice">{{ product.price | money }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+				</div>
+			{% endif %}
+			{% if block.settings.velamenu_html_enable %}
+				<div class="{{ block.settings.velamenu_html_col }}">
+                  	<div class="velaMenuHtml">
+                        {% if block.settings.velamenu_html_title != blank %}
+                            <div class="menuTitle"><span>{{ block.settings.velamenu_html_title }}</span></div>
+                        {% endif %}
+                        <div class="htmlContent">
+                            {{ block.settings.velamenu_html_content }}
+                        </div>
+                    </div>
+				</div>
+			{% endif %}
+			{% if block.settings.velamenu_banner_enable %}
+          		<div class="{{ block.settings.velamenu_banner_col }}">
+                  	<div class="velaMenuBanner">
+                      	{% if block.settings.velamenu_banner_link != blank %}<a href="{{ block.settings.velamenu_banner_link }}">{% endif %}
+                      		{% if block.settings.velamenu_banner != blank %}
+                      			<img class="img-responsive" alt="{{ block.settings.velamenu_banner.alt | default: shop.name }}" src="{{ block.settings.velamenu_banner | img_url: block.settings.image_size }}" />
+                      		{% else %}
+                      			<img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/{{ block.settings.image_size }}" />
+                      		{% endif %}
+                      	{% if block.settings.velamenu_banner_link != blank %}</a>{% endif %}
+                  	</div>
+          		</div>
+			{% endif %}
+		</div>
+	</div>
+</li>

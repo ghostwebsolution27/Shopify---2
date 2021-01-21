@@ -1,0 +1,66 @@
+{% comment %} {% include 'breadcrumb' %} {% endcomment %}
+{% assign intBlogColumns = 4 %}
+{% assign strColumn = 12 | divided_by:intBlogColumns %}
+{% capture strGridItem %}col-xs-12 col-sm-6 col-md-{{ strColumn }}{% endcapture %}
+<section id="pageContent">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="blogContainer">
+                    {% if current_tags %}
+                        <h1 class="velaBlogTitle">{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}</h1>
+                    {% else %}
+                        <h1 class="velaBlogTitle">{{ blog.title }}</h1>
+                    {% endif %}
+                    <div class="blogListArticle">
+                        {% paginate blog.articles by 8 %}
+                            <div class="velaFlexRow flexRow">
+                                {% for article in blog.articles %}
+                                    {% assign delay = forloop.index | times:120 %}
+                                    {% assign imageSize = 'master' %}
+                                    <div class="owl-item blogArticle {{ strGridItem }} wow fadeIn" data-wow-delay="{{ delay }}ms" >
+                                        <div class="item">
+                                            {% if article.image %}
+                                                <div class="articleImage">
+                                                    <img class="img-responsive" src="{{ article.image | img_url: imageSize }}" alt="{{ article.title }}" />
+                                                </div>
+                                            {% endif %}
+                                            <div class="articleContent">
+                                                <h4 class="articleTitile"><a href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a></h4>
+                                                <div class="articleMeta">
+                                                    <time class="articleMeta-date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: " %d %B, %Y " }}</time>
+                                                    <span class="articleMeta-author"><span>{{ 'blogs.article.author' | t }}</span> {{ article.author }}</span>
+                                                    <span class="articleMeta-blog"><span>{{ 'blogs.article.blog' | t }}</span> {{ blog.title }}</span>
+                                                </div>
+                                                <div class="rte">
+                                                    {% if article.excerpt.size > 0 %}
+                                                        {{ article.excerpt }}
+                                                    {% else %}
+                                                        <p>{{ article.content | strip_html | truncatewords: 25 }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                <!-- {% include 'vela-article-tags' %} -->
+                                                <!-- 
+                                                <p><a class="btn-readmore btn-grey btn" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }}</a></p>
+                                                -->
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if paginate.pages > 1 %}
+                                <div class="collPagination">
+                                    {% include 'vela-pagination' %}
+                                </div>
+                            {% endif %}
+                        {% endpaginate %}
+                    </div>
+                </div>
+            </div>
+            <aside class="velaSidebar col-xs-12 col-sm-4 col-md-3">
+                {% section 'blogsidebar' %}
+            </aside>
+        </div>
+    </div>
+</section>

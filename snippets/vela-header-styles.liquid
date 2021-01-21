@@ -1,0 +1,20 @@
+{% if settings.vela_fontfamily_style == 'google_fonts' %}
+     <link href="https://fonts.googleapis.com/css?family={{ settings.vela_fontfamily }}:100,300,400,500,700" rel="stylesheet" type="text/css">
+ {%  else %}
+     <link href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700&subset=latin-ext" rel="stylesheet"> 
+ {% endif %}
+ {% if settings.vela_fontfamily_secondary_style == 'google_fonts' %}
+     <link href="https://fonts.googleapis.com/css?family={{ settings.vela_fontfamily_secondary }}:100,300,400,500,700" rel="stylesheet" type="text/css">
+ {%  else %}
+     <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic,700,700italic&subset=latin-ext" rel="stylesheet">
+ {% endif %}
+ {% if settings.vela_fontfamily_tertiary_style == 'google_fonts' %}
+     <link href="https://fonts.googleapis.com/css?family={{ settings.vela_fontfamily_tertiary }}:100,300,400,500,700" rel="stylesheet" type="text/css">
+ {% endif %}
+ <link href="https://fonts.googleapis.com/css?family=Oswald:400,700" rel="stylesheet">
+{{ 'fontawesome5.10.2.min.css' | asset_url | stylesheet_tag }}
+{{ 'Gotham-fonts.css' | asset_url | stylesheet_tag }}
+{{ 'vela-fonts.scss.css' | asset_url | stylesheet_tag }}
+{{ 'vela-site.scss.css' | asset_url | stylesheet_tag }}
+{{ 'custom.scss.css' | asset_url | stylesheet_tag }}
+{{ 'owl.carousel.min.css' | asset_url | stylesheet_tag }}

@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="twoBanner">
+    {% if section.settings.headline != blank %}
+        <h3 class="velaHomeTitle">{{ section.settings.headline }}</h3>
+    {% endif %}
+      <div class="velaBannerContent clearfix">
+        <div class="row nomargin">
+          <div class="velaBanner banner__video col-xs-12 col-sm-6">
+            <video autoplay muted="" loop="" id="banner__video1" width="100%" height="100%">
+                <source src="{{ section.settings.video1 }}" type="video/mp4">
+            </video>
+          </div>
+          <div class="velaBanner banner__video col-xs-12 col-sm-6">
+            {% if section.settings.seo_text != nil %}
+            <div class="seo-content-wrapper">
+                <div class="seo-text">
+                    {{ section.settings.seo_text }}
+                </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<style>
+    .twoVideoBanner.velaFramework {
+        background-color: {{ section.settings.color_background }};
+    }
+    .twoVideoBanner.velaFramework .seo-text p {
+        font-size: 14px;
+        font-style: normal;
+        font-family: "Gotham-Thin";
+        font-weight: bold;
+        line-height: 1.5;
+    }
+    .twoVideoBanner.velaFramework .seo-text strong {
+        font-family: "Gotham-Medium";
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+</style>
+
+{% schema %}
+    {
+        "name": "Vela Video Banner",
+        "class": "velaFramework twoVideoBanner",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Block Banner"
+            },
+            {
+                "type": "text",
+                "id": "headline",
+                "label": "Headline"
+            },
+            {
+                "type": "text",
+                "id": "video1",
+                "label": "1st Video link",
+                "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+            },
+            {
+            	"type": "richtext",
+            	"id": "seo_text",
+            	"label": "SEO text"
+          	},
+            {
+                "type": "color",
+                "id": "color_background",
+                "label": "Background Color",
+                "default": "#f6f6f6"
+            }
+        ],
+		"presets": [
+            {
+                "name": "Vela Two Video",
+                "category": "7. Vela Video"
+            }
+        ]
+    }
+{% endschema %}

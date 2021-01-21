@@ -1,0 +1,101 @@
+<div class="container{% if section.settings.full_with %}-full{% endif %}">
+  <div class="VelaOurService" style="{% if section.settings.img_bg !=blank %}background-image: url({{ section.settings.img_bg | img_url: "master" }});{% endif %}
+                                     {% if section.settings.margin_block !=blank %}margin:{{section.settings.margin_block}}; {% endif %}
+                                     {% if section.settings.padding_block !=blank %}padding:{{section.settings.padding_block}}; {% endif %}">
+    {% if section.settings.title != blank %}
+         <h3 class="velaHomeTitle">{{ section.settings.title }}</h3>
+     {% endif %}
+    <div class="velaContent row nomargin">
+       {% for block in section.blocks %}
+        <div class="ourService {{ block.settings.our_class }} nopadding text-center">
+          <div class="wrapper">
+            <div class="ourServiceImg">
+              {% if block.settings.image != blank %}
+              <img class="img-responsive" alt="{{ block.settings.image.alt | default: shop.name }}" src="{{ block.settings.image | img_url }}" />
+              {% else %}
+              <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/70x90.png" />
+              {% endif %}
+            </div>
+            {% if block.settings.our_title != blank %}
+              <h4>{{ block.settings.our_title }}</h4>
+            {% endif %}
+            {% if block.settings.our_desc != blank %}
+              <div class="ourServiceDesc">{{ block.settings.our_desc }}</div>
+           {% endif %}
+            <span class="line">&nbsp;</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+    {
+        "name": "Vela Our Service",
+        "class": "velaFramework",
+        "settings": [
+			{
+                "type": "header",
+                "content": "Design Block"
+            },
+			{
+				"type": "image_picker",
+				"id": "img_bg",
+				"label": "background image for block"
+			},
+			{
+                "type": "text",
+                "id": "margin_block",
+                "label": "Margin",
+                "placeholder": "0px 0px"
+            },
+			{
+                "type": "text",
+                "id": "padding_block",
+                "label": "Padding",
+                "placeholder": "0px 0px"
+            },
+			{
+                "type": "checkbox",
+                "id": "full_with",
+                "label": "Enabel Full Width?"
+            }
+
+        ],
+  		"blocks": [
+  			{
+                "type": "image",
+                "name": "OurService Item",
+                "settings": [
+					{
+                        "type": "text",
+                        "id": "our_class",
+                        "label": "Class",
+						"default": "col-xs-12 col-sm-4"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Icon"
+                    },
+                    {
+                        "type": "text",
+                        "id": "our_title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "our_desc",
+                        "label": "Description"
+                    }
+ 				]
+ 			}
+  		],
+		"presets": [
+            {
+                "name": "Vela Our Service",
+                "category": "4. Vela Image"
+            }
+        ]
+    }
+{% endschema %}

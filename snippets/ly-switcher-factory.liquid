@@ -1,0 +1,696 @@
+
+  {%- assign supported_4_letter_codes = 'zh-TW,zh-CN,pt-PT,pt-BR' | split: ',' -%}
+  {%- assign key = 'ly_switcher_data_' | append: theme.id -%}
+  {%- assign switcherSettings = shop.metafields.global[key] -%}
+  {%- assign languages = shop.published_locales -%}
+  {% if switcherSettings.languages.size > 0 %}
+    {% assign languages = switcherSettings.languages %}
+  {% endif %}
+  {% if switcherSettings %}
+    {% assign languageDetection = switcherSettings.languageDetection %}
+    {% assign languageDetectionDefault = switcherSettings.languageDetectionDefault %}
+    {% assign customCSS = switcherSettings.customCSS %}
+    {% assign breakpoints = switcherSettings.breakpoints %}
+  {% else %}
+    {% assign type = 'custom' %}
+    {% assign show_label = true %}
+    {% assign show_custom_name = true %}
+    {% assign show_name = false %}
+    {% assign show_iso_code = false %}
+    {% assign show_flags = true %}
+    {% assign rectangle_icons = true %}
+    {% assign square_icons = false %}
+    {% assign round_icons = false %}
+    {% assign is_transparent = false %}
+    {% assign is_dark = false %}
+    {% assign position = 'fixed' %}
+    {% assign corner = 'bottom_right' %}
+    {% assign h_space = 0 %}
+    {% assign v_space = 0 %}
+    {% assign breakpoints = 'default' %}
+  {% endif %}
+
+  {% assign current_root_url = request.locale.root_url | downcase | append: '/' %}
+  {% assign unlocalized_path = request.path | downcase | replace_first: current_root_url, '/' %}
+  {% if unlocalized_path == request.locale.root_url %}
+    {% assign unlocalized_path = '' %}
+  {% endif %}
+
+  {% for breakpoint in breakpoints %}
+    {% capture switcher %}
+
+      {% if switcherSettings %}
+        {% assign switcherData = breakpoint.config %}
+        {% assign type = switcherData.type %}
+        {% assign show_label = switcherData.show_label %}
+        {% assign show_name = switcherData.show_name %}
+        {% assign show_custom_name = switcherData.show_custom_name %}
+        {% assign show_iso_code = switcherData.show_iso_code %}
+        {% assign show_flags = switcherData.show_flags %}
+        {% assign rectangle_icons = switcherData.rectangle_icons %}
+        {% assign square_icons = switcherData.square_icons %}
+        {% assign round_icons = switcherData.round_icons %}
+        {% assign is_transparent = switcherData.is_transparent %}
+        {% assign is_dark = switcherData.is_dark %}
+        {% assign position = switcherData.position %}
+        {% assign corner = switcherData.corner %}
+        {% assign h_space = switcherData.h_space %}
+        {% assign v_space = switcherData.v_space %}
+        {% assign fontsize = switcherData.fontsize %}
+        {% assign text_color = switcherData.text_color %}
+        {% assign bg_color = switcherData.bg_color %}
+        {% assign arrow_size = switcherData.arrow_size %}
+        {% assign arrow_width = switcherData.arrow_width %}
+        {% assign arrow_filled = switcherData.arrow_filled %}
+      {% endif %}
+
+      {% case type %}
+        {% when 'custom' %}
+          {% if corner == 'bottom_left' or corner == 'bottom_right' or corner == 'bottom' %}
+            {% assign is_dropup = true %}
+          {% else %}
+            {% assign is_dropup = false %}
+          {% endif %}
+          <div data-dropup="{{ is_dropup }}" data-breakpoint="{{ breakpoint.key }}" onclick="langify.switcher.toggleSwitcherOpen(this)" class="ly-languages-switcher ly-custom-dropdown-switcher{% unless is_dark %} ly-bright-theme{% endunless %}{% if is_dropup %} ly-is-dropup{% endif %}{% if is_transparent %} ly-is-transparent{% endif %} {{ position }} {% if position != 'custom' %}{{ corner }}{% else %}ly-custom{% endif %} ly-breakpoint-{{ forloop.index }} ly-hide" style="{% if position != 'custom' %}margin: {{ v_space }}px {{ h_space }}px; {% endif %}font-size: {{ fontsize }}px; {% unless is_transparent %}background: {{ bg_color }}; {% endunless %}color: {{ text_color }};">
+            <span class="ly-custom-dropdown-current">
+              {% if show_flags %}
+                {% if supported_4_letter_codes contains request.locale.iso_code %}
+                  {% assign used_request_locale_iso_code = request.locale.iso_code %}
+                {% else %}
+                  {% assign used_request_locale_iso_code = request.locale.iso_code | slice: 0, 2 %}
+                {% endif %}
+                <i class="ly-icon ly-flag-icon ly-flag-icon-{{ used_request_locale_iso_code }}{% if square_icons %} ly-flag-squared{% endif %}{% if round_icons %} ly-flag-rounded{% endif %}"></i>
+              {% endif %}
+              {% if show_name or show_custom_name or show_iso_code %}
+                <span class="ly-custom-dropdown-current-inner ly-custom-dropdown-current-inner-text">
+                  {% if show_name %}{{ request.locale.name }}{% endif %}
+                  {% if show_custom_name %}
+                    {% comment %}{% assign lang_key = 'ly-' | append: request.locale.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endcomment %}
+                    {% for language in languages %}
+                      {% if supported_4_letter_codes contains request.locale.iso_code %}
+                        {% assign used_request_locale_iso_code = request.locale.iso_code %}
+                      {% else %}
+                        {% assign used_request_locale_iso_code = request.locale.iso_code | slice: 0, 2 %}
+                      {% endif %}
+                      {% if language.iso_code == used_request_locale_iso_code and language.published == true %}
+                        {% assign matchingItem = false %}
+                        {% assign same_iso_codes = languages | where: "iso_code", used_request_locale_iso_code | size %}
+                        {% if same_iso_codes == 1 %}
+                          {% assign matchingItem = true %}
+                        {% endif %}
+                        {% if same_iso_codes > 1 and language.domain contains request.host %}
+                          {% assign matchingItem = true %}
+                        {% endif %}
+                        {% if matchingItem %}
+                          {% if language.custom_name and language.custom_name != '' %}{{ language.custom_name }}{% else %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endif %}
+                        {% endif %}
+                      {% endif %}
+
+                    {% endfor %}
+                  {% endif %}
+                  {% if show_iso_code %}{{ request.locale.iso_code | upcase }}{% endif %}
+                </span>
+              {% endif %}
+
+
+              {% assign scalefactor = arrow_size | times: 0.01 %}
+              {% assign realsize = fontsize | times: scalefactor %}
+              {% assign quarter = realsize | divided_by: 4 %}
+              <div class="ly-arrow {% if is_dropup %}ly-arrow-up{% else %}ly-arrow-down{% endif %} {% if is_dark %}ly-arrow-white{% else %}ly-arrow-black{% endif %} {% if arrow_filled %}caret{% else %}stroke{% endif %}"
+                   style="vertical-align: middle; width: {{ realsize }}px; height: {{ realsize }}px;"
+               >
+                <svg xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 {{ realsize }} {{ realsize }}"
+                  height="{{ realsize }}px"
+                  width="{{ realsize }}px"
+                  style="position: absolute;"
+                >
+                  <path
+                    d="
+                      M{{ arrow_width | plus: 0 }} {{ arrow_width | plus: quarter }}
+                      L{{ realsize | divided_by: 2 }} {{ realsize | divided_by: 2 | plus: quarter }}
+                      L{{ realsize | minus: arrow_width }} {{ arrow_width | plus: quarter }}
+                    "
+                    fill="{% if arrow_filled %}{{ text_color }}{% else %}transparent{% endif %}"
+                    stroke="{% if arrow_filled %}transparent{% else %}{{ text_color }}{% endif %}"
+                    stroke-width="{% if arrow_filled %}0{% else %}{{ arrow_width }}px{% endif %}"
+                  />
+                </svg>
+              </div>
+
+
+            </span>
+            <ul class="ly-custom-dropdown-list ly-is-open {% unless is_dark %}ly-bright-theme{% endunless %}" style="{% unless is_transparent %}background: {{ bg_color }}; {% endunless %}color: {{ text_color }};">
+              {% for language in languages %}
+                {% assign isValid = false %}
+                {% for locale in shop.published_locales %}
+                  {% if isValid == false %}
+                    {% if supported_4_letter_codes contains locale.iso_code %}
+                      {% assign used_locale_iso_code = locale.iso_code %}
+                    {% else %}
+                      {% assign used_locale_iso_code = locale.iso_code | slice: 0, 2 %}
+                    {% endif %}
+
+                    {% if language.iso_code == used_locale_iso_code %}
+                      {% assign isValid = true %}
+                      {% assign url = locale.root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+
+                {% if isValid == false %}
+                  {% if shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code] %}
+                    {% assign isValid = true %}
+                    {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+                    {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].host | append: url %}
+                  {% endif %}
+                {% endif %}
+
+                {% if language.published == true and isValid == true %}
+                  {% assign matchingItem = true %}
+                  {% if supported_4_letter_codes contains request.locale.iso_code %}
+                    {% assign used_request_locale_iso_code = request.locale.iso_code %}
+                  {% else %}
+                    {% assign used_request_locale_iso_code = request.locale.iso_code | slice: 0, 2 %}
+                  {% endif %}
+                  {% assign same_iso_codes = languages | where: "iso_code", used_request_locale_iso_code | size %}
+                  {% if same_iso_codes > 1 and language.domain contains request.host %}
+                    {% assign matchingItem = false %}
+                  {% else %}
+                  {% if language.iso_code == used_request_locale_iso_code %}
+                      {% assign matchingItem = false %}
+                  {% endif %}
+                  {% endif %}
+
+                  {% if matchingItem %}
+                    <li key="{{language.iso_code}}">
+                      <a class="ly-custom-dropdown-list-element ly-languages-switcher-link{% unless is_dark %} ly-bright-theme{% endunless %}{% if request.locale.iso_code == language.iso_code %} current_lang{% endif %}" href="{% if request.locale.iso_code == language.iso_code %}#{% else %}{{url}}{% endif %}" data-ly-code="{{language.iso_code}}" data-ly-locked="true">
+                        {% if show_flags %}
+                          <i class="ly-icon ly-flag-icon ly-flag-icon-{{ language.iso_code }}{% if square_icons %} ly-flag-squared{% endif %}{% if round_icons %} ly-flag-rounded{% endif %}"></i>
+                        {% endif %}
+                        {% if show_name or show_custom_name or show_iso_code %}
+                          <span class="ly-custom-dropdown-list-element-right">
+                            {% if show_name %}{{language.name}}{% endif %}
+                            {% if show_custom_name %}
+                              {% comment %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endcomment %}
+                              {% if language.custom_name and language.custom_name != '' %}{{ language.custom_name }}{% else %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endif %}
+                            {% endif %}
+                            {% if show_iso_code %}{{ language.iso_code | upcase }}{% endif %}
+                          </span>
+                        {% endif %}
+                      </a>
+                    </li>
+
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% when 'native_select' %}
+          <select data-breakpoint="{{ breakpoint.key }}" class="ly-languages-switcher ly-native-select {{ position }} {% if position != 'custom' %}{{ corner }}{% endif %} ly-breakpoint-{{ forloop.index }} ly-hide{% if position == 'custom' %} ly-custom{% endif %}{% unless is_dark %} ly-bright-theme{% endunless %}" style="{% if position != 'custom' %}margin: {{ v_space }}px {{ h_space }}px; {% endif %}font-size: {{ fontsize }}px;  {% unless is_transparent %}background: {{ bg_color }}; {% endunless %}color: {{ text_color }};">
+            {% for language in languages %}
+             {% assign isValid = false %}
+            {% for locale in shop.published_locales %}
+                {% if isValid == false %}
+                  {% if supported_4_letter_codes contains locale.iso_code %}
+                    {% assign used_locale_iso_code = locale.iso_code %}
+                  {% else %}
+                    {% assign used_locale_iso_code = locale.iso_code | slice: 0, 2 %}
+                  {% endif %}
+                  {% if language.iso_code == used_locale_iso_code %}
+                    {% assign isValid = true %}
+                    {% assign url = locale.root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+
+              {% if isValid == false %}
+                {% if shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code] %}
+                  {% assign isValid = true %}
+                  {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+                  {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].host | append: url %}
+                {% endif %}
+              {% endif %}
+
+              {% if language.published == true and isValid == true %}
+                <option key="{{language.iso_code}}" {% if request.locale.iso_code == language.iso_code %}selected="selected"{% endif %} class="{% if request.locale.iso_code == language.iso_code %}current_lang{% endif %}" value="{{language.iso_code}}" data-url="{{url}}">
+                  {% if show_name %}{{ language.name }}{% endif %}
+                  {% if show_custom_name %}
+                    {% comment %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endcomment %}
+                    {% if language.custom_name and language.custom_name != '' %}{{ language.custom_name }}{% else %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endif %}
+                  {% endif %}
+                  {% if show_iso_code %}{{ language.iso_code | upcase }}{% endif %}
+                </option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        {% when 'links_list' %}
+          <ul data-breakpoint="{{ breakpoint.key }}" class="ly-languages-switcher ly-list {{ position }} {% if position != 'custom' %}{{ corner }}{% endif %} ly-breakpoint-{{ forloop.index }} ly-hide{% if position == 'custom' %} ly-custom{% endif %}{% unless is_dark %} ly-bright-theme{% endunless %}" style="{% if position != 'custom' %}margin: {{ v_space }}px {{ h_space }}px; {% endif %}font-size: {{ fontsize }}px;  {% unless is_transparent %}background: {{ bg_color }}; {% endunless %}color: {{ text_color }};">
+            {% for language in languages %}
+              {% assign isValid = false %}
+            {% for locale in shop.published_locales %}
+                {% if isValid == false %}
+                  {% if supported_4_letter_codes contains locale.iso_code %}
+                    {% assign used_locale_iso_code = locale.iso_code %}
+                  {% else %}
+                    {% assign used_locale_iso_code = locale.iso_code | slice: 0, 2 %}
+                  {% endif %}
+                  {% if language.iso_code == used_locale_iso_code %}
+                    {% assign isValid = true %}
+                    {% assign url = locale.root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+
+              {% if isValid == false %}
+                {% if shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code] %}
+                  {% assign isValid = true %}
+                  {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+                  {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].host | append: url %}
+                {% endif %}
+              {% endif %}
+
+              {% if language.published == true and isValid == true %}
+                <li key="{{language.iso_code}}">
+                  {% if supported_4_letter_codes contains request.locale.iso_code %}
+                    {% assign used_request_locale_iso_code = request.locale.iso_code %}
+                  {% else %}
+                    {% assign used_request_locale_iso_code = request.locale.iso_code | slice: 0, 2 %}
+                  {% endif %}
+                  <a href="{% if used_request_locale_iso_code == language.iso_code %}#{% else %}{{url}}{% endif %}" data-ly-code="{{language.iso_code}}" data-ly-locked="true" class="ly-languages-switcher-link{% if used_request_locale_iso_code == language.iso_code %} current_lang{% endif %}" style=" {% unless is_transparent %}background: {{ bg_color }}; {% endunless %}color: {{ text_color }};">
+                    {% if show_flags %}<i class="ly-icon ly-flag-icon ly-flag-icon-{{ language.iso_code }}{% if square_icons %} ly-flag-squared{% endif %}{% if round_icons %} ly-flag-rounded{% endif %}"></i>{% endif %}
+                    {% if show_name %}{{ language.name }}{% endif %}
+                    {% if show_custom_name %}
+                      {% comment %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endcomment %}
+                      {% if language.custom_name and language.custom_name != '' %}{{ language.custom_name }}{% else %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endif %}
+                    {% endif %}
+                    {% if show_iso_code %}{{ language.iso_code | upcase }}{% endif %}
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% else %}
+          {% if type != 'none' %}
+            <div data-breakpoint="{{ breakpoint.key }}" class="ly-languages-switcher ly-links {{ position }} {% if position != 'custom' %}{{ corner }}{% endif %} ly-breakpoint-{{ forloop.index }} ly-hide{% if position == 'custom' %} ly-custom{% endif %}{% unless is_dark %} ly-bright-theme{% endunless %}" style="{% if position != 'custom' %}margin: {{ v_space }}px {{ h_space }}px; {% endif %}font-size: {{ fontsize }}px;  {% unless is_transparent %}background: {{ bg_color }}; {% endunless %}color: {{ text_color }};">
+              {% for language in languages %}
+                {% assign isValid = false %}
+                {% for locale in shop.published_locales %}
+                  {% if isValid == false %}
+                  {% if supported_4_letter_codes contains locale.iso_code %}
+                    {% assign used_locale_iso_code = locale.iso_code %}
+                  {% else %}
+                    {% assign used_locale_iso_code = locale.iso_code | slice: 0, 2 %}
+                  {% endif %}
+                  {% if language.iso_code == used_locale_iso_code %}
+                    {% assign isValid = true %}
+                    {% assign url = locale.root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+                  {% endif %}
+                  {% endif %}
+                {% endfor %}
+
+                {% if isValid == false %}
+                  {% if shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code] %}
+                    {% assign isValid = true %}
+                    {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+                    {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].host | append: url %}
+                  {% endif %}
+                {% endif %}
+
+                {% if language.published == true and isValid == true %}
+                  {% if supported_4_letter_codes contains request.locale.iso_code %}
+                    {% assign used_request_locale_iso_code = request.locale.iso_code %}
+                  {% else %}
+                    {% assign used_request_locale_iso_code = request.locale.iso_code | slice: 0, 2 %}
+                  {% endif %}
+                  <a href="{% if used_request_locale_iso_code == language.iso_code %}#{% else %}{{url}}{% endif %}" data-ly-code="{{language.iso_code}}"  data-ly-locked="true" class="ly-languages-switcher-link{% if used_request_locale_iso_code == language.iso_code %} current_lang{% endif %}" style=" {% unless is_transparent %}background: {{ bg_color }}; {% endunless %}color: {{ text_color }};">
+                    {% if show_flags %}<i class="ly-icon ly-flag-icon ly-flag-icon-{{ language.iso_code }}{% if square_icons %} ly-flag-squared{% endif %}{% if round_icons %} ly-flag-rounded{% endif %}"></i>{% endif %}
+                    {% if show_name %}{{ language.name }}{% endif %}
+                    {% if show_custom_name %}
+                      {% comment %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endcomment %}
+                      {% if language.custom_name and language.custom_name != '' %}{{ language.custom_name }}{% else %}{% assign lang_key = 'ly-' | append: language.iso_code %}{{ shop.metafields.v2_lang_name_map[lang_key] }}{% endif %}
+                    {% endif %}
+                    {% if show_iso_code %}{{ language.iso_code | upcase }}{% endif %}
+                  </a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+      {% endcase %}
+    {% endcapture %}
+
+    {{ switcher }}
+  {% endfor %}
+
+
+  <style>
+    {%- for language in languages -%}
+      {% assign iconPath = 'ly-icon-' | append: language.iso_code | append: '.svg' %}
+      .ly-flag-icon-{{ language.iso_code }} { background-image: url('{{ iconPath | asset_url }}'); }
+    {%- endfor -%}
+
+    {%- if switcherSettings %}
+      {%- for breakpoint in switcherSettings.breakpoints -%}
+        {%- capture minWidth -%}
+          {%- if forloop.first == true %}0px{% else %}{% assign prevIndex = forloop.index | minus: 1 %}{{ switcherSettings.breakpoints[prevIndex].key }}px{% endif -%}
+        {%- endcapture -%}
+        {%- capture maxWidth -%}
+          {%- assign maxValue = switcherSettings.breakpoints[forloop.index].key | minus: 1 -%}
+          and (max-width: {{ maxValue }}px )
+        {%- endcapture %}
+        .ly-languages-switcher.ly-breakpoint-{{ forloop.index }} { display: none; }
+        @media (min-width: {{- minWidth -}}) {% unless forloop.last %}{{- maxWidth -}}{% endunless %} {
+          .ly-languages-switcher.ly-breakpoint-{{ forloop.index }} { display: inline-block; }
+        }
+        {% assign parent_loopindex = forloop.index %}
+        {% assign parent_loopindex0 = forloop.index0 %}
+        {%- for language in languages -%}
+          {% assign iconPath = 'ly-icon-' | append: language.iso_code | append: '.svg' %}
+          {% if switcherSettings.breakpoints[parent_loopindex0].config.square_icons or switcherSettings.breakpoints[parent_loopindex0].config.round_icons %}
+            {% assign iconPath = iconPath | replace: '.svg', '_1x1.svg' %}
+          {% endif %}
+          .ly-languages-switcher.ly-breakpoint-{{ parent_loopindex }} .ly-flag-icon-{{ language.iso_code }} { background-image: url('{{ iconPath | asset_url }}') !important; }
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endif %}
+
+    .ly-flag-icon {
+      background-size: contain;
+      background-position: 50%;
+      background-repeat: no-repeat;
+      position: relative;
+      display: inline-block;
+      width: 1.33333333em;
+      line-height: 1em;
+    }
+    .ly-flag-icon:before {
+      content: '';
+      display: inline-block;
+    }
+    .ly-flag-icon.ly-flag-squared {
+      width: 1em;
+    }
+    .ly-flag-icon.ly-flag-rounded {
+      width: 1em;
+      border-radius: 50%;
+    }
+    .ly-languages-switcher {
+      white-space: nowrap;
+      list-style-type: none;
+    }
+    .ly-languages-switcher.fixed {
+      position: fixed;
+      z-index: 1000;
+    }
+    .ly-languages-switcher.absolute {
+      position: absolute;
+      z-index: 1000;
+    }
+    .ly-languages-switcher.fixed.top_left,
+    .ly-languages-switcher.absolute.top_left {
+      top: 0;
+      left: 0;
+    }
+    .ly-languages-switcher.fixed.top_right,
+    .ly-languages-switcher.absolute.top_right {
+      top: 0;
+      right: 0;
+    }
+    .ly-languages-switcher.fixed.bottom_left,
+    .ly-languages-switcher.absolute.bottom_left {
+      bottom: 0;
+      left: 0;
+    }
+    .ly-languages-switcher.fixed.bottom_right,
+    .ly-languages-switcher.absolute.bottom_right {
+      bottom: 0;
+      right: 0;
+    }
+    .ly-languages-switcher-link {
+      margin: 0 0.2em;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .ly-icon {
+      margin-right: 0.2em;
+    }
+
+    .ly-arrow {
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      direction: ltr !important;
+      -webkit-transition: transform 0.25s;
+      -moz-transition: transform 0.25s;
+      transition: transform 0.25s;
+    }
+    .ly-is-open .ly-arrow {
+      transform: rotate(180deg);
+    }
+    .ly-arrow.ly-arrow-up {
+      transform: rotate(180deg);
+    }
+    .ly-is-open .ly-arrow.ly-arrow-up {
+      transform: rotate(0deg);
+    }
+
+    .ly-custom-dropdown-switcher {
+      text-align: left;
+      display: inline-block;
+      padding: 0.2em 0.5em;
+      position: relative;
+      user-select: none;
+      cursor: pointer;
+    }
+    .ly-custom-dropdown-current {
+      display: block;
+      vertical-align: middle;
+    }
+    .ly-custom-dropdown-current-inner {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .ly-custom-dropdown-current-inner-image {
+      margin-right: 0.25em;
+    }
+    .ly-custom-dropdown-current-inner-text {
+      margin-right: 0.25em;
+    }
+    .ly-custom-dropdown-list {
+      display: none !important;
+      list-style: none;
+      position: absolute;
+      left: 0;
+      padding: inherit !important;
+      margin: 0;
+      z-index: 99999;
+      text-align: left;
+      width: 100%;
+    }
+    .ly-custom-dropdown-list-element {
+      color: inherit !important;
+      display: block;
+    }
+    .ly-custom-dropdown-list > li {
+      margin: 0;
+      display: block;
+    }
+    .ly-custom-dropdown-list-element-left {
+      margin-right: 0.5em;
+    }
+    .ly-custom-dropdown-list-element-right {
+      text-align: left;
+    }
+    .ly-custom-dropdown-list-element-left,
+    .ly-custom-dropdown-list-element-right {
+      vertical-align: middle;
+    }
+    .ly-custom-dropdown-switcher .ly-languages-switcher-link {
+      margin: 0;
+    }
+    .ly-languages-switcher-dropdown {
+      display: inline-block;
+    }
+    .ly-languages-links-switcher {
+      display: inline-block;
+    }
+    .ly-languages-links-switcher > .ly-languages-link {
+      margin-right: 0.5em;
+      padding: inherit !important;
+      color: inherit !important;
+    }
+    .ly-custom-dropdown-list-element {
+      padding: inherit !important;
+      text-decoration: none;
+    }
+    .ly-is-uppercase {
+      text-transform: uppercase;
+    }
+    .ly-is-transparent.ly-custom-dropdown-switcher,
+    .ly-is-transparent.ly-custom-dropdown-switcher .ly-custom-dropdown-list {
+      background: transparent !important;
+    }
+    .ly-arrow-up {
+      transform: rotateZ(180deg);
+    }
+
+    .ly-is-open .ly-custom-dropdown-list {
+      display: inline-block !important;
+    }
+
+    .ly-is-dropup .ly-custom-dropdown-list {
+      bottom: 100%;
+    }
+    .ly-hide {
+      display: none !important;
+    }
+    body.ly-force-off #preview-bar-iframe,
+    body.ly-force-off .ly-languages-switcher {
+      display: none !important;
+    }
+  </style>
+
+  {% if customCSS and customCSS != '' %}
+  <style>
+    {{ customCSS }}
+  </style>
+  {% endif %}
+
+  {% if languageDetection %}
+  <script>
+    var currentLang = {{ request.locale.iso_code | json }};
+    var languageUrls = [];
+    {%- for language in languages -%}
+      {%- assign isValid = false -%}
+      {%- for locale in shop.published_locales -%}
+        {%- if isValid == false -%}
+          {%- if language.iso_code == locale.iso_code -%}
+            {%- assign isValid = true -%}
+            {%- assign url = locale.root_url -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%}
+      {%- if isValid == false -%}
+        {%- if shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code] -%}
+          {%- assign isValid = true -%}
+          {%- assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].root_url -%}
+          {%- assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].host | append: url -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- endcomment -%}
+
+      {%- if isValid == true -%}
+      languageUrls['{{ language.iso_code }}'] = '{{ url }}';
+      {%- endif -%}
+    {%- endfor -%}
+
+    function getVal(str) {
+      var v = window.location.search.match(new RegExp('(?:[?&]'+str+'=)([^&]+)'));
+      return v ? v[1] : null;
+    }
+    function getCookie(name) {
+      var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+      return v ? v[2] : null;
+    }
+    function setCookie(name, value, days) {
+      var d = new Date;
+      d.setTime(d.getTime() + 24*60*60*1000*days);
+      document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+    }
+    function getFinalUrl(rootUrl) {
+      if(rootUrl == '/') {rootUrl = '';}
+      {% assign used_root_url = request.locale.root_url %}{% assign replace_part = used_root_url | append: '/' %}{% assign replacement = '/' %}
+      {% if used_root_url == request.path %}{% assign replace_part = used_root_url %}{% assign replacement = '' %}{% endif %}
+      var finalUrl = rootUrl + {{ request.path | replace: replace_part, replacement | json }};
+      if(finalUrl == '') {finalUrl = '/';}
+      return finalUrl;
+    }
+    function redirect(url) {
+      var params = window.location.search;
+      var link = document.createElement("a");
+      link.setAttribute('data-ly-locked', 'true');
+      link.href = url + params;
+      document.body.appendChild(link);
+      link.click();
+    }
+    function inIframe () {
+      try {
+        return window.self !== window.top;
+      } catch (e) {
+        return true;
+      }
+    }
+    var userLang = navigator.language || navigator.userLanguage;
+    var bot = /bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex|Chrome-Lighthouse/i.test(navigator.userAgent);
+    var blockedRoute = ['/apps/','/a/','/tools/'].find(x => window.location.pathname.indexOf(x) === 0);
+    if(!inIframe() && !bot && !blockedRoute && getVal('ly-lang-detect') !== 'off') {
+      if(userLang && !getCookie('ly-lang-selected')) {
+        var rootUrl = languageUrls[userLang];
+        if(!rootUrl) {
+          userLang = userLang.substring(0, 2);
+          rootUrl = languageUrls[userLang];
+        }
+        if(!rootUrl) {
+          for(var lang in languageUrls) {
+            if(lang.substring(0, 2) === userLang) {
+              userLang = lang;
+              rootUrl = languageUrls[userLang];
+            }
+          }
+        }
+        {% if languageDetectionDefault %}
+        if(!rootUrl) {
+          userLang = {{languageDetectionDefault | json}};
+          rootUrl = languageUrls[userLang];
+        }
+        {% endif %}
+        if(rootUrl) {
+          if(currentLang !== userLang) {
+            setCookie('ly-lang-detected', userLang, 365);
+            redirect(getFinalUrl(rootUrl));
+          }
+        }
+      } else {
+        if(getCookie('ly-lang-selected') && getCookie('ly-lang-selected') !== currentLang) {
+          if(languageUrls[getCookie('ly-lang-selected')]) {
+            redirect(getFinalUrl(languageUrls[getCookie('ly-lang-selected')]));
+          }
+        }
+      }
+    }
+
+    // GEOLOCATION APP
+    var target = document.querySelector('body');
+    var config = { childList: true, subtree: true };
+    var geolocationObserver = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          var target = mutation.target.getElementsByClassName('locale-bar__form');
+          if(target[0]) {
+            target[0].onsubmit = function() {
+              var locale_code = target[0].elements['locale_code'].value;
+              var selector = target[0].getElementsByClassName('locale-bar__selector');
+              if(selector.length >= 1) {
+                locale_code = selector[0].options[selector[0].selectedIndex].value;
+              }
+              setCookie('ly-lang-selected', locale_code, 365);
+            };
+          }
+          var selector = mutation.target.getElementsByClassName('locale-selectors__selector');
+          if(selector[0]) {
+            selector[0].onchange = function() {
+              var locale_code = selector[0].options[selector[0].selectedIndex].value;
+              setCookie('ly-lang-selected', locale_code, 365);
+            };
+          }
+        }
+      });
+    });
+    geolocationObserver.observe(target, config);
+    setTimeout(function() {
+      geolocationObserver.disconnect();
+    }, 10000);
+  </script>
+  {% endif %}

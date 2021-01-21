@@ -1,0 +1,150 @@
+<div class="row">
+  	{% if section.settings.googlemap_enable %}
+        <div class="col-xs-12">
+            <div class="velaGoogleMap">
+                {% if section.settings.googlemap_iframe != blank %}
+                    {{ section.settings.googlemap_iframe }}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="col-xs-12 col-sm-8">
+        <div class="pageContact">
+            <h1 class="velaContactTitle">{{ page.title }}</h1>
+            <div class="pageContent">
+                <div class="rte">
+                    {{ page.content }}
+                </div>
+                <div class="formContactUs">
+                    {% form 'contact' %}
+                        <div class="formContent">
+                            {% if form.posted_successfully? %}
+                                <div class="alert alert-success">
+                                    {{ 'contact.form.post_success' | t }}
+                                </div>
+                            {% endif %}
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.errors | default_errors }}
+                                </div>
+                            {% endif %}
+                            <div class="form-group">
+                                {% assign name_attr = 'contact.form.name' | t | handle %}
+                                <label for="ContactFormName" class="hidden-label">{{ 'contact.form.name' | t }}</label>
+                                <input type="text" id="ContactFormName" class="form-control" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.name' | t }}" autocapitalize="words" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+                            </div>
+                            <div class="form-group">
+                                <label for="ContactFormEmail" class="hidden-label">{{ 'contact.form.email' | t }}</label>
+                                <input type="email" id="ContactFormEmail" class="form-control" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+                            </div>
+                            <div class="form-group">
+                                {% assign name_attr = 'contact.form.phone' | t | handle %}
+                                <label for="ContactFormPhone" class="hidden-label">{{ 'contact.form.phone' | t }}</label>
+                                <input type="tel" id="ContactFormPhone" class="form-control" name="contact[{{ name_attr }}]" placeholder="{{ 'contact.form.phone' | t }}" pattern="[0-9\-]*" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+                            </div>
+                            <div class="form-group">
+                                <label for="ContactFormMessage" class="hidden-label">{{ 'contact.form.message' | t }}</label>
+                                <textarea rows="10" id="ContactFormMessage" class="form-control" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                            </div>
+                            <div class="form-button">
+                                <input type="submit" class="btn btnVelaOne" value="{{ 'contact.form.send' | t }}">
+                            </div>
+                        </div>
+                    {% endform %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-4">
+        <div class="pageContact">
+            <div class="row">
+                {% if section.settings.contact_details_enable %}
+                    <div class="col-xs-12">
+                        <div class="velaContactBox">
+                            <h3 class="velaContactTitle">{{ section.settings.contact_details_title }}</h3>
+                            <div class="velaContent">
+                                {{ section.settings.contact_details_content }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if section.settings.contact_working_enable %}
+                    <div class="col-xs-12">
+                        <div class="velaContactBox">
+                            <h3 class="velaContactTitle">{{ section.settings.contact_working_title }}</h3>
+                            <div class="velaContent">
+                                {{ section.settings.contact_working_content }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% schema %}
+  	{
+        "name": "Vela Contact Page",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Google Map"
+            },
+            {
+                "type": "checkbox",
+                "id": "googlemap_enable",
+                "label": "Enable Google Map?"
+            },
+            {
+                "type": "textarea",
+                "id": "googlemap_iframe",
+                "label": "Google Map Code",
+                "placeholder": "Embed Map"
+            },
+            {
+                "type": "header",
+                "content": "Contact Details"
+            },
+            {
+                "type": "checkbox",
+                "id": "contact_details_enable",
+                "label": "Enable Contact Details?",
+                "default": true
+            },
+            {
+                "type": "text",
+                "id": "contact_details_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title"
+            },
+            {
+                "type": "textarea",
+                "id": "contact_details_content",
+                "placeholder": "Content for Block",
+                "label": "Block Content"
+            },
+            {
+              	"type": "header",
+              	"content": "Contact Working Hours"
+            },
+            {
+                "type": "checkbox",
+                "id": "contact_working_enable",
+                "label": "Enable Working Hours?",
+                "default": true
+            },
+            {
+                "type": "text",
+                "id": "contact_working_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title"
+            },
+            {
+                "type": "textarea",
+                "id": "contact_working_content",
+                "placeholder": "Content for Block",
+                "label": "Block Content"
+            }
+		]
+  	}
+{% endschema %}

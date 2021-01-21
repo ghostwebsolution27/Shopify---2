@@ -1,0 +1,75 @@
+{% comment %}ly_liquid_scripts_begin{% endcomment %}{% capture ly_liquid_content %}{% comment %}ly_liquid_scripts_end{% endcomment %}<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>{%- comment -%}smartseo_integration_begin{%- endcomment -%}{% include 'smartseo' %}{%- comment -%}smartseo_integration_end{%- endcomment -%}
+    <meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_button }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {% if settings.favicon != blank %}
+        <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+    {% endif %}
+    {% capture seo_title %}
+        {{ page_title }}
+        {% if current_tags %}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{% endif %}
+        {% if current_page != 1 %}&ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}
+        {% unless page_title contains shop.name %}&ndash; {{ shop.name }}{% endunless %}
+    {% endcapture %}
+    {%- comment smartseo_integration_begin_meta_data -%}<title>{{ seo_title }}</title>{%- endcomment smartseo_integration_end_meta_data -%}
+    {% if page_description %}
+        {%- comment smartseo_integration_begin_meta_data -%}<meta name="description" content="{{ page_description | escape }}">{%- endcomment smartseo_integration_end_meta_data -%}
+    {% endif %}
+    {% include 'social-meta-tags' %}
+    {% include 'vela-header-styles' %}
+    {% include 'vela-header-javascript' %}
+
+    {% if template.name contains 'collection' and collection.url contains '/all' %}
+        <meta name="title" content="Cuff Copenhagen - Shop - Se vores guld- og sølvarmbånd">
+        {%- comment smartseo_integration_begin_meta_data -%}<meta name="description" content="Hos Cuff Copenhagen finder du et unikt udvalg af smykker af høj kvalitet. Med de fineste ædelmetaller får du det bedste guld og sølv smykke til både mænd og kvinder.">{%- endcomment smartseo_integration_end_meta_data -%}
+    {% endif %}
+
+    {{ content_for_header }}
+
+
+		<!-- Snippet for Simple Preorder app -->
+		{% include 'simple-preorder-bootstrap' %}
+
+
+
+
+  {% render 'translation-lab-language-management' %}
+
+
+  {{ 'translation-lab-language-switcher-floating.css' | asset_url | stylesheet_tag }}
+</head>
+<body id="{{ page_title | handle }}" class="template-{{ template | split: '.' | first }}{% if settings.header_float_enable %} velaFloatHeader{% endif %}">
+    {% include 'vela-template' %}
+    <div id="pageContainer" class="isMoved">
+        {% include 'vela-header-section' %}
+        <main class="mainContent">
+            {{ content_for_layout }}
+        </main>
+        {% section 'vela-footer' %}
+    </div>
+    {% include 'vela-ajaxcart' %}
+    {% include 'vela-modal' %}
+    {% include 'vela-footer-javascript' %}
+{% if template contains "product" %}{% render "product-personalizer" %}{% endif %}{% render 'preorder-now' %}
+  
+
+
+{{ '//cdn.shopify.com/s/files/1/0194/1736/6592/t/1/assets/booster-page-speed-optimizer.js?23' | script_tag }}
+
+
+<!-- {% comment %}ly_liquid_scripts_begin{% endcomment %}{% endcapture %}{% render 'ly-liquid-scripts' content: ly_liquid_content %}{% comment %}ly_liquid_scripts_end{% endcomment %}{% comment %}ly_core_scripts_begin{% endcomment %}{% render 'ly-core-scripts' %}{% comment %}ly_core_scripts_end{% endcomment %}{% comment %}ly_switcher_factory_begin{% endcomment %}{% render 'ly-switcher-factory' %}{% comment %}ly_switcher_factory_end{% endcomment %} -->
+  {% render 'translation-lab-language-switcher-floating' %}
+  {% if request.path contains '/en' %}
+  <script>
+    //   let str = '<span>Free shipping and return</span><span> | Personalize with engraving</span><span> | Handmade in Copenhagen.</span>';
+    //   console.log($('body').find('#ssbar1173').html());
+    //   $('body #ssbar1173 a').html(str);
+    </script>
+  {% endif %}
+</body>
+</html>

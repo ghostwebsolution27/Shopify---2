@@ -1,0 +1,82 @@
+{% assign proImageSize = 'large' %}
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+    {% assign on_sale = true %}
+{% endif %}
+{% assign sold_out = true %}
+{% if product.available %}
+    {% assign sold_out = false %}
+{% endif %}
+<div class="velaProBlock {{ product-list-item }} {% if settings.multiple_image_product_enable %}multiple_image{% endif %}">
+    <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-4">
+            <div class="proHImage">
+                <a class="proFeaturedImage" href="{{ product.url }}">         
+                    {% for image in product.images %}
+                        {% assign intItem = forloop.index %}
+                        {% if forloop.first != true %}
+                            <span>
+                                <img class="img-responsive" alt="{{ image.alt }}" src="{{ image.src | product_img_url:proImageSize }}">
+                            </span>
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                    <img class="img-responsive {%if intItem == 2 %}image-primay{% endif %}" alt="{{ product.featured_image.alt | escape }}" src="{{ product.featured_image | product_img_url:proImageSize }}" />           
+                </a>
+                {% if on_sale %}
+                    <span class="labelSale">{{ 'products.product.label_sale' | t }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-8">
+            <div class="proContent">
+                <h5 class="proName">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                </h5>
+                {% if settings.product_reviews_enable %}
+                    <div class="proReviews">
+                        <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                    </div>
+                {% endif %}
+                <div class="proDescription">{{ product.description | strip_html | truncatewords: 20}}</div>
+                <div class="proPrice">
+                    <div class="priceProduct priceSale">{{ product.price | money }}</div>
+                    {% if on_sale %}
+                        <div class="priceProduct priceCompare">{{ product.compare_at_price | money }}</div>
+                    {% endif %}
+                </div>
+                {% if product.available %}
+                    <p class="proAttr instock">{{'products.product.available' | t }}</p>
+                {% else %}
+                    <p class="proAttr outstock">{{'products.product.unavailable' | t }}</p>
+                {% endif %}
+                <div class="proButton">
+                    {% assign variantCount = product.variants | size %}
+                    <form action="/cart/add" method="post" enctype="multipart/form-data" class="formAddToCart">
+                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                        {% if sold_out %}
+                            <button class="btn btnAddToCart disabled" type="submit" value="Submit" disabled>
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>{{ 'products.product.sold_out' | t }}</span>
+                            </button>
+                        {% else %}
+                            {% if variantCount > 1 %}
+                                <a class="btn btnAddToCart" href="{{ product.url }}" title="{{ 'products.product.select_options' | t }}">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="select_options">+ {{ 'products.product.select_options' | t }}</span>
+                                </a>
+                            {% else %}
+                                <button class="btn btnAddToCart" type="submit" value="Submit">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>+ {{ 'products.product.add_to_cart' | t }}</span>
+                                </button>
+                            {% endif %}
+                        {% endif %}
+                    </form>
+                    {% include 'vela-product-wishlist' %}
+                    {% include 'vela-product-quickview' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% render 'preorder-now-collection-item', product: product %}</div>

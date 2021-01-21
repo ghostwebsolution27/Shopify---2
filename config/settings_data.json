@@ -1,0 +1,862 @@
+{
+  "current": {
+    "vela_color_primary": "#000000",
+    "vela_color_secondary": "#000000",
+    "vela_color_tertiary": "#ffffff",
+    "vela_color_borders": "#000000",
+    "vela_color_background": "#ffffff",
+    "text_color_primary": "#000000",
+    "text_color_secondary": "#000000",
+    "button_one_bgcolor": "#ffffff",
+    "button_one_bordercolor": "#000000",
+    "button_one_txtcolor": "#000000",
+    "button_one_bgcolor_hover": "#000000",
+    "button_one_bordercolor_hover": "#000000",
+    "button_one_txtcolor_hover": "#ffffff",
+    "btnpro_bgcolor": "#ffffff",
+    "btnpro_bordercolor": "#000000",
+    "btnpro_txtcolor": "#000000",
+    "btnpro_bgcolor_hover": "#000000",
+    "btnpro_bordercolor_hover": "#242424",
+    "btnpro_txtcolor_hover": "#ffffff",
+    "addtocart_bgcolor": "#000000",
+    "addtocart_bordercolor": "#000000",
+    "addtocart_txtcolor": "#ffffff",
+    "addtocart_bgcolor_hover": "#ffffff",
+    "addtocart_bordercolor_hover": "#000000",
+    "addtocart_txtcolor_hover": "#000000",
+    "vela_topbar_bgcolor": "#000000",
+    "vela_header_bgcolor": "rgba(0,0,0,0)",
+    "vela_footercenter_bgcolor": "#fcfcfc",
+    "vela_footercopy_bgcolor": "#fafafa",
+    "velamenu_bgcolor": "rgba(0,0,0,0)",
+    "velamenu_linkcolor": "#000000",
+    "velamenu_linkcolor_hover": "#b0ccd9",
+    "velamenu_dropdown_bgcolor": "#ffffff",
+    "velamenu_dropdown_linkcolor": "#ffffff",
+    "velamenu_dropdown_linkcolor_hover": "#b0ccd9",
+    "vela_fontfamily_style": "upload_fonts",
+    "vela_fontfamily": "Droid Sans",
+    "vela_fontfamily_secondary_style": "upload_fonts",
+    "vela_fontfamily_secondary": "Poppins",
+    "vela_fontfamily_tertiary_style": "upload_fonts",
+    "vela_fontfamily_tertiary": "texgyreadventor-bold",
+    "vela_fontsize": "13px",
+    "velamenu_fontsize": "12px",
+    "velamenu_dropdown_fontsize": "13px",
+    "favicon": "",
+    "social_twitter_link": "",
+    "header_float_enable": true,
+    "sidebar_filtercustag_multi": true,
+    "collection_full_enable": true,
+    "multiple_image_product_enable": true,
+    "product_reviews_enable": false,
+    "quickview_enable": true,
+    "quickview_swatch_enable": false,
+    "wishlist_enable": false,
+    "wishlist_page": "",
+    "gotop_enable": false,
+    "loading_enable": false,
+    "ajax_cart_method": "drawer",
+    "vela_panelconfig": true,
+    "vela_panelconfig_blog": "cuffcommunity",
+    "vela_panelconfig_contact": "kontakt",
+    "vela_panelconfig_about": "historien",
+    "checkout_header_image": "",
+    "checkout_logo_image": "shopify:\/\/shop_images\/Cuff_CPH_Pos_06b8c358-f4f6-4ea3-80e7-e7bd391db611.png",
+    "checkout_logo_position": "center",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#ffffff",
+    "checkout_input_background_color_mode": "transparent",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "Raleway",
+    "checkout_body_font": "Raleway",
+    "checkout_accent_color": "#000000",
+    "checkout_button_color": "#000000",
+    "checkout_error_color": "#ff6d6d",
+    "checkout_use_header_image": false,
+    "checkout_logo": "",
+    "checkout_use_body_background_image": false,
+    "checkout_use_sidebar_background_image": false,
+    "blogsidebar_recentarticles_enable": true,
+    "blogsidebar_recentarticles_title": "Recent articles",
+    "blogsidebar_recentarticles_limit": "6",
+    "blog_banner_enable": true,
+    "blog_banner_size": "270x270",
+    "blog_banner_link": "shopify:\/\/blogs\/news",
+    "blog_sidebar_image": "",
+    "blogsidebar_tags_enable": true,
+    "blogsidebar_tags_title": "Filter by tags",
+    "blogsidebar_tags_limit": "10",
+    "googlemap_enable": false,
+    "googlemap_iframe": "",
+    "contact_details_enable": true,
+    "contact_details_title": "",
+    "contact_details_content": "",
+    "contact_working_enable": true,
+    "contact_working_title": "",
+    "contact_working_content": "",
+    "cart_notes_enable": true,
+    "cart_vendor_enable": false,
+    "product_swatch_enable": false,
+    "product_previewnext_enable": false,
+    "product_available_enable": false,
+    "product_type_enable": false,
+    "product_vendor_enable": false,
+    "product_short_description": "yes",
+    "product_tab_type": "propanel",
+    "product_tab1_enable": true,
+    "product_tab1_title": "Details",
+    "product_tab2_enable": false,
+    "product_tab2_title": "",
+    "product_tab2_content": "",
+    "product_tab3_enable": false,
+    "product_tab3_title": "",
+    "product_tab3_content": "",
+    "product_tab4_enable": true,
+    "product_tab4_title": "Reviews",
+    "product_social_enable": true,
+    "product_social_facebook_enable": true,
+    "product_social_twitter_enable": true,
+    "product_social_google_enable": true,
+    "product_social_linkedin_enable": true,
+    "product_social_pinterest_enable": true,
+    "product_related_enable": false,
+    "product_related_title": "",
+    "product_related_limit": "",
+    "collection_image": false,
+    "collection_product_columns": "3",
+    "collection_product_page": "12",
+    "topbar_toplinks_title": "",
+    "topbar_toplinks": "",
+    "logo_use_image": false,
+    "logo_max_width": "450px",
+    "color_text": "#3d4246",
+    "color_body_text": "#788188",
+    "color_sale_text": "#7796A8",
+    "color_borders": "#e8e9eb",
+    "color_button": "#7796A8",
+    "color_button_text": "#fff",
+    "color_small_button": "#fff",
+    "color_small_button_text": "#3d4246",
+    "color_text_field": "#fff",
+    "color_text_field_text": "#000",
+    "color_image_overlay_text": "#fff",
+    "color_image_overlay": "#3d4246",
+    "image_overlay_opacity": "0.25",
+    "color_body_bg": "#fff",
+    "type_header_family": "Google_Work+Sans_600_sans",
+    "type_header_base_size": "26px",
+    "type_base_family": "Google_Work+Sans_400_sans",
+    "type_base_size": "16px",
+    "type_bold_product_titles": false,
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_pinterest": true,
+    "social_facebook_link": "",
+    "social_pinterest_link": "",
+    "social_instagram_link": "",
+    "social_tumblr_link": "",
+    "social_snapchat_link": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": "",
+    "sections": {
+      "vela-header": {
+        "type": "vela-header",
+        "settings": {
+          "logo": "shopify:\/\/shop_images\/Cuff_CPH_Pos.png",
+          "logo_image_size": "140x48",
+          "velamenu_enable": true,
+          "velamenu_linklist": "main-menu",
+          "velamenu_menumobile_title": "Menu"
+        }
+      },
+      "vela-footer": {
+        "type": "vela-footer",
+        "blocks": {
+          "1478381375439": {
+            "type": "link",
+            "settings": {
+              "menu_class": "col-xs-12 col-sm-6 col-md-3",
+              "menu_title": "Kundeservice",
+              "menu_handle": "footer"
+            }
+          },
+          "1597739078090": {
+            "type": "link",
+            "settings": {
+              "menu_class": "col-xs-12 col-sm-6 col-md-3",
+              "menu_title": "Shop",
+              "menu_handle": "shop-menu"
+            }
+          }
+        },
+        "block_order": [
+          "1478381375439",
+          "1597739078090"
+        ],
+        "settings": {
+          "contactinfo_enable": true,
+          "contactinfo_logo": "",
+          "contactinfo_desc": "",
+          "contactinfo_add": "Scandiagade 25",
+          "contactinfo_phone": "+45 51 89 21 00",
+          "contactinfo_email": "info@cuffcph.dk",
+          "newsletter_enable": false,
+          "newsletter_title": "Cuff Community",
+          "newsletter_description": "Modtag 10% på dit næste køb samt eksklusive nyheder ved at tilmelde dig vores nyhedsbrev.",
+          "newsletter_mailchimp": false,
+          "newsletter_form_action": "",
+          "social_enable": true,
+          "social_title": "",
+          "social_facebook": "https:\/\/www.facebook.com\/cuffcopenhagen",
+          "social_twitter": "",
+          "social_instagram": "https:\/\/www.instagram.com\/cuffcopenhagen",
+          "social_pinterest": "",
+          "social_youtube": "",
+          "social_googleplus": "",
+          "social_rss": ""
+        }
+      },
+      "vela-template-collections": {
+        "type": "vela-template-collections",
+        "settings": {
+          "collection_image": false,
+          "collection_product_columns": "4",
+          "collection_product_page": "30"
+        }
+      },
+      "vela-template-product": {
+        "type": "vela-template-product",
+        "settings": {
+          "product_swatch_enable": true,
+          "product_available_enable": false,
+          "product_type_enable": false,
+          "product_vendor_enable": false,
+          "image_size": "1024x1200",
+          "product_short_description": "no",
+          "tip_info": "<ul>\n<li>\n<i class=\"far fa-undo\"><\/i><span>\n\nGratis levering og 30 dages returret.<\/span>\n<\/li>\n\n<li>\n<i class=\"fal fa-truck\"><\/i><span>Levering inden for 4 timer.<\/span>\n<\/li>\n\n<li>\n<i class=\"fal fa-gift\"><\/i><span>Vi forlænger byttefristen på gaver, så den gælder fra den dag, gaven gives.<\/span>\n<\/li>\n<\/ul>",
+          "product_tab_type": "protab",
+          "product_tab1_enable": true,
+          "product_tab1_title": "Beskrivelse",
+          "product_tab2_enable": true,
+          "product_tab2_title": "Størrelsesguide",
+          "product_tab2_content": "Vi har lavet armbåndene, så du med sikkerhed kan passe én af vores to størrelser. \n<br>\n<br>\nStørrelserne svarer til omkredsen på dit håndled:\n<br>\n<br>\nLille: 14-16 cm \n<br>\nStor: 16,5-19 cm\n<br>\n<br>\nEks. Hvis du måler 18 cm rundt om håndleddet, skal du vælge størrelsen Stor.\n<br>\n<br>\nDet er nemt at justere størrelsen en smule. Armbåndet kan udvides ved at trække forsigtigt i hver side. For at stramme armbåndet om dit håndled er det let at klemme din hånd omkring det og presse det sammen, indtil det sidder så tæt, som du ønsker.",
+          "product_tab3_enable": true,
+          "product_tab3_title": "Indgravering",
+          "product_tab3_content": "+375 DKK\n<br>\n<br>\nFå indgraveret et navn, dato, citat eller noget helt fjerde på indersiden af armbåndet.\n<br>\n<br>\nHvis du har andre ideer til en indgravering så skriv endelig til os - alt er muligt!\n<br>\n<br>\nNår du har skrevet teksten i feltet nedenfor, vil den automatisk tilføje indgravering til din bestilling.\n<br>\n<br>\nLeveringstid: 5-10 dage. Ønskes hurtigere, kontakt os venligst.",
+          "product_tab4_enable": true,
+          "product_tab4_title": "Levering & returnering",
+          "product_tab4_content": "GRATIS LEVERING INDEN FOR 2-3 DAGE\n<br>\n<br>\nVi kan både levere til din adresse eller GLS pakkeshop - det er op til dig.\n<br>\n<br>\nLEVERING MED CYKELBUD INDEN FOR 4 TIMER\n<br>\n<br>\nHvis ordren er gennemført inden kl. 16.00, vil du modtage din pakke inden for 4 timer. Hvis du bestiller efter kl. 16, modtager du efterfølgende dag.\nGælder i følgende postnumre: 1000–2000, 2100, 2150, 2300, 2400–2500 og 2900.\n<br>\n<br>\nRETURNERING\n<br>\n<br>\nHvis du ønsker at ombytte til en anden størrelse eller blot returnere dit smykke, beder vi dig skrive en mail til info@cuffcph.dk, hvorefter vi finder en løsning. Vi har fri returnering i 14 dage",
+          "product_social_enable": false,
+          "product_social_facebook_enable": false,
+          "product_social_twitter_enable": false,
+          "product_social_google_enable": false,
+          "product_social_linkedin_enable": false,
+          "product_social_pinterest_enable": false,
+          "product_related_enable": true,
+          "product_related_title": "Vi anbefaler også",
+          "product_related_subfix": "",
+          "product_related_subtitle": "",
+          "product_related_limit": "4"
+        }
+      },
+      "vela-template-404": {
+        "type": "vela-template-404",
+        "settings": {
+          "image_size": "762x219",
+          "page404_image": "",
+          "page404_title": "Denne side findes ikke",
+          "page404_description": "Kontakt os gerne hvis det er en fejl. Det vil vi sætte stor pris på. Skynd dig tilbage i sikkerhed på resten af vores hjemmeside.",
+          "page404_btntext": "Tilbage til hjemmesiden",
+          "page404_btnlink": "\/"
+        }
+      },
+      "vela-menu": {
+        "type": "vela-menu",
+        "blocks": {
+          "1479139717793": {
+            "type": "text",
+            "settings": {
+              "velamenu_item": "Catalog",
+              "velamenu_menu_enable": true,
+              "velamenu_menu_col": "col-sm-9",
+              "velamenu_menu_menucol": "col-sm-6",
+              "velamenu_product_enable": false,
+              "velamenu_product_col": "",
+              "velamenu_product_title": "",
+              "velamenu_product_collection": "",
+              "velamenu_html_enable": false,
+              "velamenu_html_col": "",
+              "velamenu_html_title": "",
+              "velamenu_html_content": "",
+              "velamenu_banner_enable": true,
+              "velamenu_banner_col": "col-sm-3",
+              "image_size": "255x300",
+              "velamenu_banner": "",
+              "velamenu_banner_link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1479139717793"
+        ],
+        "settings": {
+          "velamenu_enable": true,
+          "velamenu_linklist": "main-menu",
+          "velamenu_menumobile_title": "Menu Mobile"
+        }
+      },
+      "vela-password": {
+        "type": "vela-password",
+        "settings": {
+          "logo": "",
+          "logo_image_size": "200x100",
+          "header": "Coming Soon",
+          "newsletter_enable": true,
+          "newsletter_form_heading": "Be the first to know when we launch.",
+          "newsletter_placeholder": "Email address",
+          "newsletter_button_text": "Notify me",
+          "show_share_buttons": true,
+          "social_message": "Spread the word",
+          "share_facebook": true,
+          "share_facebook_text": "Share",
+          "share_twitter": true,
+          "share_twitter_text": "Tweet",
+          "share_pinterest": true,
+          "share_pinterest_text": "Pin it",
+          "password_coppyright": "This shop will be powered by <a class=\"classic-link shopify-link\" href=\"\/\/www.shopify.com\" target=\"_blank\" title=\"Create your own online store with Shopify\">Shopify<\/a>"
+        }
+      },
+      "sidebartag": {
+        "type": "sidebartag",
+        "settings": {
+          "sidebar_filtercustag_enable": false,
+          "sidebar_filtercustag_title": "Filter by Tags",
+          "sidebar_filtercustag1_enable": false,
+          "sidebar_filtercustag1_title": "Size",
+          "sidebar_filtercustag1_list": "S,M,XL,XXL,XXXL",
+          "sidebar_filtercustag2_enable": false,
+          "sidebar_filtercustag2_title": "",
+          "sidebar_filtercustag2_list": "",
+          "sidebar_filtercustag3_enable": false,
+          "sidebar_filtercustag3_title": "Price"
+        }
+      },
+      "sidebarprice": {
+        "type": "sidebarprice",
+        "settings": {
+          "sidebar_filterprice_enable": false,
+          "sidebar_filterprice_title": "filter by price",
+          "sidebar_filterprice_btntext": "Filter",
+          "sidebar_filterprice_min": "0",
+          "sidebar_filterprice_max": "600",
+          "sidebar_filterprice_prefix": "$"
+        }
+      },
+      "sidebarbanner": {
+        "type": "sidebarbanner",
+        "settings": {
+          "sidebar_banner_enable": false,
+          "image_size": "",
+          "link": "",
+          "image": "",
+          "effect": "effectOne"
+        }
+      },
+      "1483338180155": {
+        "type": "vela-threeBanner",
+        "settings": {
+          "headline": "",
+          "image1": "shopify:\/\/shop_images\/Signetring_01_Pisket_Insta_2500x2500.jpeg",
+          "link1": "https:\/\/cuffcph.dk\/products\/signetring-pisket-solv",
+          "image2": "shopify:\/\/shop_images\/Signetring_02_Poleret_Insta_2500x2500.jpeg",
+          "link2": "https:\/\/cuffcph.dk\/products\/signetring-poleret-solv",
+          "image3": "shopify:\/\/shop_images\/Signetring_03_Hammerslaet_Insta_2500x2500.jpeg",
+          "link3": "https:\/\/cuffcph.dk\/products\/signetring-hammerslaet",
+          "effect": "effectTwo",
+          "is_influencers": false,
+          "enable_show_more": false,
+          "enable_show_less": false,
+          "enable_headline": false
+        }
+      },
+      "blogsidebar": {
+        "type": "blogsidebar",
+        "settings": {
+          "blogsidebar_recentarticles_enable": false,
+          "blogsidebar_recentarticles_title": "Recent Articles",
+          "blogsidebar_recentarticles_limit": "20",
+          "blog_banner_enable": false,
+          "blog_banner_size": "270x270",
+          "blog_banner_link": "shopify:\/\/blogs\/cuffcommunity\/recent-tattoos-by-luke-wessman-8",
+          "blog_sidebar_image": "",
+          "blogsidebar_tags_enable": false,
+          "blogsidebar_tags_title": "Articles Tags",
+          "blogsidebar_tags_limit": "10"
+        }
+      },
+      "1597317440805": {
+        "type": "vela-productlist",
+        "settings": {
+          "img_bg": "",
+          "margin_block": "",
+          "padding_block": "",
+          "title": "VI ANBEFALER",
+          "subfix": "",
+          "subtitle": "",
+          "collection_handle": "bestsellers",
+          "layout": "layout-default",
+          "column1": "4",
+          "column2": "2",
+          "column3": "2",
+          "column4": "1",
+          "row": "1",
+          "limit": "6",
+          "navigation": true,
+          "infinite": true,
+          "autoplay": false,
+          "autoplay_speed": "10000",
+          "speed": "300",
+          "btn_text": "SE ALLE VORES SMYKKER",
+          "btn_link": "https:\/\/cuffcph.dk\/collections\/all"
+        }
+      },
+      "1597329915067": {
+        "type": "vela-slideshow",
+        "disabled": true,
+        "blocks": {
+          "1597329915067-0": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/custom_resized_2919c410-d443-45c9-8b60-5eb2b3a92ed8.jpg",
+              "alignment": "right",
+              "title": "Tidløse smykker. <br> Håndlavet i København",
+              "title_en": "Timeless jewelry. Designed and handmade in Copenhagen.",
+              "title_color": "#000000",
+              "subheading": "Vores serier af armbånd, halskæder og signetringe er lavet af sterlingsølv eller forgyldt sterlingsølv. Alle smykker er håndlavet på vores eget værksted i København.",
+              "subheading_en": "Our series of bracelets, necklaces and signet rings are made of sterling silver or gold-plated sterling silver. All jewelery is handmade in our own workshop in Copenhagen.",
+              "subheading_color": "#000",
+              "btn_text": "Shop",
+              "btn_link": "https:\/\/cuff-copenhagen.myshopify.com\/collections\/all",
+              "link": "https:\/\/cuff-copenhagen.myshopify.com\/collections\/all"
+            }
+          }
+        },
+        "block_order": [
+          "1597329915067-0"
+        ],
+        "settings": {
+          "autoplay": false,
+          "autoplay_speed": "7000",
+          "image_size": "1920x730"
+        }
+      },
+      "section-history1": {
+        "type": "section-history1",
+        "settings": {
+          "image_left": "shopify:\/\/shop_images\/custom_resized_9a3c7a3f-f690-47a2-af5c-3dab877c7048.JPG",
+          "title": "En lang historie, kort fortalt",
+          "content": "<p>Bag Cuff Copehagen st&aring;r to danske iv&aelig;rks&aelig;ttere, Jonas og Gustav. Vi har skabt et enkelt smykke, der er til at betale.&nbsp;Vi startede Cuff Copenhagen, fordi vi ikke kunne finde noget, som levede op til vores krav. Derfor besluttede vi os for at lave vores eget.<\/p>\n<p><\/p>\n<p>Med en lille plade s&oslash;lv, et l&aring;nt v&aelig;rksted og en id&eacute; i hovedet brugte vi flere dage p&aring; at skabe et&nbsp;s&oslash;lvarmb&aring;nd, som vi selv gad at g&aring; med. Med st&oslash;tte fra vores venner og familie lavede vi en webshop med kun fire s&oslash;lvarmb&aring;nd, som stadig den dag i dag udg&oslash;r fundamentet for hele vores forretning. Med en stigende eftersp&oslash;rgsel besluttede vi at tage det n&aelig;ste skridt og ansatte en af Danmarks bedste guldsmede. Han har tidligere arbejdet for blandt andet arbejdet for store navne som Shamballa og Georg Jensen, hvor han i &oslash;vrigt ogs&aring; er uddannet fra.&nbsp;<\/p>"
+        }
+      },
+      "section-engraving1": {
+        "type": "section-engraving1",
+        "blocks": {
+          "1597988626105": {
+            "type": "faq",
+            "settings": {
+              "title": "Hvorfor skal jeg indgravere mit smykke?",
+              "answer": "Hvis der er en særlig historie forbundet med dit smykke, kan det være en idé at få lavet en indgravering. På den måde vil indgraveringen få en helt unik betydning for dit smykke. Giver du eksempelvis et Cuff smykke i gave, vil en indgravering være en meget unik og personlig tilføjelse fra dig til den, der modtager gaven.\n\nLivets store begivenheder –  fra årsdage og bryllupper til konfirmation og fødselsdage  – fortjener noget særligt, og med et indgraveret smykke får din begivenhed netop en unik prik over I’et. Fejr eksempelvis gymnasieeleven med “student 2020” indgraveret på indersiden af et af vores armbånd."
+            }
+          },
+          "1597988639024": {
+            "type": "faq",
+            "settings": {
+              "title": "Hvordan bestiller jeg indgraveringen i mit smykke?",
+              "answer": "Når du har klikket dig ind på det armbånd eller halskæde, du ønsker at købe, skriver du den ønskede tekst i feltet med overskriften \"Indgravering\". Når du klikker på “køb nu” vil der automatisk blive tilføjet indgravering til kurven. En indgravering koster 375 kroner – uanset hvor mange tegn."
+            }
+          },
+          "1597988650273": {
+            "type": "faq",
+            "settings": {
+              "title": "Er leveringstiden den samme?",
+              "answer": "Det tager lidt længere tid at producere et smykke med indgravering. Typisk tager det os fire til fem dage at indgravere, men vi kan sagtens klare det på én dag mod et lille gebyr, hvis det er en hastesag. Vi har engang produceret et armbånd med indgravering og leveret det fra København til Aalborg på under to dage. Så alt er muligt!\n\nDet er altså ganske nemt at bestille en indgravering. Hvis du har et særligt ønske til din indgravering, fx et symbol, så kontakt os endelig. Det er kun din fantasi, der sætter grænserne!"
+            }
+          }
+        },
+        "block_order": [
+          "1597988626105",
+          "1597988639024",
+          "1597988650273"
+        ],
+        "settings": {
+          "title": "Få indgravering i dit smykke fra Cuff Copenhagen",
+          "description": "<p>&Oslash;nsker du en personlig indgravering i dit smykke? Intet problem!<\/p>\n<p>Hos Cuff Copenhagen designer og producerer vi blandt andet armb&aring;nd og halsk&aelig;der, hvor det er muligt at f&aring; indgraveret en tekst eller et symbol.&nbsp;Du kan eksempelvis f&aring; indgraveret et navn, en dato, et citat eller noget helt fjerde.&nbsp;P&aring; alle vores&nbsp;<a href=\"https:\/\/cuffcph.dk\/shop-armbaand\/\">armb&aring;nd<\/a>&nbsp;er der mulighed for at f&aring; indgraveret op til 25 tegn p&aring; indersiden af armb&aring;ndet.&nbsp;P&aring; vores&nbsp;<a href=\"https:\/\/cuffcph.dk\/shop-halskaede\/\">halsk&aelig;der<\/a>&nbsp;er det muligt at f&aring; indgraveret op til 12 tegn p&aring; bagsiden af vedh&aelig;nget. Det samme g&aelig;lder vores helt nye signetringe hvor du ogs&aring; kan f&aring;&nbsp;indgraveret lige, det som du har lyst til.<\/p>"
+        }
+      },
+      "vela-collection-banner": {
+        "type": "vela-collection-banner",
+        "blocks": {
+          "1597725822217": {
+            "type": "collection_buttons",
+            "settings": {
+              "collection_id": "shop-armbaand",
+              "collection_button": "Armbånd"
+            }
+          },
+          "1597725832930": {
+            "type": "collection_buttons",
+            "settings": {
+              "collection_id": "shop-halskaede",
+              "collection_button": "Halskæder"
+            }
+          },
+          "1599748978507": {
+            "type": "collection_buttons",
+            "settings": {
+              "collection_id": "shop-ringe",
+              "collection_button": "Ringe"
+            }
+          }
+        },
+        "block_order": [
+          "1597725822217",
+          "1597725832930",
+          "1599748978507"
+        ],
+        "settings": {
+          "video_url": "https:\/\/cdn.shopify.com\/s\/files\/1\/0272\/4580\/5603\/files\/CUFF_LOWRES.mp4?v=1597937007"
+        }
+      },
+      "1597736267143": {
+        "type": "vela-testimonials",
+        "blocks": {
+          "1597736267143-0": {
+            "type": "item",
+            "settings": {
+              "avatar": "",
+              "position_avatar": "left",
+              "name": "Casper",
+              "position": "",
+              "review": "'Min oplevelse med Cuff Copehagen slår, hvad jeg ellers har oplevet tidligere nogen steder fra. Svar kommer prompte og uddybende og de strækker endog meget langt for, at man som kunde er tilfreds.'"
+            }
+          },
+          "1597736267143-1": {
+            "type": "item",
+            "settings": {
+              "avatar": "",
+              "position_avatar": "left",
+              "name": "Theis",
+              "position": "",
+              "review": "'Jeg har købt en halskæde til min kæreste hos Cuff Copenhagen, og kan kun sige at jeg er ovenud tilfreds med hele processen. \nSmykket er virkelig smukt, kundeservicen er helt i top.'"
+            }
+          },
+          "1597736650375": {
+            "type": "item",
+            "settings": {
+              "avatar": "",
+              "position_avatar": "left",
+              "name": "Frederik",
+              "position": "",
+              "review": "'Meget personlig og exceptionel service. Jeg fik lavet indgravering i mit smykke og det blev fænomenalt! Kan varmt anbefales.'"
+            }
+          },
+          "1597738670689": {
+            "type": "item",
+            "settings": {
+              "avatar": "",
+              "position_avatar": "left",
+              "name": "Ulrich",
+              "position": "",
+              "review": "'Bedste armbånd jeg nogensinde har ejet. Det er også min opfattelse, at dem der står bag er super passionerede, sympatiske og har en bæredygtig tilgang til det at drive smykkeforretning.'"
+            }
+          }
+        },
+        "block_order": [
+          "1597736267143-0",
+          "1597736267143-1",
+          "1597736650375",
+          "1597738670689"
+        ],
+        "settings": {
+          "img_bg": "",
+          "margin_block": "",
+          "padding_block": "20px",
+          "full_with": false,
+          "title": "Hos Cuff Copenhagen vil vi yde den bedste kunderservice.",
+          "subfix": "",
+          "subtitle": "",
+          "trustpilot_image": "shopify:\/\/shop_images\/trustpilot-logo-stars.png",
+          "column1": "4",
+          "column2": "3",
+          "column3": "2",
+          "column4": "2",
+          "navigation": true,
+          "infinite": false,
+          "autoplay": false,
+          "autoplay_speed": "10000",
+          "speed": "300"
+        }
+      },
+      "1597746766725": {
+        "type": "vela-threeBanner",
+        "settings": {
+          "headline": "Vores ambassadører",
+          "image1": "shopify:\/\/shop_images\/cc.jpg",
+          "link1": "",
+          "image2": "shopify:\/\/shop_images\/hannikaro_kopi.jpg",
+          "link2": "",
+          "image3": "shopify:\/\/shop_images\/wiinstonkb.jpg",
+          "link3": "",
+          "effect": "effectTwo",
+          "is_influencers": true,
+          "enable_show_more": true,
+          "enable_show_less": false,
+          "enable_headline": false
+        }
+      },
+      "1597753092786": {
+        "type": "vela-threeBanner",
+        "disabled": true,
+        "settings": {
+          "headline": "",
+          "image1": "shopify:\/\/shop_images\/alexandervirgil.jpg",
+          "link1": "",
+          "image2": "",
+          "link2": "",
+          "image3": "shopify:\/\/shop_images\/malkitamanda_89241af6-e314-4284-946b-49e595a31c7e.jpg",
+          "link3": "",
+          "effect": "effectTwo",
+          "is_influencers": true,
+          "enable_show_more": false,
+          "enable_show_less": false,
+          "enable_headline": false
+        }
+      },
+      "1597755892607": {
+        "type": "vela-threeBanner",
+        "settings": {
+          "headline": "",
+          "image1": "shopify:\/\/shop_images\/nikmarburger.jpg",
+          "link1": "",
+          "image2": "shopify:\/\/shop_images\/thoranthon.jpg",
+          "link2": "",
+          "image3": "shopify:\/\/shop_images\/sma_billeder_til_forside.png",
+          "link3": "",
+          "effect": "effectTwo",
+          "is_influencers": true,
+          "enable_show_more": false,
+          "enable_show_less": true,
+          "enable_headline": false
+        }
+      },
+      "1597759371798": {
+        "type": "vela-slideshow",
+        "blocks": {
+          "1597759371798-0": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/baeredygtigeini.png",
+              "alignment": "center",
+              "title": "",
+              "title_en": "Slideshow",
+              "title_color": "#000",
+              "subheading": "",
+              "subheading_en": "",
+              "subheading_color": "#000",
+              "btn_text": "",
+              "btn_link": "",
+              "link": "shopify:\/\/pages\/vores-baeredygtige-initiativer"
+            }
+          }
+        },
+        "block_order": [
+          "1597759371798-0"
+        ],
+        "settings": {
+          "autoplay": false,
+          "autoplay_speed": "7000",
+          "image_size": "1920x730"
+        }
+      },
+      "1597780534975": {
+        "type": "vela-slideshow",
+        "disabled": true,
+        "blocks": {
+          "1597780534975-0": {
+            "type": "image",
+            "settings": {
+              "image": "",
+              "alignment": "center",
+              "title": "",
+              "title_en": "Slideshow",
+              "title_color": "#000",
+              "subheading": "",
+              "subheading_en": "",
+              "subheading_color": "#000",
+              "btn_text": "",
+              "btn_link": "",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1597780534975-0"
+        ],
+        "settings": {
+          "autoplay": false,
+          "autoplay_speed": "7000",
+          "image_size": "1920x730"
+        }
+      },
+      "1597936196978": {
+        "type": "vela-seo-homepage",
+        "settings": {
+          "seo_text": "<p><strong>GULDSMYKKER TIL M&AElig;ND OG KVINDER<\/strong><\/p>\n<p>Alle smykker fra cuff &ndash; uanset om der er tale om armb&aring;nd, halsk&aelig;der eller &oslash;reringe &ndash; er skabt af sterlings&oslash;lv. Men alle produkterne kommer derudover ogs&aring; i en forgyldt udgave, med 24 karat guld. Guldsmykker til m&aelig;nd og kvinder giver et unikt, tidsl&oslash;st og stilfuldt look. Alle vores smykker h&aring;ndlaves af cuff&rsquo;s egen guldsmed p&aring; vores v&aelig;rksted i k&oslash;benhavn. Det er din garanti for, at et smykke fra cuff er i orden, og at et cuff smykke vil give dig gl&aelig;de mange &aring;r i fremtiden, hvis du passer p&aring; det.<\/p>\n<p><strong>BLIV EN DEL AF #CUFFCPH<\/strong><\/p>\n<p>Hos Cuff er alt muligt. Hvis du &oslash;nsker at tilf&oslash;je dine egne detaljer til smykket, s&oslash;rger vi for at indgravere det til dig. Hvis du vil se mere til vores udvalg af armb&aring;nd, halsk&aelig;der og &oslash;reringe, kan du g&oslash;re ligesom Mads Emil Grove M&oslash;ller, Karl William, Alesso, Jacob Bruun Larsen, Kristian Brandt m.fl. og blive en del af Cuff Community p&aring; vores Instagram, @cuffcopenhagen, eller tagge dit nye smykke under #cuffcph. Vi ser frem til at se, hvordan du v&aelig;lger at style dine nye smykker fra Cuff.<\/p>\n<p><strong>STILSIKRE SMYKKER TIL M&AElig;ND OG KVINDER<\/strong><\/p>\n<p>Et smykke er med til at understrege, hvem du er. Det siger noget om din personlighed. Og det sender et signal til omverdenen om, at du ikke er bange for at skille dig ud. Vi kan ikke komme udenom, at der er en tradition for, at smykker er blevet lavet til kvinder. Men i de seneste &aring;r har m&aelig;nd p&aring; den danske modescene skubbet til de traditionelle k&oslash;nsroller og modeidealer. Herresmykker og guldsmykker til m&aelig;nd er i de seneste &aring;r blevet et fast del af modebilledet.<br>Hos Cuff mener vi, at smykker kan bruges af b&aring;de kvinder og m&aelig;nd. Derfor er vores h&aring;ndlavet kvinde- og herresmykker designet, s&aring; de kan tilpasse alle.<\/p>\n<p>Vi indr&oslash;mmer gerne, at vores smykker er ikke de billigste p&aring; markedet. Til geng&aelig;ld er vores design enkelt og stilfuldt og vi garanterer den bedste kvalitet, da alle smykker er h&aring;ndlavet af vores guldsmed i K&oslash;benhavn.<br>Vores guldsmykker til m&aelig;nd og kvinder er designet til at kunne holde i mange &aring;r. Kollektionerne af armb&aring;nd, halsk&aelig;der og &oslash;reringe er lavet simple med &oslash;je for de sm&aring; detaljer, som vores guldsmede mestrer at skabe.<\/p>"
+        }
+      },
+      "vela-seo-collection-armband": {
+        "type": "vela-seo-collection-armband",
+        "settings": {
+          "seo_text": "<p><strong>B&aelig;redygtige herresmykker fra Cuff inden for fire timer<\/strong><\/p>\n<p>Hos Cuff genbruger vi alle overskydende materialer p&aring; vores v&aelig;rksted, og alle smykker er h&aring;ndlavet i K&oslash;benhavn. Derfor er alle vores dame- og herresmykker lavet med 100 % omtanke for milj&oslash; og b&aelig;redygtig produktion.<br>St&aring;r du og skal bruge et smykke inden for f&aring; timer? For hvis du &oslash;nsker det, kan du modtage dit smykke fra Cuff med cykelbud indenfor fire timer. S&aring;dan kan du altid v&aelig;re sikker p&aring; at v&aelig;re rigtig stylet til lejligheden.<\/p>\n<p><strong>Cuffs guld armb&aring;nd til m&aelig;nd<\/strong><\/p>\n<p>Er du til guld? Det nyeste smykke fra Cuff er vores guld armb&aring;nd i samarbejde med Kristian Brandt, der f&aring;s i s&oslash;lv og som forgyldt armb&aring;nd i 14 karat guld. Guld er bare noget helt s&aelig;rligt, n&aring;r det kommer til smykker, og vi er glade for at kunne pr&aelig;sentere et fantastisk guld armb&aring;nd til m&aelig;nd til markedet.<br>Med et guldarmb&aring;nd f&aring;r du et armb&aring;nd med en overflade, der aldrig kan g&aring; i stykker. Og hvis du engang imellem polerer dit armb&aring;nd, vil det altid st&aring; knivskarpt og som nyt.<\/p>\n<p><strong>Et r&aring;t, hammersl&aring;et look<\/strong><\/p>\n<p>Vores hammersl&aring;ede-serie er ogs&aring; produceret i sterlings&oslash;lv og kommer i b&aring;de en smal, bred og forgyldt udgave &ndash; ligesom vores polerede herrearmb&aring;nd. Vores hammersl&aring;ede armb&aring;nd er lavet s&aring;dan, at vores guldsmed simpelthen har sl&aring;et p&aring; s&oslash;lvet med en rund hammer, hvilket skaber sp&aelig;ndende nuancer og strukturer i armb&aring;ndet. Det giver et mere r&aring;t og bearbejdet look.<br>Er du p&aring; udkig efter et s&oslash;lv armb&aring;nd til m&aelig;nd?<\/p>\n<p>Og g&aring;r du op i kvalitet, b&aelig;redygtighed og et enkelt design? S&aring; er du kommet til det rigtige sted.<br>Cuff producerer s&oslash;lv armb&aring;nd til b&aring;de m&aelig;nd og kvinder. Vores design er simpelt, stilfuldt og alle armb&aring;nd er produceret i K&oslash;benhavn af en yderst professionel guldsmed. Det er vores garanti for, at alle Cuff armb&aring;nd er perfekte.<\/p>\n<p><strong>Simpel elegance i s&oslash;lv og guld<\/strong><\/p>\n<p>Vores polerede herre armb&aring;nd er alle produceret i sterling s&oslash;lv og kommer i en smal (5 mm bred) og bred (10 mm bred) udgave. Armb&aring;ndet kommer b&aring;de som rent s&oslash;lv armb&aring;nd og i en forgyldt udgave.<\/p>"
+        }
+      },
+      "section-history3": {
+        "type": "section-history3",
+        "blocks": {
+          "1597986832760": {
+            "type": "history3-block",
+            "settings": {
+              "title": "Håndlavet i København",
+              "content": "<p>I mods&aelig;tning til mange andre danske smykkebrands har vi valgt at producere i K&oslash;benhavn for at opn&aring; fuld kontrol samt den allerbedste kvalitet. Vi har ansat en af branchens bedste s&oslash;lvsmede, der er uddannet hos Georg Jensen. Vi anvender sterlings&oslash;lv, der er den mest anvendte type s&oslash;lv til smykker. Vores forgyldte smykker er forgyldt med 24 karat guld.<\/p>"
+            }
+          },
+          "1597986843726": {
+            "type": "history3-block",
+            "settings": {
+              "title": "Two sizes fit all",
+              "content": "<p>Som designere har vi fokuseret p&aring; at skabe et enkelt og tidl&oslash;st smykke.&nbsp;Vi har designet vores smykker, s&aring; du kan v&aelig;lge mellem to st&oslash;rrelser, og du kan med sikkerhed passe &eacute;n af dem. Vores armb&aring;nd er i en tykkelse, der g&oslash;r det muligt at b&oslash;je det en smule og forme det efter dit eget h&aring;ndled.<\/p>"
+            }
+          },
+          "1600773625424": {
+            "type": "history3-block",
+            "settings": {
+              "title": "",
+              "content": ""
+            }
+          }
+        },
+        "block_order": [
+          "1597986832760",
+          "1597986843726",
+          "1600773625424"
+        ],
+        "settings": {
+          "image_right": "shopify:\/\/shop_images\/DSCF9081.JPG"
+        }
+      },
+      "section-history-textblock2": {
+        "type": "section-history-textblock2",
+        "blocks": {
+          "1598019910270": {
+            "type": "text-block",
+            "settings": {
+              "title": "IVÆRKSÆTTERI I EN GAMMEL SMYKKEBRANCHE",
+              "content": "<p>Missionen har hele tiden v&aelig;ret at udfordre en st&oslash;vet smykkebranche, hvor tingene altid er blevet gjort p&aring; samme m&aring;de. Vi har taget de stolte traditioner fra vores guldsmed og tilf&oslash;rt vores egen kant og syn p&aring;, hvordan tingene skal v&aelig;re. Vi har stor respekt for, at du har lyst til at bruge din dyrebare tid p&aring; at l&aelig;se dette, for det betyder&nbsp;meget for at komme ud med vores smykker, som vi ved, at der er mange, som leder efter.<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "1598019910270"
+        ],
+        "settings": {}
+      },
+      "vela-seo-collection-shop": {
+        "type": "vela-seo-collection-shop",
+        "settings": {
+          "seo_text": "<p><strong>Cuff Copenhagen - Shop - Se vores guld- og s&oslash;lvarmb&aring;nd<\/strong><\/p>\n<p>Hos Cuff Copenhagen finder du et unikt udvalg af smykker af h&oslash;j kvalitet. Med de fineste &aelig;delmetaller f&aring;r du det bedste guld og s&oslash;lv smykke til b&aring;de m&aelig;nd og kvinder.<\/p>"
+        }
+      },
+      "section-initiativer1": {
+        "type": "section-initiativer1",
+        "blocks": {
+          "1599748522325": {
+            "type": "faq",
+            "settings": {
+              "title": "Vores produktion 🔨",
+              "answer": "Vi håndlaver alle vores produkter lokalt i Danmark. Dermed kan vi med sikkerhed stå inde for, at vores kvalitet er af højeste karakter. Samtidigt kan vi garanterer at alle arbejdsvilkår er helt i top. Derfor producerer vi ikke i udlandet da det ville være langt sværre for os, at undersøge og opretholde den bedste kvalitet. \nVi mener at lokal produktion er vigtigt i denne tid. Det er derfor med en stor glæde, at vi kan give tilbage til den danske natur.   \n\nNår vi producerer i Danmark kan vi også skære al unødig transport og fragt fra udlandet fra. \nVi er stolte over, at kunne sige at vi producerer i Danmark."
+            }
+          },
+          "1599748536909": {
+            "type": "faq",
+            "settings": {
+              "title": "Levering med cykelbud inden for 4 timer 🚴🏼‍♀️",
+              "answer": "Vi er stolte over, at vi som en af de eneste smykkevirksomheder i Danmark, kan levere vores smykker cykelbud. Cykelbuddet kan leverer dine smykker i hele Københavnsområdet og du kan læse mere her.﻿ Når vi leverer med cykelbude er det 100% emissionsfri transport hvilket gør det til et vores vigtigste bæredygtige initiativer."
+            }
+          },
+          "1599748564496": {
+            "type": "faq",
+            "settings": {
+              "title": "Genbruger overskydende materialer ♻",
+              "answer": "Det er vigtigt for os, at genbruge alle de materialer som vi kan. Derfor omsmelter vi det overskydende materialer som vi ikke bruger."
+            }
+          }
+        },
+        "block_order": [
+          "1599748522325",
+          "1599748536909",
+          "1599748564496"
+        ],
+        "settings": {
+          "title": "Samarbejde med Den Danske Naturfond ☘️",
+          "description": "<p>For hvert solgt smykke donerer vi 12 kr. til Den Danske Naturfond. For de penge kan vi sammen sikre 1 kvadratmeter jord, hvor naturen f&aring;r lov at udvikle sig p&aring; egne pr&aelig;misser.<br>Det er en sag, vi gerne st&oslash;tter hos Cuff Copenhagen. Vi kunne nemlig ikke eksistere uden naturens fineste materialer. Alle vores smykker udf&oslash;res udelukkende i 925 sterling s&oslash;lv, ligesom forgyldningen altid er i 24 karat guld.<\/p>\n<p><\/p>\n<p>Vi har netop v&aelig;ret med til, at opk&oslash;be nye naturomr&aring;der i Mols Bjerge og Hammer Bakker. Det er et af de mest markante naturprojekter, der er gennemf&oslash;rt i Danmark og det har vi v&aelig;ret en del af ved hj&aelig;lp af vores donationer.&nbsp;<\/p>\n<p>For hvert solgt smykke donerer vi 12dkk. til Den Danske Naturfond. For de penge kan vi sammen sikre 1 kvadratmeter jord, hvor naturen f&aring;r lov at udvikle sig p&aring; egne pr&aelig;misser!<\/p>"
+        }
+      },
+      "1600666458752": {
+        "type": "vela-twoVideos",
+        "settings": {
+          "headline": "",
+          "video1": "https:\/\/cdn.shopify.com\/s\/files\/1\/0272\/4580\/5603\/files\/ezgif.com-resize_f7dac18e-c770-4808-a09f-248a23e814de.mp4?v=1600954045",
+          "seo_text": "<p><\/p>\n<p><\/p>\n<p><\/p>\n<p><\/p>\n<p><\/p>\n<p><\/p>\n<p><\/p>\n<p><strong>Den perfekte signet ring<\/strong><\/p>\n<p>Alle vores smykker er h&aring;ndlavet i K&oslash;benhavn. Det g&aelig;lder selvf&oslash;lgelig ogs&aring; vores helt nye signetringe.<\/p>\n<p><\/p>\n<p>Vores koncept er, ligesom vores s&oslash;lv og forgyldte armb&aring;nd og halsk&aelig;der helt enkelt og overskueligt. Signetringene kommer med 3 forskellige overflader. &Eacute;n pisket, poleret og hammersl&aring;et og f&oslash;lger dermed vores andre kollektioner.<\/p>\n<p><\/p>\n<p><strong>Design<\/strong><\/p>\n<p>Det har v&aelig;ret en udfordrende proces at designe, udvikle og producerer vores signet ringe. Vi har virkelig pr&oslash;vet at designe dem anderledes i forhold til hvad man ellers ser p&aring; markedet. Vores signetringe er helt unikke, med dets skarpe linjer, polerede kanter og en perfekt pasform.<\/p>\n<p><\/p>\n<p>Hos Cuff Copenhagen arbejder ud fra en simpel tankegang. Det g&aelig;lder lige fra vores design til vores st&oslash;rrelser. Vores signetringe kommer i to st&oslash;rrelse, hvor du med sikkerhed kan passe &eacute;n af dem.&nbsp;<\/p>",
+          "color_background": "#f6f6f6"
+        }
+      },
+      "1600694860669": {
+        "type": "vela-topTwoBanner",
+        "settings": {
+          "headline": "",
+          "image1": "shopify:\/\/shop_images\/ezgif-1-bbd2e8095e48.jpg",
+          "sub-title1": "håndlavet i københavn",
+          "title1": "halskæder",
+          "image_link1": "https:\/\/cuffcph.dk\/collections\/shop-halskaede",
+          "image2": "shopify:\/\/shop_images\/ezgif-1-136a86af63fd.jpg",
+          "sub-title2": "vores klassikere",
+          "image_link2": "https:\/\/cuffcph.dk\/collections\/shop-armbaand",
+          "title2": "armbånd"
+        }
+      }
+    },
+    "content_for_index": [
+      "1600694860669",
+      "1597329915067",
+      "1597317440805",
+      "1483338180155",
+      "1600666458752",
+      "1597746766725",
+      "1597753092786",
+      "1597755892607",
+      "1597736267143",
+      "1597780534975",
+      "1597936196978",
+      "1597759371798"
+    ]
+  },
+  "presets": {
+    "Default": {
+      "content_for_index": []
+    }
+  }
+}

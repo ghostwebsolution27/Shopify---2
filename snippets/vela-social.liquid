@@ -1,0 +1,67 @@
+{% if socialEnable %}
+	<div id="velaSocial" class="velaSocial">
+	    {% if socialTitle != blank %}
+	        <h4 class="velaTitle hidden">{{ socialTitle }}</h4>
+	    {% endif %}
+	    <div class="velaContent">        
+	        <ul class="velalistSocial list-unstyled list-inline">
+	            {% if socialFacebook != blank %}
+	                <li class="facebook">
+	                    <a target="_blank" href="{{ socialFacebook }}" title="{{ shop.name }} on Facebook" class="btn-social" data-original-title="Facebook">
+	                        <i class="fa fa-facebook"></i>
+	                        <span>Facebook</span>
+	                    </a>
+	                </li>
+	            {% endif %}
+	            {% if socialTwitter != blank %}
+	                <li class="twitter">
+	                    <a target="_blank" href="{{ socialTwitter }}" title="{{ shop.name }} on Twitter" class="btn-social" data-original-title="Twitter">
+	                        <i class="fa fa-twitter"></i>
+	                        <span>Twitter</span>
+	                    </a>
+	                </li>
+	            {% endif %}
+	          	{% if socialInstagram != blank %}
+	                <li class="instagram">
+	                    <a target="_blank" href="{{ socialInstagram }}" title="{{ shop.name }} on Instagram" class="btn-social" data-original-title="Instagram">
+	                        <i class="fa fa-instagram"></i>
+	                        <span>Instagram</span>
+	                    </a>
+	                </li>
+	            {% endif %}
+	          	{% if socialPinterest != blank %}
+	                <li class="pinterest">
+	                    <a target="_blank" href="{{ socialPinterest }}" title="{{ shop.name }} on Pinterest" class="btn-social" data-original-title="Pinterest">
+	                        <i class="fa fa-pinterest"></i>
+	                        <span>Pinterest</span>
+	                    </a>
+	                </li>
+	            {% endif %}
+	            {% if socialYoutube != blank %}
+	                <li class="youtube">
+	                    <a target="_blank" href="{{ socialYoutube }}" title="{{ shop.name }} on Youtube" class="btn-social" data-original-title="Youtube">
+	                        <i class="fa fa-youtube"></i>
+	                        <span>Youtube</span>
+	                    </a>
+	                </li>
+	            {% endif %}
+	            {% if socialGooglePlus != blank %}
+	                <li class="google-plus">
+	                    <a target="_blank" href="{{ socialGooglePlus }}" title="{{ shop.name }} on Google Plus" class="btn-social" data-original-title="Google Plus">
+	                        <i class="fa fa-google-plus"></i>
+	                        <span>Google Plus</span>
+	                    </a>
+	                </li>
+	            {% endif %}
+	            {% if socialRss != blank %}
+	                <li class="rss">
+	                    <a target="_blank" href="{{ socialRss }}" title="{{ shop.name }} on RSS" class="btn-social" data-original-title="RSS">
+	                        <i class="fa fa-rss"></i>
+	                        <span>RSS</span>
+	                    </a>
+	                </li>
+	            {% endif %}
+	        </ul>
+	    </div>
+	</div>
+{% endif %}

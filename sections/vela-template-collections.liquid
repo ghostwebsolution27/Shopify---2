@@ -1,0 +1,75 @@
+{% assign intProColumns = section.settings.collection_product_columns | plus:0 %}
+{% assign intProPaginate = section.settings.collection_product_page | plus:0 %}
+{% assign strColumn = 12 | divided_by:intProColumns %}
+{% if intProColumns == 5 %}
+    {% capture strGridItem %}col-xs-12 col-md-2-4{% endcapture %}
+{% else %}
+    {% capture strGridItem %}col-xs-12 col-md-{{ strColumn }}{% endcapture %}
+{% endif %}
+{% unless collectionLayout %}
+	{%- assign collectionLayout = 'grid' -%}
+{% endunless %}
+<div class="collBoxTop">
+    <h1 class="headerCollection">{{ collection.title }}</h1>
+    {% if section.settings.collection_image %}
+        {% if collection.image %}
+            <div class="collImage">
+                <a href="{{ collection.url }}">
+                    <img class="img-responsive" alt="{{ collection.title }}" src="{{ collection.image | collection_img_url: 'master' }}" />
+                </a>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% comment %} {% if collection.description != blank %}
+        <div class="rte rteHeader">
+            {{ collection.description }}
+        </div>
+    {% endif %} {% endcomment %}
+</div>
+<!-- <div class="collBoxSort clearfix">
+    {% include 'collection-sorting' %}
+</div> -->
+{% paginate collection.products by intProPaginate %}
+    <div class="collBoxProducts">
+      	{% if template == "collection.list" %}
+            {% include 'vela-collection-list' %}
+        {% else %}
+            {% include 'vela-collection-grid' %}
+        {% endif %}
+	</div>
+    {% if paginate.pages > 1 %}
+        <div class="collPagination">
+            {% include 'vela-pagination' %}
+        </div>
+    {% endif %}
+{% endpaginate %}
+{% schema %}
+    {
+        "name": "Vela Collection Page",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Settings"
+            },
+            {
+                "type": "checkbox",
+                "id": "collection_image",
+                "label": "Use Collection Image?"
+            },
+            {
+                "type": "text",
+                "id": "collection_product_columns",
+                "label": "Number of products in a row",
+                "placeholder": "Example: 4",
+                "default": "4"
+            },
+            {
+                "type": "text",
+                "id": "collection_product_page",
+                "label": "Number of products in a Page",
+                "placeholder": "Example: 12",
+                "default": "12"
+            }
+        ]
+    }
+{% endschema %}

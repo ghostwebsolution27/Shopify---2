@@ -1,0 +1,254 @@
+{%- assign owlColumn1 = section.settings.column1 | plus:0 -%}
+{%- assign owlColumn2 = section.settings.column2 | plus:0 -%}
+{%- assign owlColumn3 = section.settings.column3 | plus:0 -%}
+{%- assign owlColumn4 = section.settings.column4 | plus:0 -%}
+<div class="container">
+    <div class="logoCarousel">
+        {% if section.settings.title != blank %}
+            <h3 class="velaHomeTitle">{{ section.settings.title }}</h3>
+        {% endif %}
+        <div class="velaContent">
+            <div class="velaOwlRow owlCarouselPlay">
+                <div class="owl-carousel" 	data-nav="{{ section.settings.navigation }}" 
+                                            data-autoplay="{{ section.settings.autoplay }}" 
+                                            data-autospeed="{{ section.settings.autoplay_speed }}" 
+                                            data-speed="{{ section.settings.speed }}" 
+                                            data-columnone="{{ owlColumn1 }}" 
+                                            data-columntwo="{{ owlColumn2 }}" 
+                                            data-columnthree="{{ owlColumn3 }}"
+                                            data-columnfour="{{ owlColumn4 }}">
+                    {% for block in section.blocks %}
+                        <div class="item">
+                            <div class="logoImage">
+                                {% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{% endif %}
+                                    {% if block.settings.image != blank %}
+                                        <img class="img-responsive" alt="{{ block.settings.image.alt | default: shop.name }}" src="{{ block.settings.image | img_url: section.settings.image_size }}" />
+                                    {% else %}
+                                        <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/{{ section.settings.image_size }}" />
+                                    {% endif %}
+                                {% if block.settings.link != blank %}</a>{% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% schema %}
+    {
+        "name": "Vela Logo List",
+        "class": "velaFramework",
+		"max_blocks": 18,
+        "settings":[
+            {
+                "type": "header",
+                "content": "General Settings"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "placeholder": "Title of section"
+            },
+			{
+                "type": "text",
+                "id": "image_size",
+                "label": "Image Size",
+                "default": "288x100",
+                "info": "[Size parameters](https://help.shopify.com/themes/liquid/filters/url-filters#size-parameters)"
+            },
+            {
+                "type": "header",
+                "content": "Carousel Settings"
+            },
+            {
+                "type": "select",
+                "id": "column1",
+                "label": "#Column 1",
+                "default": "4",
+                "info": "Large desktops",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column2",
+                "label": "#Column 2",
+                "default": "3",
+                "info": "Desktops & Tablets landscape",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column3",
+                "label": "#Column 3",
+                "info": "Tablets & Phones landscape",
+                "default": "2",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column4",
+                "label": "#Column 4",
+                "default": "2",
+                "info": "Smartphones",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "checkbox",
+                "id": "navigation",
+                "label": "Show Navigation",
+                "default": true
+            },
+            {
+                "type": "checkbox",
+                "id": "autoplay",
+                "label": "Auto Play",
+                "default": false
+            },
+            {
+                "type": "text",
+                "id": "autoplay_speed",
+                "label": "Auto Play Speed",
+                "info": "Default: 10000(ms)",
+                "default": "10000"
+            },
+            {
+                "type": "text",
+                "id": "speed",
+                "label": "Speed",
+                "info": "Slide/Fade animation speed",
+                "default": "300"
+            }
+        ],
+		"blocks": [
+			{
+                "type": "image",
+                "name": "Logo Item",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "link",
+                        "label": "Logo Link"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Logo Image",
+                        "info": "Default size:288x100 pixels"
+                    }
+                ]
+            }
+		],
+        "presets": [
+            {
+                "name": "Vela Logo List",
+                "category": "4. Vela Image",
+				"blocks": [
+                    {
+                        "type":"image"
+                    },
+                    {
+                        "type":"image"
+                    },
+					{
+                        "type":"image"
+                    },
+					{
+                        "type":"image"
+                    },
+					{
+                        "type":"image"
+                    },
+					{
+                        "type":"image"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

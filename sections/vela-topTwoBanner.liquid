@@ -1,0 +1,175 @@
+<div class="container">
+    <div class="topTwoBanner">
+        {% if section.settings.headline != blank %}
+            <h3 class="velaHomeTitle">{{ section.settings.headline }}</h3>
+        {% endif %}
+        <div class="velaBannerContent clearfix">
+            <div class="row nomargin">
+                <div class="velaBanner banner__image col-xs-12 col-sm-6">
+                    <a href="{{ section.settings.image_link1 }}">
+                        <div class="top-banner--image">
+                            <div class="image-container" style="padding-bottom: 120%">
+                                <img class="img-responsive" src="{{ section.settings.image1 | img_url: '2000x' }}" />
+                            </div>
+                        </div>
+                        <div class="title-container upper-left upper-left-mobile">
+                            {% if section.settings.sub-title1 != blank %}
+                                <h5>{{ section.settings.sub-title1 }}</h5>
+                            {% endif %}
+                            {% if section.settings.title1 != blank %}
+                                <h2>{{ section.settings.title1 }}</h2>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+                <div class="velaBanner banner__image col-xs-12 col-sm-6">
+                    <a href="{{ section.settings.image_link2 }}">
+                        <div class="top-banner--image">
+                            <div class="image-container" style="padding-bottom: 120%">
+                                <img class="img-responsive" src="{{ section.settings.image2 | img_url: '2000x' }}" />
+                            </div>
+                        </div>
+                        <div class="title-container lower-right lower-right-mobile">
+                            {% if section.settings.sub-title2 != blank %}
+                                <h5>{{ section.settings.sub-title2 }}</h5>
+                            {% endif %}
+                            {% if section.settings.title2 != blank %}
+                                <h2>{{ section.settings.title2 }}</h2>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .topTwoImageBanner {
+        padding-top: 150px;
+    }
+
+    .top-banner--image .image-container {
+        position: relative;
+        overflow: hidden;
+    }
+    .top-banner--image img.img-responsive {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        object-fit: cover;
+        /* transform: scale(1); */
+        /* transition: all .5s; */
+    }
+    /* .top-banner--image img.img-responsive:hover {
+        transform: scale(1.5);
+        transition: all .5s;
+    } */
+    .topTwoImageBanner .upper-left.upper-left-mobile {
+        position: absolute;
+        top: 5%;
+        left: 10%;
+        text-align: left;
+    }
+    .topTwoImageBanner .lower-right.lower-right-mobile {
+        position: absolute;
+        bottom: 5%;
+        right: 10%;
+        text-align: right;
+    }
+    .topTwoImageBanner .upper-left.upper-left-mobile h5,
+    .topTwoImageBanner .lower-right.lower-right-mobile h5 {
+        color: white;
+        letter-spacing: 2px;
+        font-family: "Gotham-Medium";
+        font-weight: 500;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+    .topTwoImageBanner .upper-left.upper-left-mobile h2,
+    .topTwoImageBanner .lower-right.lower-right-mobile h2 {
+        color: white;
+        letter-spacing: 2px;
+        font-family: "Gotham-Medium";
+        font-weight: 500;
+        font-size: 56px;
+        text-transform: uppercase;
+    }
+
+    @media (max-width: 990px) {
+        .topTwoImageBanner {
+            padding-top: 0px;
+        }
+    }
+    @media (max-width: 767px) {
+        .topTwoImageBanner .banner__image:first-child {
+            display: none;
+        }
+    }
+</style>
+
+{% schema %}
+    {
+        "name": "Vela Top Two Banner",
+        "class": "velaFramework topTwoImageBanner",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Block Banner"
+            },
+            {
+                "type": "text",
+                "id": "headline",
+                "label": "Headline"
+            },
+            {
+                "type": "image_picker",
+                "id": "image1",
+                "label": "1st Banner Image"
+            },
+			{
+                "type": "text",
+                "id": "sub-title1",
+                "label": "1st Subtitle"
+            },
+			{
+                "type": "text",
+                "id": "title1",
+                "label": "1st Title"
+            },
+            {
+                "type": "text",
+                "id": "image_link1",
+                "label": "1st Image Link"
+            },
+			{
+                "type": "image_picker",
+                "id": "image2",
+                "label": "2st Banner Image"
+            },
+			{
+                "type": "text",
+                "id": "sub-title2",
+                "label": "2st Subtitle"
+            },
+            {
+                "type": "text",
+                "id": "image_link2",
+                "label": "2st Image Link"
+            },
+			{
+                "type": "text",
+                "id": "title2",
+                "label": "2st Title"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Vela Top Two Banner",
+                "category": "4. Vela Image"
+            }
+        ]
+    }
+{% endschema %}

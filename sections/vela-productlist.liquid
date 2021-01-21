@@ -1,0 +1,324 @@
+{%- assign proCollection = section.settings.collection_handle -%}
+{%- assign owlColumn1 = section.settings.column1 | plus:0 -%}
+{%- assign owlColumn2 = section.settings.column2 | plus:0 -%}
+{%- assign owlColumn3 = section.settings.column3 | plus:0 -%}
+{%- assign owlColumn4 = section.settings.column4 | plus:0 -%}
+{%- assign proRow = section.settings.row | plus:0 -%}
+{%- assign proLimit = section.settings.limit | plus:0 -%}
+<div class="container">
+	<div id="proList{{ section.id }}" class="velaProducts {{ section.settings.layout }}" style="{% if section.settings.img_bg !=blank %}background-image: url({{ section.settings.img_bg | img_url: "master" }});{% endif %}
+                                     {% if section.settings.margin_block !=blank %}margin:{{section.settings.margin_block}}; {% endif %}
+                                     {% if section.settings.padding_block !=blank %}padding:{{section.settings.padding_block}}; {% endif %}">
+      	
+      	{% if section.settings.title != blank %}
+		<h4 class="velaTitle velaHomeTitle">
+          	{% if section.settings.subfix != blank %}
+          		<span class="subfix"><span>{{ section.settings.subfix }}</span></span>
+         	{% endif %}
+          	{% if section.settings.title != blank  %}
+          		<span class="title">{{ section.settings.title }}</span>
+          	{% endif %}
+          	{% if section.settings.subtitle != blank %}
+          	<span class="subtitle">{{ section.settings.subtitle }}</span>
+          	{% endif %}
+		</h4>
+		{% endif %}
+        <div class="velaContent">
+            <div class="velaOwlRow owlCarouselPlay proList grid">
+                <div class="owl-carousel"   data-nav="{{ section.settings.navigation }}" 
+                                            data-autoplay="{{ section.settings.autoplay }}" 
+                                            data-autospeed="{{ section.settings.autoplay_speed }}" 
+                                            data-speed="{{ section.settings.speed }}" 
+                                            data-columnone="{{ owlColumn1 }}" 
+                                            data-columntwo="{{ owlColumn2 }}" 
+                                            data-columnthree="{{ owlColumn3 }}"
+                                            data-columnfour="{{ owlColumn4 }}"
+                                            data-loop="true">
+                    {% for product in collections[proCollection].products limit:proLimit %}
+                  		{% if proRow == 1 %}
+                            <div class="item">
+                                {% include 'product-grid-item' with delay %}
+                            </div>
+                        {% else %}
+                            {% assign checkRow  = forloop.index | modulo:proRow %}
+                            {% if checkRow == 1 %}
+                                <div class="item">
+                            {% endif %}
+                                {% include 'product-grid-item' %}
+                            {% if checkRow == 0 or forloop.last %}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="cuff_show_button">
+            {% unless section.settings.btn_text == blank %}
+                <a class="btn" href="{{ section.settings.btn_link }}">{{ section.settings.btn_text }}</a>
+            {% endunless %}
+        </div>
+  	</div>
+</div>
+{% schema %}
+{
+	"name": "Vela Products List",
+	"class": "velaFramework",
+	"settings":[
+		{
+          "type": "header",
+          "content": "Design Block"
+        },
+        {
+          "type": "image_picker",
+          "id": "img_bg",
+          "label": "background image for block"
+        },
+        {
+          "type": "text",
+          "id": "margin_block",
+          "label": "Margin",
+          "placeholder": "0px 0px"
+        },
+        {
+          "type": "text",
+          "id": "padding_block",
+          "label": "Padding",
+          "placeholder": "0px 0px"
+        },
+		{
+          	"type": "header",
+          	"content": "General Settings"
+        },
+		{
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "placeholder": "Title of section"
+        },
+		{
+            "type": "text",
+            "id": "subfix",
+            "label": "Subfix",
+            "placeholder": "Subfix of section"
+        },
+		{
+            "type": "text",
+            "id": "subtitle",
+            "label": "SubTitle",
+            "placeholder": "Subtitle of section"
+        },
+        {
+            "type": "collection",
+            "id": "collection_handle",
+            "label": "Collection"
+        },
+        {
+            "type": "select",
+            "id": "layout",
+            "label": "Select Layout",
+            "default": "layout-default",
+            "options":[
+            	{
+            		"value": "layout-default",
+                    "label": "Layout Default"
+            	}
+            ]
+        },
+        {
+            "type": "header",
+            "content": "Carousel Settings"
+        },
+        {
+            "type": "select",
+            "id": "column1",
+            "label": "#Column 1",
+            "default": "4",
+			"info": "Large desktops",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	},
+            	{
+            		"value": "3",
+                    "label": "3"
+            	},
+            	{
+            		"value": "4",
+                    "label": "4"
+            	},
+            	{
+            		"value": "5",
+                    "label": "5"
+            	}
+            ]
+        },
+		{
+            "type": "select",
+            "id": "column2",
+            "label": "#Column 2",
+            "default": "3",
+			"info": "Desktops & Tablets landscape",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	},
+            	{
+            		"value": "3",
+                    "label": "3"
+            	},
+            	{
+            		"value": "4",
+                    "label": "4"
+            	},
+            	{
+            		"value": "5",
+                    "label": "5"
+            	}
+            ]
+        },
+		{
+            "type": "select",
+            "id": "column3",
+            "label": "#Column 3",
+			"info": "Tablets & Phones landscape",
+            "default": "2",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	},
+            	{
+            		"value": "3",
+                    "label": "3"
+            	},
+            	{
+            		"value": "4",
+                    "label": "4"
+            	},
+            	{
+            		"value": "5",
+                    "label": "5"
+            	}
+            ]
+        },
+		{
+            "type": "select",
+            "id": "column4",
+            "label": "#Column 4",
+            "default": "2",
+			"info": "Smartphones",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	},
+            	{
+            		"value": "3",
+                    "label": "3"
+            	},
+            	{
+            		"value": "4",
+                    "label": "4"
+            	},
+            	{
+            		"value": "5",
+                    "label": "5"
+            	}
+            ]
+        },
+        {
+            "type": "select",
+            "id": "row",
+            "label": "Row",
+            "default": "1",
+            "options":[
+            	{
+            		"value": "1",
+                    "label": "1"
+            	},
+            	{
+            		"value": "2",
+                    "label": "2"
+            	}
+            ]
+        },
+        {
+            "type": "text",
+            "id": "limit",
+            "label": "Limit",
+            "default": "8"
+        },
+        {
+            "type": "checkbox",
+            "id": "navigation",
+            "label": "Show Navigation",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "infinite",
+            "label": "Active Infinite",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "autoplay",
+            "label": "Auto Play",
+            "default": false
+        },
+        {
+            "type": "text",
+            "id": "autoplay_speed",
+            "label": "Auto Play Speed",
+            "info": "Default: 10000(ms)",
+            "default": "10000"
+        },
+        {
+            "type": "text",
+            "id": "speed",
+            "label": "Speed",
+            "info": "Slide/Fade animation speed",
+            "default": "300"
+        },
+        {
+            "type": "text",
+            "id": "btn_text",
+            "label": "Button Text"
+        },
+        {
+            "type": "text",
+            "id": "btn_link",
+            "label": "Button Link"
+        }
+	],
+	"presets": [
+        {
+            "name": "Vela Products List",
+            "category": "2. Vela Product",
+            "settings": {
+                "title": "Product List",
+                "collection_handle": "frontpage"
+            }
+        }
+    ]
+}
+{% endschema %}

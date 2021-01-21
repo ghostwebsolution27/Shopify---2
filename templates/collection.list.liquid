@@ -1,0 +1,16 @@
+{% include 'breadcrumb' %}
+<section id="pageContent">
+    <div class="container">
+        <div class="row">
+          	<aside id="velaSidebar" class="velaSidebar col-xs-12 col-sm-4 col-md-3">
+          		{% section 'sidebartop' %}
+                {% section 'sidebartag' %}
+                {% section 'sidebarprice' %}
+                {% section 'sidebarbanner' %}
+          	</aside>
+          	<div id="proListCollection" class="velaCenterColumn col-xs-12 col-sm-8 col-md-9">
+              	{% section 'vela-template-collections' %}
+          	</div>
+        </div>
+    </div>
+</section>

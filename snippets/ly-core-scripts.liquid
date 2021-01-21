@@ -1,0 +1,766 @@
+{% if shop.url contains 'https://' %}{% assign used_protocol = 'https://' %}{% else %}{% assign used_protocol = 'http://' %}{% endif %}
+{% assign supported_4_letter_codes = 'zh-TW,zh-CN,pt-PT,pt-BR' | split: ',' %}
+
+{%- assign current_language_num = 0 -%}
+{%- for language in shop.metafields.language_codes -%}
+  {%- assign used_request_locale_iso_code = request.locale.iso_code | slice: 0, 2 -%}
+  {%- if language.last == used_request_locale_iso_code  -%}
+    {%- assign language_id_num = language.first | replace: "ly", "" | plus: 0 %}
+    {%- if current_language_num < language_id_num  -%}
+      {%- assign current_language = language.first -%}
+    {%- assign current_language_num = language_id_num -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign key = 'ly_theme_settings_' | append: theme.id -%}
+{%- assign themeSettings = shop.metafields.global[key] -%}
+
+{%- assign key = 'ly_switcher_data_' | append: theme.id -%}
+{%- assign switcherSettings = shop.metafields.global[key] -%}
+{%- assign languages = shop.published_locales -%}
+{% if switcherSettings.languages.size > 0 %}
+  {% assign languages = switcherSettings.languages %}
+{% endif %}
+
+<script>
+  var ShopifyAPI = ShopifyAPI || {};
+  var langify = langify || {};
+  var defaultSettings = {
+    debug: false,               // BOOL : Enable/disable console logs
+    observe: true,              // BOOL : Enable/disable the entire mutation observer (off switch)
+    observeLinks: true,
+    observeImages: true,
+    observeCustomContents: true,
+    maxMutations: 5,
+    timeout: 100,               // INT : Milliseconds to wait after a mutation, before the next mutation event will be allowed for the element
+    linksBlacklist: [],
+  }
+
+  if(langify.settings) { langify.settings = Object.assign(defaultSettings, langify.settings) } else { langify.settings = defaultSettings }
+
+  {%- if themeSettings -%}
+    langify.settings = Object.assign(langify.settings, {{ themeSettings | json }});
+  {%- endif -%}
+
+  langify.helper = langify.helper || {
+    extractImageObject: function(val) {
+      if(!val || val == '') return false;
+      var val = val;
+
+      // Handle src-sets
+      if(val.indexOf(/([0-9]+w,)/gi) !== -1) {
+        val = val.split(/([0-9]+w,)/gi)[0];
+      }
+
+      var url = val;
+      var host = file = name = type = '';
+      url = url.substring(0, (url.indexOf("#") == -1) ? url.length : url.indexOf("#"));
+      url = url.substring(0, (url.indexOf("?") == -1) ? url.length : url.indexOf("?"));
+      url = url.substring(url.lastIndexOf("/") + 1, url.length);
+      var hostBegin = val.indexOf('//') ? val.indexOf('//') : 0;
+      host = val.substring(hostBegin, val.lastIndexOf('/') + 1);
+      name = url.replace(/(_[0-9]+x[0-9]*|_{width}x)?(_crop_(top|center|bottom|left|right))?(@[0-9]*x)?(\.progressive)?\.(jpe?g|png|gif)/gi, "");
+      type = url.substring(url.lastIndexOf('.')+1, url.length);
+      file = url.replace(/(_[0-9]+x[0-9]*|_{width}x)?(_crop_(top|center|bottom|left|right))?(@[0-9]*x)?(\.progressive)?\.(jpe?g|png|gif)/gi, '.'+type);
+
+      return {
+        host: host,
+        name: name,
+        type: type,
+        file: file
+      }
+    },
+    getSelectedLanguage: function() {
+      var selectedLanguage = '{{ cart.attributes["language"] }}';
+      if(selectedLanguage == '') {
+        selectedLanguage = '{{ shop.metafields["languages"]["default"] }}';
+      }
+      return selectedLanguage;
+    },
+    saveLanguage: function(language, href) {
+      ShopifyAPI.getCart(function (cart) {
+        var note = cart.note;
+        if(note == 'null') {
+          note = '';
+        }
+        ShopifyAPI.updateCartNote(note, function () {
+          ShopifyAPI.updateCartAttributes({'language': language}, function(data) {
+            window.location = href;
+          });
+        });
+      });
+    },
+    getCookie: function(name) {
+      var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+      if(v) return v[2];
+      else return null;
+    },
+    setCookie: function(name, value, days) {
+      var d = new Date;
+      d.setTime(d.getTime() + 24*60*60*1000*days);
+      document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+    }
+  };
+
+
+  var customContents = {};
+  var customContents_image = {};
+  var customContents_html = {};
+  var customContents_text = {};
+  var customContents_attr = {};
+
+  // Custom Contents Section
+  {%- capture customs -%}{%- render 'ly-get-customs' -%}{%- endcapture -%}
+  {%- assign customs = customs | split : '[ly_custom]' -%}
+
+  {% for custom in customs %}
+  {%- assign used_custom = custom | split: '[ly_custom_split]' -%}
+  {%- assign src = used_custom | first -%}
+  {%- assign dst = used_custom | last -%}
+  {%- if dst -%}
+  customContents[{{ src | downcase | json }}.trim().replace(/(\r\n|\n|\r)/gim,"").replace(/\s+/g," ")] = '{{ dst | replace: "\", "\\\" |  replace: "'", "\\'" }}';
+  {%- endif -%}
+  {% endfor %}
+
+  // Images Section
+  {% for custom in shop.metafields.image %}
+  {%- assign src = custom | last -%}
+  {%- assign key = custom | first -%}
+  {%- assign key = key | split: "ly" | last -%}
+  {%- assign translation_namespace =  current_language | append: "img" -%}
+  {%- assign translation_key = "id" | append: key -%}
+  {%- if shop.metafields[translation_namespace][translation_key] -%}
+  {%- assign translation = shop.metafields[translation_namespace][translation_key] %}
+  //customContents_image[{{ src | downcase | json }}] = '{{ translation | replace: "\", "\\\" |  replace: "'", "\\'" }}';
+  customContents_image[langify.helper.extractImageObject({{ src | downcase | json }}).file] = langify.helper.extractImageObject({{ translation | replace: "\", "\\\" |  replace: "'", "\\'"  | json}});
+  {%- endif -%}
+  {% endfor %}
+
+  langify.locale = langify.locale || {
+    primary: {{ request.locale.primary | json }},
+    iso_code: {{ request.locale.iso_code | json }},
+    root_url: {{ request.locale.root_url | json }},
+    language_id: {{ current_language | json }},
+    languages: [
+    {%- for language in languages -%}
+      {%- assign isValid = false -%}
+      {%- for locale in shop.published_locales -%}
+      {%- if isValid == false -%}
+        {%- if supported_4_letter_codes contains locale.iso_code -%}
+          {%- assign used_locale_iso_code = locale.iso_code -%}
+        {%- else -%}
+          {%- assign used_locale_iso_code = locale.iso_code | slice: 0, 2 -%}
+        {%- endif -%}
+        {%- if language.iso_code == used_locale_iso_code -%}
+          {%- assign isValid = true -%}
+          {%- assign used_root_url = locale.root_url -%}
+          {%- assign used_domain = '' -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+      {%- if isValid == false -%}
+        {%- if shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code] -%}
+          {%- assign isValid = true -%}
+        {%- assign used_root_url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].root_url -%}
+        {%- assign used_domain = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].host -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if isValid -%}
+        {
+        iso_code: {{ language.iso_code | json }},
+        root_url: {{ used_root_url | json }},
+        {%- assign current_language_num = 0 -%}
+        {%- for lang in shop.metafields.language_codes -%}
+          {%- if lang.last == language.iso_code  -%}
+            {%- assign language_id_num = lang.first | replace: "ly", "" | plus: 0 %}
+            {%- if current_language_num < language_id_num  -%}
+              {%- assign current_language = lang.first -%}
+              {%- assign current_language_num = language_id_num -%}
+            {%- endif -%}
+          {%- endif -%}
+        {% endfor %}
+        language_id: {{ current_language | json }},
+        domain: {{ used_domain | json }},
+        },
+      {%- endif -%}
+    {% endfor %}
+    ],
+  };
+
+  function isIE() {
+    ua = navigator.userAgent;
+    var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+    return is_ie;
+  }
+  if (!isIE()){
+
+    // Disable link correction ALWAYS on languages with mapped domains
+    {% if supported_4_letter_codes contains request.locale.iso_code %}
+      {% assign used_request_locale_iso_code = request.locale.iso_code %}
+    {% else %}
+      {% assign used_request_locale_iso_code = request.locale.iso_code | slice: 0, 2 %}
+    {% endif %}
+    if(langify.locale.languages.find(x => x.iso_code === {{ used_request_locale_iso_code | json }} && x.domain !== '' )) {
+      langify.settings.observeLinks = false;
+    }
+
+    var langifyObserverCore = function() {
+
+      function init() {
+        if(langify.settings.observe) {
+          spreadCustomContents();
+          if (window.MutationObserver) {
+            startMutationObserver(null);
+          } else {
+            startMutationEvents();
+          }
+        }
+      }
+
+      function spreadCustomContents() {
+        var getFileName = function(url) {
+          if(!url || url == '') return;
+          url = url.substring(0, (url.indexOf("#") == -1) ? url.length : url.indexOf("#"));
+          url = url.substring(0, (url.indexOf("?") == -1) ? url.length : url.indexOf("?"));
+          url = url.substring(url.lastIndexOf("/") + 1, url.length);
+          url = url.replace(/(_[0-9]+x[0-9]*|_{width}x)?(_crop_(top|center|bottom|left|right))?(@[0-9]*x)?(\.progressive)?\.(jpe?g|png|gif)/gi, "");
+          return '/' + url;
+        }
+        Object.entries(customContents).forEach(function(entry) {
+          if(/<\/?[a-z][\s\S]*>/i.test(entry[0])) customContents_html[entry[0]] = entry[1];
+          //else if(/(http(s?):)?([/|.|\w|\s|-])*\.(?:jpe?g|gif|png)/.test(entry[0])) customContents_image[getFileName(entry[0])] = getFileName(entry[1]);
+          else if(/(http(s?):)?([/|.|\w|\s|-])*\.(?:jpe?g|gif|png)/.test(entry[0])) customContents_image[langify.helper.extractImageObject(entry[0]).file] = langify.helper.extractImageObject(entry[1]);
+          else customContents_text[entry[0]] = entry[1];
+        });
+        log('CUSTOM CONTENTS:', {customContents, customContents_text, customContents_html, customContents_image}, 'info')
+      }
+
+      function startMutationObserver(observerTarget) {
+        if (!observerTarget) {
+          var target = document.documentElement || document.body; // main window
+        } else {
+          var target = observerTarget.contentDocument || observerTarget.contentWindow.document; // iframe
+        }
+        var config = {
+          characterData: true,
+          characterDataOldValue: true,
+          attributes: true,
+          attributeOldValue: true,
+          childList: true,
+          subtree: true,
+        };
+        var mutationObs = new MutationObserver(callbackDomChange);
+        mutationObs.observe(target, config);
+      }
+
+      function callbackDomChange(mutations, mutationObs) {
+        for (var i = 0, length = mutations.length; i < length; i++) {
+          var mutation = mutations[i];
+          var target = mutation.target;
+
+          // Links-Hook
+          if (mutation.type === 'attributes' && (mutation.attributeName === 'href' || mutation.attributeName === 'action')) {
+            var target = mutation.target;
+            translateLink(target.getAttribute(mutation.attributeName), target);
+          }
+          // Images-Hook
+          else if (mutation.type === 'attributes' && (mutation.attributeName === 'src' || mutation.attributeName === 'data-src' || mutation.attributeName === 'srcset' || mutation.attributeName === 'data-srcset')) {
+            translateImage(target, mutation.attributeName);
+          }
+          else if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+            translateCssImage(target);
+          }
+          // Subtree Events
+          else if (mutation.type === 'childList') {
+            // Added Nodes
+            if(mutation.addedNodes.length > 0) {
+              var elementNodes = getNodesUnder(mutation.target, 'SHOW_ELEMENT');
+              var textNodes = getNodesUnder(mutation.target, 'SHOW_TEXT');
+              var nodes = elementNodes.concat(textNodes);
+              nodes.forEach(function(node) {
+                translate(node, 'mutation -> childList');
+              });
+            }
+          }
+          // CharacterData Events
+          else if (mutation.type === 'characterData') {
+            var target = mutation.target;
+            translate(target, 'mutation -> characterData');
+          }
+        }
+      }
+
+
+      function translate(node, info) {
+        if((node.nodeType === 1 && node.hasAttribute('data-ly-locked')) || (node.nodeType === 3 && node.parentNode && node.parentNode.hasAttribute('data-ly-locked'))) {
+          return;
+        }
+        // CC-Hook
+        if (node.nodeName  !== 'SCRIPT' && node.nodeName  !== 'STYLE') {
+          if (node.nodeType === 1) {
+            translateElementNode(node, info);
+          }
+          if (node.nodeType === 3) {
+            translateTextNode(node, info);
+          }
+          translateNodeAttrs(node);
+        }
+        // Links-Hook
+        if (node.nodeName  === 'A' || node.nodeName  === 'FORM') {
+          if(node.hasAttribute('href')) var attrName = 'href';
+          else var attrName = 'action';
+          var url = node.getAttribute(attrName);
+          translateLink(url, node);
+        }
+        // Images-Hook
+        if (node.nodeName  === 'IMG' || node.nodeName  === 'SOURCE') {
+          translateImage(node, ['src', 'data-src', 'srcset', 'data-srcset']);
+        }
+        if (node.attributes && node.getAttribute('style')) {
+          translateCssImage(node);
+        }
+        // Iframe Observation
+        if (node.nodeName  === 'IFRAME') {
+          // Todo: handle srcdoc iframe content observing
+          if (node.getAttribute('ly-observing') == null && node.getAttribute('src') == null && !node.hasAttribute('srcdoc')) {
+            node.setAttribute('ly-observing', 'true');
+            startMutationObserver(node);
+          }
+        }
+      }
+
+      function translateNodeAttrs(node) {
+        if(Object.keys(customContents_attr).length > 0) {
+
+        }
+      }
+
+      var mutationCount = 0;
+      function translateElementNode(node, info) {
+        if(langify.settings.observeCustomContents === false || Object.keys(customContents_html).length === 0) {
+          return;
+        }
+        var source = node.outerHTML;
+        var flatSource = source.replace(/(\r\n|\n|\r)/gim,"").replace(/\s+/g," ");
+        var hasMatch = false;
+        var matches = [];
+        var CCRegEx = new RegExp(Object.keys(customContents_html).join("|").replace(/(\r\n|\n|\r)/gim,"").replace(/\s+/g," ").replace(/\//g, "\\/"), "gim"); // .replace(/\[/g, "\\[").replace(/\]/g, "\\]")
+        var replacement = flatSource.replace(CCRegEx, function(matched) {
+          log('MATCH (HTML)', {source: matched, target: customContents_html[matched]}, 'success');
+          hasMatch = true; // wichtig!!!
+          matches.push(matched);
+          return customContents_html[matched];
+        });
+        if(hasMatch && replacement != node.outerHTML) {
+          if(flatSource === matches[0]) {
+            if(!node.hasAttribute('data-ly-mutation-count') || parseInt(node.getAttribute('data-ly-mutation-count')) < langify.settings.maxMutations) {
+              if(node.hasAttribute('data-ly-mutation-count')) var count = parseInt(node.getAttribute('data-ly-mutation-count'));
+              else var count = 0;
+              node.setAttribute('data-ly-mutation-count', count+1);
+              node.outerHTML = replacement;
+
+              mutationCount = mutationCount + 1;
+              log('REPLACED (HTML)', {
+                  oldValue: flatSource,
+                  newValue: replacement,
+                  mutationCount,
+                }, 'success'
+              );
+            }
+          }
+        }
+      }
+
+      function translateTextNode(node, info) {
+        if(langify.settings.observeCustomContents === false || !node.textContent || node.textContent.trim().length === 0) {
+          return;
+        }
+        var src = node.textContent.trim().replace(/(\r\n|\n|\r)/gim,"").replace(/\s+/g," ").toLowerCase();
+        if(customContents_text[src] && node.textContent !== customContents_text[src]) {
+          var newContent = node.textContent.replace(node.textContent.trim(), customContents_text[src]);
+          if (newContent != node.textContent) {
+            if(!node.parentNode.hasAttribute('data-ly-mutation-count') || parseInt(node.parentNode.getAttribute('data-ly-mutation-count')) < langify.settings.maxMutations) {
+              var count = node.parentNode.hasAttribute('data-ly-mutation-count') ? parseInt(node.parentNode.getAttribute('data-ly-mutation-count')) : 0;
+              node.parentNode.setAttribute('data-ly-mutation-count', count+1);
+              node.textContent = newContent;
+
+              mutationCount = mutationCount + 1;
+              log('REPLACED (TEXT)', {
+                  oldValue: src,
+                  newValue: customContents_text[src],
+                  mutationCount,
+                }, 'success'
+              );
+            }
+          }
+        }
+      }
+
+      function translateLink(url, node) {
+        if(langify.settings.observeLinks === false || node.hasAttribute('data-ly-locked') || !url || (url.indexOf('mailto:') !== -1 || url.indexOf('javascript:') !== -1 || url.indexOf('tel:') !== -1 || url.indexOf('file:') !== -1 || url.indexOf('ftp:') !== -1 || url.indexOf('sms:') !== -1 || url.indexOf('market:') !== -1 || url.indexOf('fax:') !== -1 || url.indexOf('callto:') !== -1 || url.indexOf('ts3server:') !== -1)) {
+          return;
+        }
+        var isLocalized = (url.indexOf('/'+{{ request.locale.iso_code | json }}+'/') === 0 || url === '/'+{{ request.locale.iso_code | json }});
+        var link = url.replace({{ shop.url | json }}, '').replace(/\/{{ request.locale.iso_code | replace: '-', '\-' }}\//gi, '/');
+        var isUrlAbsolute = (link.indexOf('://') > 0 || link.indexOf('//') === 0);
+        var blacklist = ['#','/apps/','/a/','/tools/'].concat(langify.settings.linksBlacklist);
+        var isUrlBlacklisted = blacklist.find(x => url.indexOf(x) === 0);
+        if(!isLocalized && !isUrlAbsolute && !isUrlBlacklisted && {{ request.locale.root_url | json }} != '/') {
+          if(node.hasAttribute('href')) var attrName = 'href'; else var attrName = 'action';
+          if(link === '/' || link == {{ request.locale.root_url | json }}) link = '';
+          var newLink = {{ request.locale.root_url | json }} + link;
+          var timeStamp = Math.floor(Date.now());
+          if(!node.hasAttribute('data-ly-processed') || timeStamp > parseInt(node.getAttribute('data-ly-processed')) + langify.settings.timeout) {
+            node.setAttribute('data-ly-processed', timeStamp);
+            node.setAttribute(attrName, newLink);
+            if(node.hasAttribute('data-'+attrName)) node.setAttribute('data-'+attrName, newLink);
+
+            mutationCount = mutationCount + 1;
+            log('REPLACED (LINK)', {
+                attrName,
+                oldValue: url,
+                newValue: newLink,
+                mutationCount,
+              }, 'success'
+            );
+          }
+        }
+      }
+
+      function translateImage(node, attr) {
+        if(langify.settings.observeImages === false || node.hasAttribute('data-ly-locked') || Object.keys(customContents_image).length === 0) {
+          return
+        }
+        var attrs = [];
+        if(typeof attr === 'string') attrs.push(attr);
+        else if(typeof attr === 'object') attrs = attr;
+        attrs.forEach(function(attr) {
+          if(node.hasAttribute(attr)) {
+
+            var imgObject = langify.helper.extractImageObject(node.getAttribute(attr));
+            var imgKey = imgObject ? imgObject.file.toLowerCase() : '';
+
+            if(customContents_image[imgKey]) {
+
+              // Replace
+              var oldValue = node.getAttribute(attr);
+              var translation = node.getAttribute(attr);
+              translation = translation.replaceAll(imgObject.host, customContents_image[imgKey].host);
+              translation = translation.replaceAll(imgObject.name, customContents_image[imgKey].name);
+              translation = translation.replaceAll(imgObject.type, customContents_image[imgKey].type);
+
+              if(node.getAttribute(attr) != translation) {
+                var timeStamp = Math.floor(Date.now());
+                if(!node.hasAttribute('data-ly-processed') || timeStamp > parseInt(node.getAttribute('data-ly-processed')) + langify.settings.timeout) {
+                  node.setAttribute('data-ly-processed', timeStamp);
+                  node.setAttribute(attr, translation);
+
+                  mutationCount = mutationCount + 1;
+                  log('REPLACED (IMAGE)', {
+                    attrName: attr,
+                    oldValue: oldValue,
+                    newValue: translation,
+                    mutationCount,
+                  }, 'success');
+                }
+              }
+            }
+          }
+        });
+      }
+
+      function translateCssImage(node) {
+        if(langify.settings.observeImages === false || node.hasAttribute('data-ly-locked') || Object.keys(customContents_image).length === 0) {
+          return
+        }
+
+        var imgMatches = node.getAttribute('style').match(/url\(("|')?(.*)("|')?\)/gi);
+        if(imgMatches !== null) {
+          var imgSource = imgMatches[0].replace(/url\(("|')?|("|')?\)/, '');
+          var imgObject = langify.helper.extractImageObject(imgSource);
+          var imgKey = imgObject ? imgObject.file.toLowerCase() : '';
+          var attr = 'style';
+
+          if(customContents_image[imgKey]) {
+
+            // Replace
+            var translation = node.getAttribute(attr);
+            translation = translation.replaceAll(imgObject.host, customContents_image[imgKey].host);
+            translation = translation.replaceAll(imgObject.name, customContents_image[imgKey].name);
+            translation = translation.replaceAll(imgObject.type, customContents_image[imgKey].type);
+
+            if(node.getAttribute(attr) != translation) {
+              var timeStamp = Math.floor(Date.now());
+              if(!node.hasAttribute('data-ly-processed') || timeStamp > parseInt(node.getAttribute('data-ly-processed')) + langify.settings.timeout) {
+                node.setAttribute('data-ly-processed', timeStamp);
+                node.setAttribute(attr, translation);
+                mutationCount = mutationCount + 1;
+              }
+            }
+          }          
+        }
+      }
+
+
+
+      function findAndLocalizeLinks(target, parent) {
+        if(target.parentNode && parent) var allLinks = target.parentElement.querySelectorAll('[href],[action]');
+        else var allLinks = target.querySelectorAll('[href],[action]');
+        allLinks.forEach(link => {
+          if(link.hasAttribute('href')) var attrName = 'href'; else var attrName = 'action';
+          var url = link.getAttribute(attrName);
+          translateLink(url, link);
+        });
+      }
+
+      function getNodesUnder(el, show){
+        var n, a=[], walk=document.createTreeWalker(el, NodeFilter[show] , null, false);
+        while(n=walk.nextNode()) a.push(n);
+        return a;
+      }
+
+      function log(title, data, type) {
+        if(langify.settings.debug) {
+          let css = 'color: green; font-weight: bold;';
+          console.log(`%c ${title}: \n`, css, data);
+        }
+      }
+
+      // Polyfill for old browsers
+      function startMutationEvents() {
+        var target = document.querySelector('body');
+        target.addEventListener("DOMAttrModified", function (event) {
+          if(event.attrName === 'href' || event.attrName === 'action') {
+            if(event.prevValue != event.newValue) {
+              translateLink(event.newValue, event.target);
+            }
+          }
+        }, false);
+        target.addEventListener("DOMSubtreeModified", function (event) {
+          //findAndLocalizeLinks(event.target, false);
+          //matchCustomContent(event.target);
+        }, false);
+      }
+
+      init();
+    }()
+  }
+
+
+
+
+
+
+
+
+  langify.tools = langify.tools || {
+    compareJQueryVersion: function(a,b) {if (a === b) {return 0;}var a_components = a.split(".");var b_components = b.split(".");var len = Math.min(a_components.length, b_components.length);for (var i = 0; i < len; i++) {if (parseInt(a_components[i]) > parseInt(b_components[i])) {return 1;}if (parseInt(a_components[i]) < parseInt(b_components[i])) {return -1;}}if (a_components.length > b_components.length) {return 1;}if (a_components.length < b_components.length) {return -1;}return 0;}
+  };
+
+  langify.loader = langify.loader || {
+    loadScript: function(url, callback) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      if(script.readyState) {
+        script.onreadystatechange = function () {
+          if(script.readyState == 'loaded' || script.readyState == 'complete') {
+            script.onreadystatechange = null;
+            callback();
+          }
+        };
+      } else {
+        script.onload = function () {
+          callback();
+        };
+      }
+      script.src = url;
+      document.getElementsByTagName('head')[0].appendChild(script);
+    },
+    reload: function() {
+      window.location.reload();
+    }
+  };
+
+  langify.switcher = langify.switcher || {
+    toggleSwitcherOpen: function(e) {
+      e.classList.toggle('ly-is-open');
+    },
+    init: function() {
+      var lyForceOff = location.search.split('ly-force-off=')[1];
+      var switcherElements = Array.prototype.slice.call(document.getElementsByClassName('ly-languages-switcher'));
+
+      document.addEventListener('click', function(event) {
+        for(i = 0; i < switcherElements.length; i++) {
+          if(!switcherElements[i].contains(event.target) && switcherElements[i].classList.contains('ly-is-open')) {
+            switcherElements[i].classList.remove('ly-is-open');
+          }
+        }
+      });
+      // Custom positioning
+      for(i = 0; i < switcherElements.length; i++) {
+        if(lyForceOff !== 'true' && langify.locale.languages.length > 1) {
+          switcherElements[i].classList.remove('ly-hide');
+        }
+        if(switcherElements[i].classList.contains('ly-custom') && (document.getElementById('ly-custom-'+switcherElements[i].getAttribute('data-breakpoint')) || document.getElementsByClassName('ly-custom-'+switcherElements[i].getAttribute('data-breakpoint')).length )) {
+          var targets = Array.from(document.getElementsByClassName('ly-custom-'+switcherElements[i].getAttribute('data-breakpoint')));
+          var target = document.getElementById('ly-custom-'+switcherElements[i].getAttribute('data-breakpoint'));
+          if(target) targets.push(target);
+          for(c = 0; c < targets.length; c++) {
+            var clone = switcherElements[i].cloneNode(true);
+            targets[c].innerHTML = clone.outerHTML;
+          }
+          switcherElements[i].classList.add('ly-hide');
+        }
+      }
+      var links = document.getElementsByClassName('ly-languages-switcher-link');
+      for(l = 0; l < links.length; l++) {
+        links[l].setAttribute('href', links[l].getAttribute('href') + window.location.search);
+        links[l].addEventListener('click', function(event) {
+          langify.helper.setCookie('ly-lang-selected', this.getAttribute('data-ly-code'), 365);
+          //event.preventDefault();
+          //langify.helper.saveLanguage(this.getAttribute('data-ly-code'), this.getAttribute('href'))
+        });
+      }
+      document.addEventListener('DOMContentLoaded',function(){
+        if(lyForceOff == 'true') {
+          document.getElementById('preview-bar-iframe').classList.add('ly-hide');
+        }
+      });
+
+      // Native select event handling
+      var languageUrls = [];
+
+      {%- assign current_root_url = request.locale.root_url | downcase | append: '/' -%}
+      {%- assign unlocalized_path = request.path | downcase | replace_first: current_root_url, '/' -%}
+      {%- if unlocalized_path == request.locale.root_url -%}
+        {%- assign unlocalized_path = '' -%}
+      {%- endif -%}
+
+      {%- for language in languages -%}
+        {%- assign isValid = false -%}
+        {%- for locale in shop.published_locales -%}
+          {%- if isValid == false -%}
+            {%- if supported_4_letter_codes contains locale.iso_code -%}
+            {%- assign used_locale_iso_code = locale.iso_code -%}
+          {%- else -%}
+            {%- assign used_locale_iso_code = locale.iso_code | slice: 0, 2 -%}
+          {%- endif -%}
+            {%- if language.iso_code == used_locale_iso_code -%}
+              {%- assign isValid = true -%}
+              {% assign url = locale.root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if isValid == false -%}
+          {%- if shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code] -%}
+            {%- assign isValid = true -%}
+            {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].root_url | downcase | append: unlocalized_path | replace: '//', '/' | replace: '///', '/' %}
+          {% assign url = shop.metafields.langify_v2.cross_domain_links[request.host][language.iso_code].host | append: url %}
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- if isValid == true -%}
+        languageUrls['{{ language.iso_code }}'] = '{{ url }}';
+        {%- endif -%}
+      {%- endfor -%}
+
+      var nativeLangifySelects = document.getElementsByClassName('ly-native-select');
+      for(var i = 0; i < nativeLangifySelects.length; i++) {
+        nativeLangifySelects[i].onchange = function () {
+          var selectedLanguageCode = this[this.selectedIndex].getAttribute('key');
+          var url = languageUrls[selectedLanguageCode];
+          if(url) {
+            langify.helper.setCookie('ly-lang-selected', selectedLanguageCode, 365);
+            window.location.replace(url+window.location.search);
+          }
+        }
+      }
+
+      // Initial cart.attributes update
+      ShopifyAPI.getCart(function (cart) {
+        var currentLanguage = {{ request.locale.iso_code | json }};
+        if(!cart.attributes.language || cart.attributes.language != currentLanguage) {
+          ShopifyAPI.updateCartAttributes({'language': currentLanguage}, function(data){});
+        }
+      });
+
+      if(langify.locale.languages.length === 1) {
+        console.info(`%c LANGIFY INFO:\n`, 'font-weight: bold;', 'All languages are disabled! There must be at least one active language in order that the languages switcher is displayed.')
+      }
+    }
+  };
+
+  langify.currency = langify.currency || {
+    getHasSelectedCurrency: function() {return '{{ cart.attributes["custom_currency"] }}' == 'true';},
+    getCurrencyForLanguage: function(language) {var languageToCurrencies = [];{% for mf in shop.metafields.lang_to_currency %}{% assign split = mf | first | split: '#' %}{% assign themeId = split | first %}{% assign compareThemeId = 'ly' | append: theme.id %}{% if themeId == compareThemeId %}{% assign languageValue = split | last %}languageToCurrencies['{{ languageValue }}'] = '{{ mf | last }}';{% endif %}{% endfor %}return languageToCurrencies[language];},
+    getCurrencySwitcher: function() {var currencySwitcher = $('#currencies');if(currencySwitcher.length) {return currencySwitcher;} else {return null;}},
+    init: function() {
+      if(!langify.currency.getHasSelectedCurrency()) {
+        {% assign switcher_setting_key = 'ly' | append: theme.id %}
+        {% if shop.metafields.ly_c_switcher[switcher_setting_key] == 'enabled' %}
+        var currencySwitcher = langify.currency.getCurrencySwitcher();
+        if(typeof Currency != 'undefined' && currencySwitcher) {
+          currencySwitcher.change(function() {
+            ShopifyAPI.getCart(function (cart) {
+              var note = cart.note;
+              if(note == 'null') {note = '';}
+              ShopifyAPI.updateCartNote(note, function () {
+                ShopifyAPI.updateCartAttributes({'custom_currency': 'true'},function() {});
+              });
+            });
+          });
+          var selectedLanguage = langify.helper.getSelectedLanguage();
+          var currencyForLanguage = langify.currency.getCurrencyForLanguage(selectedLanguage);
+          if(currencyForLanguage) {
+            var currentCurrency = Currency.cookie.read();
+            Currency.currentCurrency = currencyForLanguage;
+            Currency.cookie.write(currencyForLanguage);
+            Currency.convertAll(currentCurrency, currencyForLanguage);
+            currencySwitcher.val(currencyForLanguage);
+            var selectedCurrencySpan = $('span.selected-currency');
+            if(selectedCurrencySpan.length) {
+              selectedCurrencySpan.text(currencyForLanguage);
+            }
+          }
+        }
+        {% endif %}
+      }
+    }
+  };
+
+  langify.core = langify.core || {
+    onComplete: function() {
+      var root_url = langify.locale.root_url != '/' ? langify.locale.root_url : '';
+      ShopifyAPI.attributeToString = function(attribute) {if((typeof attribute) !== 'string') {attribute += '';if(attribute === 'undefined') {attribute = '';}}return jQuery.trim(attribute);};
+      ShopifyAPI.getCart = function(callback) {jQuery.getJSON(root_url+'/cart.js', function (cart, textStatus) {if((typeof callback) === 'function') {callback(cart);}});};
+      ShopifyAPI.updateCartNote = function(note, callback) {var params = {type: 'POST',url: root_url+'/cart/update.js',data: 'note=' + this.attributeToString(note),dataType: 'json',success: function(cart) {if((typeof callback) === 'function') {callback(cart);}},error: this.onError};jQuery.ajax(params);};
+      ShopifyAPI.updateCartAttributes = function(attributes, callback) {var data = '';var that = this;if(jQuery.isArray(attributes)) {jQuery.each(attributes, function(indexInArray, valueOfElement) {var key = that.attributeToString(valueOfElement.key);if (key !== '') {data += 'attributes[' + key + ']=' + that.attributeToString(valueOfElement.value) + '&';}});} else if ((typeof attributes === 'object') && attributes !== null) {jQuery.each(attributes, function(key, value) {data += 'attributes[' + that.attributeToString(key) + ']=' + that.attributeToString(value) + '&';});}var params = {type: 'POST',url: root_url+'/cart/update.js',data: data,dataType: 'json',success: function(cart) {if((typeof callback) === 'function') {callback(cart);}},error: this.onError};jQuery.ajax(params);};
+      ShopifyAPI.onError = function(XMLHttpRequest, textStatus) {};
+
+      //langify.translator.init();
+      langify.switcher.init();
+      langify.currency.init();
+    },
+
+    init: function() {
+      if(typeof jQuery === 'undefined') {
+        langify.loader.loadScript('//cdn.jsdelivr.net/jquery/1.9.1/jquery.min.js', function() {
+          langify.core.onComplete();
+        });
+      } else if(langify.tools.compareJQueryVersion(jQuery.fn.jquery, '1.7.0') <= 0) {
+        langify.loader.loadScript('//cdn.jsdelivr.net/jquery/1.9.1/jquery.min.js', function() {
+          langify.core.onComplete();
+        });
+      } else {
+        langify.core.onComplete();
+      }
+    }
+  };
+
+  !function(e,t){typeof module!="undefined"?module.exports=t():typeof define=="function"&&typeof define.amd=="object"?define(t):this[e]=t()}("domready",function(){var e=[],t,n=typeof document=="object"&&document,r=n&&n.documentElement.doScroll,i="DOMContentLoaded",s=n&&(r?/^loaded|^c/:/^loaded|^i|^c/).test(n.readyState);return!s&&n&&n.addEventListener(i,t=function(){n.removeEventListener(i,t),s=1;while(t=e.shift())t()}),function(t){s?setTimeout(t,0):e.push(t)}})
+  try { domready(langify.core.init); }
+  catch(error) { langify.core.init(); }
+</script>

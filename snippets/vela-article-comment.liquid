@@ -1,0 +1,91 @@
+{% if blog.comments_enabled? %}
+	<div class="articleComment">
+		<h3 class="velaCommentTitle">{{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}</h3>
+		<div class="velaContent">
+			{% paginate article.comments by 5 %}
+				<div id="comments">
+					{% if comment and comment.created_at %}
+			            <p class="alert alert-success">
+			              	{% if blog.moderated? %}
+			                	{{ 'blogs.comments.success_moderated' | t }}
+			              	{% else %}
+			                	{{ 'blogs.comments.success' | t }}
+			              	{% endif %}
+			            </p>
+		          	{% endif %}
+		          	{% if number_of_comments > 0 %}
+		          		<ul class="velaCommentsList list-unstyled">
+		          			{% if comment and comment.created_at %}
+			                	<li id="{{ comment.id }}" class="comment first{% if article.comments_count == 0 %} last{% endif %}">
+			                  		<div class="itemComment">
+									  	<div class="rte">
+										    {{ comment.content }}
+									  	</div>
+									  	<span>
+										    {% capture author %}<strong>{{ comment.author }}</strong>{% endcapture %}
+										    {% capture date %}<strong><time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">{{ comment.created_at | date: format: 'month_day_year' }}</time></strong>{% endcapture %}
+										    {{ 'blogs.article.comment_meta_html' | t: author: author, date: date }}
+									  	</span>
+									</div>
+			                	</li>
+			              	{% endif %}
+			              	{% for comment in article.comments %}
+				                <li id="{{ comment.id }}" class="comment{% unless number_of_comments > article.comments_count %}{% if forloop.first %} first{% endif %}{% endunless %}{% if forloop.last %} last {% endif %}">
+				                  	<div class="itemComment">
+									  	<div class="rte">
+										    {{ comment.content }}
+									  	</div>
+									  	<span>
+										    {% capture author %}<strong>{{ comment.author }}</strong>{% endcapture %}
+										    {% capture date %}<strong><time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}">{{ comment.created_at | date: format: 'month_day_year' }}</time></strong>{% endcapture %}
+										    {{ 'blogs.article.comment_meta_html' | t: author: author, date: date }}
+									  	</span>
+									</div>
+				                </li>
+			              	{% endfor %}
+		          		</ul>
+		          		{% if paginate.pages > 1 %}
+          					<div class="pagination">
+			                	{{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+			              	</div>
+			            {% endif %}
+		          	{% endif %}
+		          	<div class="formComment">
+		          		{% form 'new_comment', article %}
+		          			<h3 class="velaCommentTitle">{{ 'blogs.comments.title' | t }}</h3>
+		          			{% if form.errors %}
+			          			<div class="alert alert-danger">
+			          				{{ form.errors | default_errors }}
+			          			</div>
+		          			{% endif %}
+		          			<div class="row">
+		          				<div class="col-xs-12 col-sm-6">
+				          			<div class="form-group{% if form.errors contains 'author' %} has-error{% endif %}">
+				          				<label for="CommentAuthor" class="hidden">{{ 'blogs.comments.name' | t }}</label>
+		              					<input type="text" name="comment[author]" id="CommentAuthor" class="form-control" placeholder="{{ 'blogs.comments.name' | t }}" value="{{ form.author }}" autocapitalize="words">
+				          			</div>
+				          		</div>
+				          		<div class="col-xs-12 col-sm-6">
+				          			<div class="form-group{% if form.errors contains 'email' %} has-error{% endif %}">
+				          				<label for="CommentEmail" class="hidden">{{ 'blogs.comments.email' | t }}</label>
+		                  				<input type="email" name="comment[email]" id="CommentEmail" class="form-control" placeholder="{{ 'blogs.comments.email' | t }}" value="{{ form.email }}" autocorrect="off" autocapitalize="off">
+				          			</div>
+			          			</div>
+			          			<div class="col-xs-12 col-sm-12">
+				          			<div class="form-group{% if form.errors contains 'body' %} has-error{% endif %}">
+					                  	<label for="CommentBody" class="hidden">{{ 'blogs.comments.message' | t }}</label>
+					                  	<textarea name="comment[body]" id="CommentBody" class="form-control" rows="4" placeholder="{{ 'blogs.comments.message' | t }}">{{ form.body }}</textarea>
+					                </div>
+				                </div>
+			                </div>
+			                {% if blog.moderated? %}
+			                	<p>{{ 'blogs.comments.moderated' | t }}</p>
+			              	{% endif %}
+			              	<input type="submit" class="btn btnVelaOne btnComment" value="{{ 'blogs.comments.post' | t }}">
+		          		{% endform %}
+		          	</div>
+				</div>
+			{% endpaginate %}
+		</div>
+	</div>
+{% endif %}

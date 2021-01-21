@@ -1,0 +1,91 @@
+{
+  "switcher": {
+    "version": "2.0.2",
+    "customCSS": "",
+    "languageDetection": false,
+    "languageDetectionDefault": "da",
+    "breakpoints": [
+      {
+        "key": 0,
+        "label": "0px",
+        "config": {
+          "type": "custom",
+          "corner": "bottom_right",
+          "position": "fixed",
+          "show_flags": true,
+          "show_label": true,
+          "show_custom_name": true,
+          "show_name": false,
+          "show_iso_code": false,
+          "round_icons": false,
+          "is_dark": false,
+          "is_transparent": false,
+          "arrow_size": 50,
+          "arrow_width": 2,
+          "arrow_filled": false,
+          "dropdown_open": false,
+          "h_space": 0,
+          "v_space": 0,
+          "text_color": "#000",
+          "arrow_color": "#000",
+          "bg_color": "#fff",
+          "fontsize": 14,
+          "switcherLabel": "show_custom_name",
+          "rectangle_icons": true,
+          "switcherIcons": "rectangle_icons"
+        }
+      },
+      {
+        "key": 1000,
+        "label": "1000px",
+        "config": {
+          "type": "custom",
+          "corner": "top_left",
+          "position": "fixed",
+          "show_flags": true,
+          "show_label": false,
+          "show_custom_name": false,
+          "show_name": false,
+          "show_iso_code": false,
+          "round_icons": true,
+          "is_dark": false,
+          "is_transparent": true,
+          "arrow_size": 80,
+          "arrow_width": 2,
+          "arrow_filled": false,
+          "dropdown_open": false,
+          "h_space": 10,
+          "v_space": 10,
+          "text_color": "#000",
+          "arrow_color": "#000",
+          "bg_color": "rgba(255, 255, 255, 0.3)",
+          "fontsize": 16,
+          "switcherLabel": "show_custom_name",
+          "rectangle_icons": false,
+          "switcherIcons": "round_icons",
+          "square_icons": false
+        }
+      }
+    ],
+    "languages": [
+      {
+        "iso_code": "en",
+        "root_url": "\/en",
+        "name": "English",
+        "primary": false,
+        "domain": false,
+        "published": true,
+        "custom_name": false
+      },
+      {
+        "iso_code": "da",
+        "root_url": "\/",
+        "name": "Danish",
+        "primary": true,
+        "domain": false,
+        "published": true,
+        "custom_name": false
+      }
+    ]
+  }
+}

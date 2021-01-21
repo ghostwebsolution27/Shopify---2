@@ -1,0 +1,19 @@
+<div id="velaProList" class="proList grid">
+    <div class="velaFlexRow flexRow">
+        {% for product in collection.products %}
+            {% unless product.tags contains 'HiddenProduct' %}
+                {% if intProColumns == 1 %}
+                    {% include 'product-grid-item' with 'col-xs-12' %}
+                {% else %}
+                    {% include 'product-grid-item' with strGridItem %}
+                {% endif %}
+            {% endunless %}
+        {% else %}
+            <div class="collNoProduct col-xs-12">
+                <div class="alert alert-warning">
+                    <strong>{{ 'collections.general.no_matches' | t }}</strong>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

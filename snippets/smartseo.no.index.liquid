@@ -1,0 +1,17 @@
+{% capture noIndex %}
+    <meta name="robots" content="noindex" />
+{% endcapture %}
+
+{%- assign smartseoSettingsMetafieldNamespace = 'smartseo-settings' -%}
+{%- assign smartseoSettingsMetafieldKey = 'json-ld' -%}
+{%- assign smartseoSettings = shop.metafields[smartseoSettingsMetafieldNamespace][smartseoSettingsMetafieldKey] -%}
+{%- assign noIndexSearchPage = smartseoSettings.NoIndexSearchPage -%}
+{%- assign noIndexTagPages = smartseoSettings.NoIndexTagPages -%}
+
+{% if noIndexSearchPage != blank and noIndexSearchPage == true and template contains 'search' %}
+    {{ noIndex }}
+{% endif %}
+
+{% if noIndexTagPages != blank and noIndexTagPages == true and current_tags != blank %}
+    {{ noIndex }}
+{% endif %}

@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="velaBlock">
+        <h3 class="velaTitle">{{ section.settings.title }}</h3>
+        <div class="velaContent">
+            {% if section.settings.description != blank %}
+                <div class="newsletterDescription">{{ section.settings.description }}</div>
+            {% endif %}
+            {% if section.settings.mailchimp %}
+                {% assign form_action = section.settings.form_action %}
+                <form action="{{ form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="formNewsletter clearfix">
+                    <div class="form-group">
+                        <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mail" class="form-control" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                        <button id="subscribe" class="btn btnNewsletter" type="submit">
+                            <i class="pe-7s-paper-plane"></i>
+                            <span>{{ 'general.newsletter_form.submit' | t }}</span>
+                        </button>
+                    </div>
+                </form>
+            {% else %}
+                {% form 'customer' %}
+          			{% if form.posted_successfully? %}
+                    <script type="text/javascript">
+                      	$(document).ready(function() {
+                            $('#newsletterAlert').modal();
+                        });
+            		</script>
+          			{% endif %}
+                    <div class="form-group">
+                        <input class="form-control" id="newsletter-input" type="email" name="contact[email]" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}">
+                        <button class="btn btnNewsletter" type="submit">
+                            <span>{{ 'general.newsletter_form.submit' | t }}</span>
+                        </button>
+                        <input type="hidden" name="action" value="0">
+                    </div>
+                {% endform %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% schema %}
+    {
+        "name": "Vela Newsletter",
+        "class": "velaFramework",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "placeholder": "Title for Block",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "description",
+                "placeholder": "Description for Block",
+                "label": "Description"
+            },
+            {
+                "type": "checkbox",
+                "id": "mailchimp",
+                "label": "Use MailChimp",
+                "default": true
+            },
+            {
+                "type": "paragraph",
+                "content": "Uncheck if You use Newsletter of Shopify. Email will be saved to shopify customer. Admin -> Customers -> Accepts Marketting. You must send invite account for customer."
+            },
+            {
+                "type": "text",
+                "id": "form_action",
+                "label": "MailChimp form action URL",
+                "info": "[Where do I find my MailChimp form action URL?](http:\/\/docs.shopify.com\/support\/configuration\/store-customization\/where-do-i-get-my-mailchimp-form-action)"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Vela Newsletter",
+                "category": "5. Vela Newsletter",
+				"settings": {
+					"title": "Vela Newsletter"
+				}
+            }
+        ]
+	}
+{% endschema %}

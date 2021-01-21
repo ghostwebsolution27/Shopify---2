@@ -1,0 +1,72 @@
+{% if section.settings.sidebar_filterprice_enable %}
+<div class="velaFilter">
+    <h3 class="titleSidebar">{{ section.settings.sidebar_filterprice_title }}</h3>
+    <div class="velaContent">
+      	<div class="filterPrice">
+            <input type="text" id="rangePrice" value="" name="range" 
+				data-min="{{ section.settings.sidebar_filterprice_min }}" 
+				data-max="{{ section.settings.sidebar_filterprice_max }}"
+				data-from="{{ section.settings.sidebar_filterprice_min }}"
+				data-to="{{ section.settings.sidebar_filterprice_max }}"
+				data-type="double"
+				data-prefix="{{ section.settings.sidebar_filterprice_prefix }}"
+				data-grid="true"
+				data-grid-num="5" />
+        </div>
+      	<div class="filterPriceBtn">
+      		<button class="btn btnFilterPrice" type="button">{{ section.settings.sidebar_filterprice_btntext }}</button>
+      	</div>
+    </div>
+</div>
+{% endif %}
+{% schema %}
+    {
+        "name": "Sidebar Filter By Price",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Sidebar Filter By Price"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_filterprice_enable",
+                "label": "Enable Filter By Price",
+				"default": true
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filterprice_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filterprice_btntext",
+                "placeholder": "Button text filter",
+                "label": "Button Text",
+                "default": "Filter"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filterprice_min",
+                "placeholder": "minimum of Price",
+                "label": "Price Min",
+                "default": "0"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filterprice_max",
+                "placeholder": "Maximum of Price",
+                "label": "Price Max",
+                "default": "600"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filterprice_prefix",
+                "placeholder": "Ex: $",
+                "label": "Prefix",
+                "default": "$"
+            }
+        ]
+    }
+{% endschema %}

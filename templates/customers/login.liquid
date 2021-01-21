@@ -1,0 +1,87 @@
+<section id="pageContent">
+    <div class="container">
+        <div class="velaAccountContainer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="formAccount formLogin">
+                        <div class="alert alert-success" id="ResetSuccess" style="display:none;">
+                            {{ 'customer.recover_password.success' | t }}
+                        </div>
+                        <div id="CustomerLoginForm" class="formAccountLogin">
+                            <h1 class="velaAccountTitle">{{ 'customer.login.title' | t }}</h1>
+                            {% form 'customer_login' %}
+                                <div class="formContent">
+                                    {% if form.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.errors | default_errors }}
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-group{% if form.errors contains 'email' %} has-error{% endif %}">
+                                        <label for="CustomerEmail" class="">{{ 'customer.login.email' | t }}</label>
+                                        <input type="email" name="customer[email]" id="CustomerEmail" class="form-control" placeholder="{{ 'customer.login.email' | t }}" autocorrect="off" autocapitalize="off" autofocus>
+                                    </div>
+                                    {% if form.password_needed %}
+                                        <div class="form-group{% if form.errors contains 'password' %} has-error{% endif %}">
+                                            <label for="CustomerPassword" class="">{{ 'customer.login.password' | t }}</label>
+                                            <input type="password" value="" name="customer[password]" id="CustomerPassword" class="form-control" placeholder="{{ 'customer.login.password' | t }}">
+                                        </div>
+                                    {% endif %}
+                                    {% if form.password_needed %}
+                                        <p class="forgetPassword"><a href="#recover" id="RecoverPassword">{{ 'customer.login.forgot_password' | t }}</a></p>
+                                    {% endif %}
+                                    <p><input type="submit" class="btn btnVelaOne" value="{{ 'customer.login.sign_in' | t }}"></p>
+                                    <p class="hidden"><a href="{{ shop.url }}">{{ 'customer.login.cancel' | t }}</a></p>
+                                </div>
+                            {% endform %}
+                        </div>
+                        <div id="RecoverPasswordForm" class="formAccountRecover" style="display: none;">
+                            <h2 class="velaAccountTitle">{{ 'customer.recover_password.title' | t }}</h2>
+                            {% form 'recover_customer_password' %}
+                                <div class="formContent">
+                                    <p>{{ 'customer.recover_password.subtext' | t }}</p>
+                                    {% if form.errors %}
+                                        <div class="alert alert-danger">
+                                            {{ form.errors | default_errors }}
+                                        </div>
+                                    {% endif %}
+                                    {% if form.posted_successfully? %}
+                                        {% assign resetPassword = true %}
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <label for="RecoverEmail" class="">{{ 'customer.recover_password.email' | t }}</label>
+                                        <input type="email" value="" name="email" id="RecoverEmail" class="form-control" placeholder="{{ 'customer.recover_password.email' | t }}" autocorrect="off" autocapitalize="off">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btnVelaOne" value="{{ 'customer.recover_password.submit' | t }}">
+                                        <button type="button" id="HideRecoverPasswordLink" class="btn btnVelaCancel">{{ 'customer.recover_password.cancel' | t }}</button>
+                                    </div>
+                                </div>
+                            {% endform %}
+                        </div>
+                        {% if shop.checkout.guest_login %}
+                            <h2 class="velaAccountTitle">{{ 'customer.login.guest_title' | t }}</h2>
+                            {% form 'guest_login' %}
+                                <input type="submit" class="btn btnVelaOne" value="{{ 'customer.login.guest_continue' | t }}">
+                            {% endform %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="formAccount formLogin">
+                        <h3 class="velaAccountTitle">{{ 'customer.register.title' | t }}</h3>
+                        <div class="formContent">
+                            <div class="registerDescription">
+                                <p>{{ 'customer.register.subtext' | t }}</p>
+                            </div>
+                            <div class="submit">
+                                <a class="btn btnVelaOne" href="/account/register">
+                                    <span>{{ 'customer.register.submit' | t }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

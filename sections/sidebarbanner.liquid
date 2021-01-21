@@ -1,0 +1,71 @@
+{% if section.settings.sidebar_banner_enable %}
+    <div class="velaBannerSidebar">
+        <div class="velaContent">
+            <div class="velaBanner">
+                <div class="{{ section.settings.effect }}">
+                    {% if section.settings.link != blank %}<a href="{{ section.settings.link }}" title="{{ block.settings.image.alt | default: shop.name }}">{% endif %}
+                        {% if section.settings.image != blank %}
+                            <img class="img-responsive" alt="{{ block.settings.image.alt | default: shop.name }}" src="{{ block.settings.image | img_url: section.settings.image_size }}" />
+                        {% else %}
+                            <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/{{ section.settings.image_size }}" />
+                        {% endif %}
+                    {% if section.settings.link != blank %}</a>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% schema %}
+    {
+        "name": "Sidebar Banner",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Sidebar Banner"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_banner_enable",
+                "label": "Enable Banner Sidebar?"
+            },
+            {
+                "type": "text",
+                "id": "image_size",
+                "label": "Image Size",
+                "info": "Image Size is required."
+            },
+            {
+                "type": "text",
+                "id": "link",
+                "label": "Image Link"
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Banner Image"
+            },
+            {
+                "type": "select",
+                "id": "effect",
+                "label": "Effect",
+                "default": "effectOne",
+                "options": [
+                    {
+                        "value": "effectOne",
+                        "label": "Effect one"
+                    },
+                    {
+                        "value": "effectTwo",
+                        "label": "Effect two"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

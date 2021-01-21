@@ -1,0 +1,18 @@
+{% assign pagewishlist = pages[settings.wishlist_page].url %}
+{{ 'jquery.2.2.3.js' | asset_url | script_tag }}
+<script>
+    window.money = "{{shop.money_format}}";
+	window.money_format = "{{shop.money_with_currency_format}}";
+	window.shop_currency = "{{ shop.currency }}";
+	window.loading_url = "{{ 'loading.gif' | asset_url}}";
+	window.file_url = "{{''|file_url}}";
+  	window.asset_url = "{{'Vela'|asset_url|remove:'Vela'}}";
+  	window.ajaxcart_type = "{{ settings.ajax_cart_method }}";
+  	window.swatch_enable = {{ settings.product_swatch_enable }};
+  	window.wishlist_enable = {{ settings.wishlist_enable }};
+  	window.wishlist_url = "{{ pagewishlist }}";
+  	window.sidebar_multichoise = {{ settings.sidebar_filtercustag_multi }};
+    window.float_header = {{ settings.header_float_enable }};
+    window.review = {{ settings.product_reviews_enable }};
+    window.countdown_format = "%D days %H:%M:%S";
+</script>

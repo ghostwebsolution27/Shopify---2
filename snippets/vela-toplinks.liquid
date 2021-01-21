@@ -1,0 +1,26 @@
+
+{% if shop.customer_accounts_optional or shop.customer_accounts_enabled %}
+	{% capture fullname %}{{ customer.first_name }}{% endcapture %}
+	{% assign login_html = 'layout.header.login_html' | t:fullname:fullname %}
+	{% assign logout = 'layout.header.logout' | t %}
+	{% assign login = 'layout.header.login' | t %}
+	{% assign register = 'layout.header.register' | t %}
+    {% assign pagewishlist = pages[settings.theme_wishlist_page] %}
+
+	<div class="velaTopLinks">
+		<a class="velaIonTopLinks collapsed" data-toggle="collapse" href="#velaTopLinks"><i class="pe-7s-config"></i></a>
+		<ul id="velaTopLinks" class="collapse list-unstyled">
+				{% if customer  %}
+      		{% if settings.wishlist_enable %}<li><a href="{{ pagewishlist.url }}" title="{{ 'layout.header.wishlish' | t }}">{{ 'layout.header.wishlish' | t }}</a></li>{% endif %}              		
+      		<li><a href="/cart" title="{{ 'layout.header.checkout' | t }}">{{ 'layout.header.checkout' | t }}</a></li>
+      		<li><a href="/account" title="{{ 'layout.header.youraccount' | t }}">{{ 'layout.header.youraccount' | t }}</a></li>              
+					<li>{{ logout | customer_logout_link }}</li>
+				{% else %}
+          {% if settings.wishlist_enable %}<li ><a href="{{ pagewishlist.url }}" title="{{ 'layout.header.wishlish' | t }}">{{ 'layout.header.wishlish' | t }}</a></li>{% endif %} 
+          <li><a href="/cart" title="{{ 'layout.header.checkout' | t }}">{{ 'layout.header.checkout' | t }}</a></li>
+					<li>{{ register | customer_register_link }}</li>
+					<li>{{ login | customer_login_link }}</li>
+				{% endif %}
+			</ul>
+	</div>
+{% endif %}

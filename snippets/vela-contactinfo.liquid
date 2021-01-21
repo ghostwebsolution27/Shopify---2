@@ -1,0 +1,26 @@
+<div class="vela-contactinfo velaBlock">
+	<div class="vela-content">
+		<h3 class="contactinfo-title">
+			{% if request.path contains '/en' %}Contact{% else %}Kontakt{% endif %}
+		</h3>
+		{% comment %} <div class="contactinfo-logo clearfix">
+            <div class="velaLogo" itemscope itemtype="http://schema.org/Organization">
+                <a href="/" itemprop="url" class="velaLogoLink">
+                    <img class="img-responsive" src="{{ section.settings.contactinfo_logo | img_url: "master" }}" alt="{{ shop.name }}" itemprop="logo">
+                </a>
+            </div>
+		</div> {% endcomment %}
+      	{% if contactinfoDesc != blank %}
+		<div class="contactinfo-desc clearfix">{{ contactinfoDesc }}</div>
+		{% endif %}
+		{% if contactinfoAdd != blank %}
+		<div class="contactinfo-address clearfix"><i class="pe-7s-map-marker"></i>{{ contactinfoAdd }}</div>
+		{% endif %}		
+		{% if contactinfoPhone != blank %}
+		<div class="contactinfo-phone clearfix"><i class="pe-7s-call"></i>{{ contactinfoPhone }}</div>
+		{% endif %}		
+		{% if contactinfoEmail != blank %}
+		<div class="contactinfo-email clearfix"><i class="pe-7s-mail"></i>{{ contactinfoEmail }}</div>
+		{% endif %}
+	</div>
+</div>

@@ -1,0 +1,71 @@
+{% comment %}
+  Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
+{% endcomment %}
+{% assign file_extension = 'png' %}
+{% capture variantsswatch %} {% endcapture %}
+{% capture variantsswatch %}{{ vela-swatch }}{% endcapture %}
+{% if vela-swatch == blank %}
+    <div class="swatch error">
+        <p>You must include the snippet vela-swatch.liquid with the name of a product option.</p> 
+        <p>Use: <code>{% raw %}{% include 'vela-swatch' with 'name of your product option here' %}{% endraw %}</code></p>
+        <p>Example: <code>{% raw %}{% include 'vela-swatch' with 'Color' %}{% endraw %}</code></p>
+    </div>
+{% else %}
+{% assign found_option = false %}
+{% assign is_color = false %}
+{% assign option_index = 0 %}
+{% assign indexChild = 0 %}
+{% for option in product.options %}
+    {% if option == vela-swatch %}
+        {% assign found_option = true %}
+        {% assign option_index = forloop.index0 %}
+		{% assign indexChild = forloop.index %}
+		<style rel="stylesheet" type="text/css" >
+          	.proVariants .selector-wrapper:nth-child({{ indexChild }}){display: none;}
+        </style>
+        {% assign downcased_option = vela-swatch | downcase %}
+        {% if downcased_option contains 'color' or downcased_option contains 'colour' %}
+            {% assign is_color = true %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+{% unless found_option %}
+    
+{% else %}
+<div class="swatch clearfix" data-option-index="{{ option_index }}">
+    <div class="header">
+        {% if request.path contains '/en' %}{{ "Size" }}{% else %}{{ "Vælg størrelse" }}{% endif %}
+    </div>
+    {% assign values = '' %}
+    {% for variant in product.variants %}
+        {% assign value = variant.options[option_index] %}
+        {% unless values contains value %}
+            {% assign values = values | join: ',' %}
+            {% assign values = values | append: ',' | append: value %} 
+            {% assign values = values | split: ',' %}
+            <div data-value="{{ value | escape }}" class="swatch-element {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+                {% if is_color %}
+                    <div class="tooltip">{{ value }}</div>
+                {% endif %}
+                    <input id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
+                {% if is_color %}
+                    <label for="swatch-{{ option_index }}-{{ value | handle }}" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | file_url }})">
+                        <img class="crossed-out" alt="" src="{{ 'soldout.png' | asset_url }}" />
+                    </label>
+                {% else %}
+                <label for="swatch-{{ option_index }}-{{ value | handle }}">
+                    {{ value }}
+                    <img class="crossed-out" alt="" src="{{ 'soldout.png' | asset_url }}" />
+                </label>
+                {% endif %}
+            </div>
+        {% endunless %}
+        {% if variant.available %}
+            <script>
+                jQuery('.swatch[data-option-index="{{ option_index }}"] .{{ value | handle }}').removeClass('soldout').addClass('available').find(':radio').removeAttr('disabled');
+            </script>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endunless %}
+{% endif %}

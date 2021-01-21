@@ -1,0 +1,27 @@
+
+@font-face {
+  font-family: "Gotham-Medium";
+
+  src: url("./Gotham-Medium.woff") format("woff"), /* Modern Browsers */
+    url("./Gotham-Medium.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gotham-Bold";
+
+  src: url("./Gotham-Bold.woff") format("woff"), /* Modern Browsers */
+    url("./Gotham-Bold.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gotham-Thin";
+
+  src: url("./Gotham-Thin.woff") format("woff"), /* Modern Browsers */
+    url("./Gotham-Thin.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+}

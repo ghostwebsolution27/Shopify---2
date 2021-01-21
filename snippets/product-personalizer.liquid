@@ -1,0 +1,136 @@
+{% if pplr != 'item-image' %}
+{% if template != 'cart' %}
+
+{% if product.metafields.customify['cstmfy_ref'] %}
+<script type='text/javascript'>
+  window.location = "{{ product.metafields.customify['cstmfy_ref'] }}";
+</script>
+{% endif %}
+{% if product-personalizer == null %}
+{% if product.metafields.customify['cstmfy_req'] == '1' %}
+{% if pplr_load_once != true %}
+{% assign pplr_load_once = true %}
+<style>.pplr_add_to_cart{display:none !important;}</style>
+<div id="pplr-{{ product.id }}" data-id="{{ product.id }}" class="product-personalizer" data-handle="{{product.handle}}"></div>
+<script type='text/javascript'>
+  
+  if (typeof product_personalizer == 'undefined') {
+  var product_personalizer = {{product.metafields.customify | json}};
+  }
+  if (typeof pplr_product == 'undefined') {
+  var pplr_product = {{ product | json }};
+  }
+  if (typeof pplr_shop_currency == 'undefined') {
+  var pplr_shop_currency = {{ shop.currency | json }};
+  }
+  if (typeof pplr_money_formate == 'undefined') {
+  var pplr_money_formate = {{ shop.money_format | json }};
+  }
+   if (typeof pplr_script_loaded == "undefined") {
+     var pplr_script_loaded = true;
+     var loadScript_p = function(url, callback) {
+      var script = document.createElement("script")
+      script.type = "text/javascript";
+      if (script.readyState) {
+        script.onreadystatechange = function() {
+          if (script.readyState == "loaded" ||
+              script.readyState == "complete") {
+            script.onreadystatechange = null;
+            callback();
+          }
+        };
+      } else {
+        script.onload = function() {
+          callback();
+        };
+      }
+      script.src = url;
+      document.getElementsByTagName("head")[0].appendChild(script);
+    };
+  if(product_personalizer['cstmfy_req']>0){
+     loadScript_p('//doshopify.com/product-personalizer/canvas-script.php?shop={{ shop.permanent_domain }}&prid={{ product.id }}', function() {})
+   }
+ }
+  
+</script>  
+
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if template contains 'cart' %}
+{% if product-personalizer == null %}
+{% assign propertySize = item.properties | size %}
+{% if propertySize > 0 %}
+{% for p in item.properties %}
+{% assign hidden_property = p.first | first | replace: '_', true %}
+{% unless p.last == blank %}
+{% if hidden_property == 'true' %}
+
+{% if p.first contains 'Option Title' %}
+{{ p.last }}
+{% else %}
+  <span style="display:none;" class="product-personalizer-line-item-prop" data-prop-name="{{ p.first }}">{{ p.first }}: {{ p.last }}</span>
+{% endif %}
+
+{% else %}
+{% if p.last contains '/assets/' %}
+{% assign foo = p.last %}
+{% assign my_variable = true %}
+{% endif %}
+<span>{{ p.first }}:</span>
+{% if p.last contains '/uploads/' or p.last contains '/assets/' or p.last contains '/products/' %}
+{% if p.last contains '.jpg' or p.last contains '.jpeg' or p.last contains '.png' or p.last contains '.JPG' %}
+<a target="_blank"  href="{{ p.last }}" src="{{ p.last }}" class="jslghtbx-thmb" data-jslghtbx download>{% if shop.metafields.customify['clickable_text'] %} {{ shop.metafields.customify['clickable_text'] }}{% else %}Click to view image{% endif %}</a>
+{% else %}
+<a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+{% endif %}
+{% else %}
+{{ p.last | newline_to_br }}
+{% endif %}
+<br>
+{% endif %}
+{% endunless %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% endif %}
+{% if pplr == 'item-image' or product-personalizer == 'item-image' %}
+{% assign my_variable = false %}
+
+{% assign pplr_preview = '_pplr_preview' %}
+
+{% assign propertySize = item.properties | size %}
+{% if propertySize > 0 %}
+{% for p in item.properties %}
+{% if p.first contains '_pplr_preview' %}
+{% assign pplr_preview = p.last %}
+{% endif %}
+{% endfor %}
+{% for p in item.properties %}
+{% unless p.last == blank %}
+{% if p.last contains '/assets/' or p.first == pplr_preview %}
+{% if my_variable != true %}
+{% assign foo = p.last %}
+{% assign my_variable = true %}
+{% endif %}
+{% endif %}
+{% endunless %}
+{% endfor %}
+{% endif %}
+{% if my_variable != true %}
+{% if item_image_size %}
+{{ item | img_url: item_image_size }}
+{% else %}
+{{ item | img_url: 'medium' }}
+{% endif %}
+{% else %}
+{% if item_image_size %}
+{% assign image_size = item_image_size | prepend: '_' | append: '.png'  %}
+{{ foo | replace: '.png', image_size }}
+{% else %}
+{{ foo | replace: '.png', '_medium.png' }}
+{% endif %}
+{% endif %}
+{% endif %}

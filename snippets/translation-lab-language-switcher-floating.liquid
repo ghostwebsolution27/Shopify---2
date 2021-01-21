@@ -1,0 +1,132 @@
+<div class="translation-lab-floating-dropdown-container">
+    <div class="translation-lab-floating-dropdown">
+        <img class="current-flag-floating" src="{{ 'tlab-flags-' | append: request.locale.iso_code | append: '.png' | asset_url }}">
+        <span class="current-lang-floating">{{ request.locale.endonym_name | split: '(' | first | strip }}</span>
+        <span class="current-lang-code-floating">{{ request.locale.iso_code | split: '-' | first | strip }}</span>
+    </div>
+    <ul class="translation-lab-floating-dropdown-content">
+        {%- for locale in shop.published_locales -%}
+        <li {% if routes.root_url == locale.root_url %}class="active" {% endif %} data-language-code="{{ locale.iso_code }}">
+            <img src="{{ 'tlab-flags-' | append: locale.iso_code | append: '.png' | asset_url }}">
+            <span class="language-option-floating">{{ locale.endonym_name | split: '(' | first | strip }}</span>
+            <span class="language-code-option-floating">{{ locale.iso_code | split: '-' | first | strip }}</span>
+        </li>
+        {%- endfor %}
+    </ul>
+</div>
+
+<script>
+
+  (function () {
+
+    function buildLanguageList() {
+      return [
+      {%- for locale in shop.published_locales %}
+        {
+          name: '{{locale.name | split: '(' | first | strip}}',
+          endonym_name: '{{locale.endonym_name | split: '(' | first | strip}}',
+          iso_code: '{{locale.iso_code}}',
+          primary: {{ locale.primary }},
+        } {% unless forloop.last %}, {% endunless -%}
+      {%- endfor %}
+      ];
+    }
+
+    function findCurrentLocale(languages, defaultLocale) {
+      var p = window.location.pathname.split('/').filter(function (x) { return x; });
+      if (p && p.length > 0 && languages.find(function (x) { return x.iso_code.toLowerCase() === p[0].toLowerCase(); })) {
+        return p[0];
+      } else {
+        return defaultLocale;
+      }
+    }
+
+    function createDropdown(t, i, s, l) {
+
+      return function (container) {
+
+        if (l && l.length >= 1) {
+
+          var dropdown = container.children[0];
+          var span = dropdown.children[0];
+          var selectedImg = dropdown.children[1];
+          
+          var ul = container.children[1];
+
+          for (var ii = 0; ii < ul.children.length; ii++) {
+            var el = ul.children[ii];
+            var elLanguageCode = el.dataset.languageCode;
+            el.onclick = languageChange(l.find(function (x) { return x.iso_code.toLowerCase() === elLanguageCode.toLowerCase(); }));
+          }
+
+          var isOpen = false;
+
+          dropdown.addEventListener('click', function (e) {
+            e.preventDefault();
+            isOpen = !isOpen;
+            if (isOpen) {
+              openDropdown();
+            } else {
+              closeDropdown();
+            }
+          });
+
+          container.addEventListener('mouseleave', function () {
+            closeDropdown();
+          });
+
+          function openDropdown() {
+            isOpen = true;
+            dropdown.classList.add('open');
+            ul.classList.add('open');
+          }
+
+          function closeDropdown() {
+            isOpen = false;
+            dropdown.classList.remove('open');
+            ul.classList.remove('open');
+          }
+
+          function languageChange(lang) {
+            return function () {
+              closeDropdown();
+              span.textContent = lang.endonym_name;
+              selectedImg.src = lang.flag;
+
+              var e = lang.iso_code;
+              localStorage.setItem('translation-lab-lang', e);
+              var n = window.location.pathname;
+              var queryString = window.location.search || '';
+              if (e.toLowerCase() === t.toLowerCase()) {
+                var o = '' + s + n.replace('/' + i, '') + queryString;
+                window.location.assign(o);
+              } else if (t.toLowerCase() === i.toLowerCase()) {
+                var r = s + '/' + e + n + queryString;
+                window.location.assign(r);
+              } else {
+                var a = s + '/' + n.replace('/' + i, e) + queryString;
+                window.location.assign(a);
+              }
+            }
+          }
+        }
+      };
+    }
+
+    function setupLanguageSwitcher() {
+      var languages = buildLanguageList();
+      var shopDomain = 'https://{{shop.domain}}';
+      var primaryLanguage = languages.find(function (x) { return x.primary; });
+      var defaultLocale = primaryLanguage ? primaryLanguage.iso_code : 'en';
+      var currentLocale = findCurrentLocale(languages, defaultLocale);
+      var container = document.querySelector('.translation-lab-floating-dropdown-container ');
+      if (container) {
+        createDropdown(defaultLocale, currentLocale, shopDomain, languages)(container);
+      }
+    }
+
+    setupLanguageSwitcher();
+
+  })();
+
+</script>

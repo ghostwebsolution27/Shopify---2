@@ -1,0 +1,531 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Vela Framework",
+    "theme_author": "Velatheme",
+    "theme_version": "v1.0.0",
+    "theme_documentation_url": "http:\/\/velatheme.com\/",
+    "theme_support_email": "velatheme@gmail.com"
+  },
+  {
+    "name": "Vela Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "vela_color_primary",
+        "label": "Color Primary",
+        "default": "#333333",
+        "info": "Used for text links, background title, title color."
+      },
+      {
+        "type": "color",
+        "id": "vela_color_secondary",
+        "label": "Color Secondary",
+        "default": "#999999"
+      },
+      {
+        "type": "color",
+        "id": "vela_color_tertiary",
+        "label": "Color Tertiary",
+        "default": "#dcdcdc"
+      },
+      {
+        "type": "color",
+        "id": "vela_color_borders",
+        "label": "Borders Color",
+        "default": "#e5e5e5"
+      },
+      {
+        "type": "color",
+        "id": "vela_color_background",
+        "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Text Color"
+      },
+      {
+        "type": "color",
+        "id": "text_color_primary",
+        "label": "Text Color Primary",
+        "default": "#333333",
+        "info": "Text color for body"
+      },
+      {
+        "type": "color",
+        "id": "text_color_secondary",
+        "label": "Text Color Secondary",
+        "default": "#999999"
+      },
+      {
+        "type": "header",
+        "content": "Vela Button"
+      },
+      {
+        "type": "color",
+        "id": "button_one_bgcolor",
+        "label": "Background Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "button_one_bordercolor",
+        "label": "Border Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "button_one_txtcolor",
+        "label": "Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "button_one_bgcolor_hover",
+        "label": "Hover Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "button_one_bordercolor_hover",
+        "label": "Hover Border Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "button_one_txtcolor_hover",
+        "label": "Hover Text Color",
+        "default": "#333333"
+      },
+      {
+        "type": "header",
+        "content": "Vela Button Product"
+      },
+      {
+        "type": "color",
+        "id": "btnpro_bgcolor",
+        "label": "Background Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "btnpro_bordercolor",
+        "label": "Border Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "btnpro_txtcolor",
+        "label": "Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "btnpro_bgcolor_hover",
+        "label": "Hover Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "btnpro_bordercolor_hover",
+        "label": "Hover Border Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "btnpro_txtcolor_hover",
+        "label": "Hover Text Color",
+        "default": "#333333"
+      },
+      {
+        "type": "header",
+        "content": "Vela Button Addtocart"
+      },
+      {
+        "type": "color",
+        "id": "addtocart_bgcolor",
+        "label": "Background Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "addtocart_bordercolor",
+        "label": "Border Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "addtocart_txtcolor",
+        "label": "Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "addtocart_bgcolor_hover",
+        "label": "Hover Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "addtocart_bordercolor_hover",
+        "label": "Hover Border Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "addtocart_txtcolor_hover",
+        "label": "Hover Text Color",
+        "default": "#333333"
+      },
+      {
+        "type": "header",
+        "content": "Vela Layout"
+      },
+      {
+        "type": "color",
+        "id": "vela_topbar_bgcolor",
+        "label": "Topbar Background Color",
+        "default": "#ebebeb"
+      },
+      {
+        "type": "color",
+        "id": "vela_header_bgcolor",
+        "label": "Header Background Color",
+        "default": "#ebebeb"
+      },
+      {
+        "type": "color",
+        "id": "vela_footercenter_bgcolor",
+        "label": "Footer Center Background Color",
+        "default": "#ebebeb"
+      },
+      {
+        "type": "color",
+        "id": "vela_footercopy_bgcolor",
+        "label": "Footer Copyright Background Color",
+        "default": "#ebebeb"
+      },
+      {
+        "type": "header",
+        "content": "Vela Menu Color"
+      },
+      {
+        "type": "color",
+        "id": "velamenu_bgcolor",
+        "label": "Background Color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "velamenu_linkcolor",
+        "label": "Menu Link Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "velamenu_linkcolor_hover",
+        "label": "Menu Link Color Hover",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "velamenu_dropdown_bgcolor",
+        "label": "Background Color Dropdown",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "velamenu_dropdown_linkcolor",
+        "label": "Dropdown Menu Link Color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "velamenu_dropdown_linkcolor_hover",
+        "label": "Dropdown Menu Link Color Hover",
+        "default": "#000000"
+      }
+    ]
+  },
+  {
+    "name": "Vela Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Font Family",
+        "info": "Font Family for Body"
+      },
+      {
+        "type": "radio",
+        "id": "vela_fontfamily_style",
+        "label": "Fonts Style",
+        "options": [
+          {
+            "value": "upload_fonts",
+            "label": "Custom Fonts"
+          },
+          {
+            "value": "google_fonts",
+            "label": "Google Fonts"
+          }
+        ],
+        "info": "[Where do I find Google Fonts?](http:\/\/www.google.com\/fonts)",
+        "default": "google_fonts"
+      },
+      {
+        "type": "text",
+        "id": "vela_fontfamily",
+        "label": "Fonts Name",
+        "default": "Arial"
+      },
+      {
+        "type": "header",
+        "content": "Font Family Secondary",
+        "info": "Font Family for Menu"
+      },
+      {
+        "type": "radio",
+        "id": "vela_fontfamily_secondary_style",
+        "label": "Fonts Style",
+        "options": [
+          {
+            "value": "upload_fonts",
+            "label": "Custom Fonts"
+          },
+          {
+            "value": "google_fonts",
+            "label": "Google Fonts"
+          }
+        ],
+        "info": "[Where do I find Google Fonts?](http:\/\/www.google.com\/fonts)",
+        "default": "google_fonts"
+      },
+      {
+        "type": "text",
+        "id": "vela_fontfamily_secondary",
+        "label": "Fonts Name",
+        "default": "Arial"
+      },
+      {
+        "type": "header",
+        "content": "Font Family Tertiary",
+        "info": "Font Family for Slideshow"
+      },
+      {
+        "type": "radio",
+        "id": "vela_fontfamily_tertiary_style",
+        "label": "Fonts Style",
+        "options": [
+          {
+            "value": "upload_fonts",
+            "label": "Custom Fonts"
+          },
+          {
+            "value": "google_fonts",
+            "label": "Google Fonts"
+          }
+        ],
+        "info": "[Where do I find Google Fonts?](http:\/\/www.google.com\/fonts)",
+        "default": "google_fonts"
+      },
+      {
+        "type": "text",
+        "id": "vela_fontfamily_tertiary",
+        "label": "Fonts Name",
+        "default": "Arial"
+      },
+      {
+        "type": "header",
+        "content": "Font Size"
+      },
+      {
+        "type": "text",
+        "id": "vela_fontsize",
+        "label": "Font Size",
+        "info": "Font size for Body",
+        "default": "14px"
+      },
+      {
+        "type": "text",
+        "id": "velamenu_fontsize",
+        "label": "Menu Fontsize",
+        "default": "14px"
+      },
+      {
+        "type": "text",
+        "id": "velamenu_dropdown_fontsize",
+        "label": "Dropdown Menu Fontsize",
+        "default": "14px"
+      }
+    ]
+  },
+  {
+    "name": "Vela Features",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Theme Settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter Link",
+        "info": "https:\/\/twitter.com\/shopify"
+      },
+      {
+        "type": "header",
+        "content": "Float header"
+      },
+      {
+        "type": "checkbox",
+        "id": "header_float_enable",
+        "label": "Enable Float Header"
+      },
+      {
+        "type": "header",
+        "content": "Filter Collection Site"
+      },
+      {
+        "type": "checkbox",
+        "id": "sidebar_filtercustag_multi",
+        "label": "Enable Multiple choices?",
+        "info": "User can select multiple (Size, price, color) or only one (Size, price, color)"
+      },
+      {
+        "type": "header",
+        "content": "Collection Pages"
+      },
+      {
+        "type": "checkbox",
+        "id": "collection_full_enable",
+        "label": "Enable Full Width?"
+      },
+      {
+        "type": "header",
+        "content": "Multiple Image"
+      },
+      {
+        "type": "checkbox",
+        "id": "multiple_image_product_enable",
+        "label": "Enable Multiple Image?"
+      },
+      {
+        "type": "header",
+        "content": "Product Reviews"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_reviews_enable",
+        "label": "Enable Product Reviews?",
+        "info": "[View Product Review settings](\/admin\/apps\/product-reviews\/settings)"
+      },
+      {
+        "type": "header",
+        "content": "Product Quickview",
+        "info": "Quickview will disable on Mobile, Tablet"
+      },
+      {
+        "type": "checkbox",
+        "id": "quickview_enable",
+        "label": "Enable Quickview?"
+      },
+      {
+        "type": "checkbox",
+        "id": "quickview_swatch_enable",
+        "label": "Enable Swatch Variants?",
+        "info": "You can enable or disable swatch variants for Quickview"
+      },
+      {
+        "type": "header",
+        "content": "Product Wishlist"
+      },
+      {
+        "type": "checkbox",
+        "id": "wishlist_enable",
+        "label": "Enable Wishlist?"
+      },
+      {
+        "type": "page",
+        "id": "wishlist_page",
+        "label": "Template Wishlist",
+        "info": "You must Create new page wishlist with template page.wishlist"
+      },
+      {
+        "type": "header",
+        "content": "Go to Top"
+      },
+      {
+        "type": "checkbox",
+        "id": "gotop_enable",
+        "label": "Enable Go Top?"
+      },
+      {
+        "type": "header",
+        "content": "Loading Site"
+      },
+      {
+        "type": "checkbox",
+        "id": "loading_enable",
+        "label": "Enable Loading"
+      },
+      {
+        "type": "header",
+        "content": "Ajax Cart"
+      },
+      {
+        "type": "select",
+        "id": "ajax_cart_method",
+        "label": "Cart type",
+        "options": [
+          {
+            "value": "modal",
+            "label": "Modal"
+          },
+          {
+            "value": "drawer",
+            "label": "Drawer"
+          },
+          {
+            "value": "page",
+            "label": "Page"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Panel Config"
+      },
+      {
+        "type": "checkbox",
+        "id": "vela_panelconfig",
+        "label": "Enable Config for Section"
+      },
+      {
+        "type": "blog",
+        "id": "vela_panelconfig_blog",
+        "label": "Choose Blog"
+      },
+      {
+        "type": "page",
+        "id": "vela_panelconfig_contact",
+        "label": "Page Contact us"
+      },
+      {
+        "type": "page",
+        "id": "vela_panelconfig_about",
+        "label": "Page About us"
+      }
+    ]
+  }
+]

@@ -1,0 +1,151 @@
+<section class="vela-collection-banner">
+
+    <video autoplay muted="" loop="" id="banner__video" width="100%">
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+    </video>
+
+    <div class="banner-content-wrapper">
+        {% if collection.url == '/collections/all' %}
+            <h2 class="collection-title">{{ 'Shop' }}</h2>
+        {% else %}
+            <h2 class="collection-title">{{ collection.title }}</h2>
+        {% endif %}
+
+        {% if section.blocks.size > 0 %}
+            <ul class="collection-buttons">
+            {% for block in section.blocks %}
+                {% assign isCurrent = "" %}
+                {% assign currentTitle = block.settings.collection_button %}
+                {% assign btnUrl = collections[block.settings.collection_id].url %}
+                {% if collections[block.settings.collection_id].url contains collection.url %}
+                    {% assign isCurrent = "current-collection" %}
+                    {% assign currentTitle = "Vis alle" %}
+                    {% assign btnUrl = "/collections/all" %}
+                {% endif %}
+                <li class="collection-button {{ isCurrent }}">
+                    <a href="{{ btnUrl }}"> {{ currentTitle }} </a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+
+    </div>
+    {% comment %} {% include 'breadcrumb' %} {% endcomment %}
+
+</section>
+
+<script>
+    $(function(){
+        $(window).on("load", function(){
+            $("video#banner__video").get(0).play();
+        });
+    })
+
+</script>
+
+
+
+<style>
+    section.vela-collection-banner{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 500px;
+    }
+
+    section.vela-collection-banner #banner__video{
+        width: 100%;
+        object-fit: cover;
+        height: inherit;
+    }
+
+    section.vela-collection-banner .banner-content-wrapper{
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        z-index: 9;
+    }
+
+    section.vela-collection-banner .collection-title{
+        text-align: center;
+        color: #FFF;
+        font-size: 36px;
+        display: none;
+    }
+
+    section.vela-collection-banner #velaBreadcrumbs{
+        background-color: transparent;
+    }
+
+    section.vela-collection-banner #velaBreadcrumbs ol.breadcrumb{
+        text-align: center;
+        font-size: 16px;
+    }
+
+    section.vela-collection-banner ul.collection-buttons{
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        padding: 0px;
+        margin: 30px 0px;
+    }
+
+    section.vela-collection-banner ul.collection-buttons li.collection-button{
+        margin: 0px 10px;
+    }
+
+    section.vela-collection-banner ul.collection-buttons li.collection-button a{
+        padding: 10px;
+        border-radius: 2px;
+        color: #000;
+        background-color: #FFF;
+        font-size: 16px;
+        border: 1px solid #000;
+        transition: all .3s;
+    }
+
+    section.vela-collection-banner ul.collection-buttons li.collection-button a:hover{
+        color: #FFF;
+        background-color: #000;
+        transition: all .3s;
+    }
+
+    section.vela-collection-banner ul.collection-buttons li.collection-button.current-collection{
+        order: -1;
+    }
+</style>
+
+{% schema %}
+{
+    "name": "Collection Banner",
+    "class": "collection-banner",
+    "settings": [
+        {
+            "type": "text",
+            "id": "video_url",
+            "label": "Video url"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "collection_buttons",
+            "name": "Collection buttons",
+            "settings": [
+                {
+                    "type": "collection",
+                    "id": "collection_id",
+                    "label": "Select collection"
+                },
+                {
+                    "type": "text",
+                    "id": "collection_button",
+                    "label": "Button text"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

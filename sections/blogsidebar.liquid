@@ -1,0 +1,127 @@
+{% if section.settings.blogsidebar_recentarticles_enable %}
+    {% assign numberLimit = section.settings.blogsidebar_recentarticles_limit | plus: 0 %}
+    <div class="blogSidebar velaBlock">
+        <h4 class="titleSidebar">{{ section.settings.blogsidebar_recentarticles_title }}</h4>
+        <div class="velaContent">
+            <ul class="listSidebarBlog list-unstyled">
+                {% for article in blogs[blog.handle].articles limit:numberLimit %}
+                    <li>
+                        <a href="{{ article.url }}">{{ article.title }}
+                            <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+{% if section.settings.blog_banner_enable %}
+    {% if section.settings.blog_banner_link != blank %}<a href="{{ section.settings.blog_banner_link }}" title="{{ block.settings.blog_sidebar_image.alt | default: shop.name }}">{% endif %}
+        {% if section.settings.blog_sidebar_image != blank %}
+            <img class="img-responsive" alt="{{ block.settings.blog_sidebar_image.alt | default: shop.name }}" src="{{ section.settings.blog_sidebar_image | img_url: section.settings.blog_banner_size }}" />
+        {% else %}
+            <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/{{ section.settings.blog_banner_size }}" />
+        {% endif %}
+    {% if section.settings.blog_banner_link != blank %}</a>{% endif %}
+{% endif %}
+{% if section.settings.blogsidebar_tags_enable %}
+    {% assign numberLimit = section.settings.blogsidebar_tags_limit | plus: 0 %}
+    {% if blog.all_tags.size > 0 %}
+        <div class="blogSidebar velaBlock">
+            <h4 class="titleSidebar">{{ section.settings.blogsidebar_tags_title }}</h4>
+            <div class="velaContent">
+                <ul class="blogTagsList list-inline">
+                    {% for tag in blog.all_tags limit:numberLimit %}
+                        {% if current_tags contains tag %}
+                            <li>{{ tag }}</li>
+                        {% else %}
+                            <li>{{ tag | link_to_tag: tag }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+{% schema %}
+    {
+        "name": "Vela Blog Sidebar",
+        "settings": [
+			{
+                "type": "header",
+                "content": "Blog Sidebar Recent Articles"
+            },
+            {
+                "type": "checkbox",
+                "id": "blogsidebar_recentarticles_enable",
+                "label": "Enable Recent Articles?",
+				"default": true
+            },
+            {
+                "type": "text",
+                "id": "blogsidebar_recentarticles_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title",
+				"default": "Recent Articles"
+            },
+            {
+                "type": "text",
+                "id": "blogsidebar_recentarticles_limit",
+                "placeholder": "Ex: 6",
+                "label": "Number Of Article Limit",
+                "default": "6"
+            },
+			{
+                "type": "header",
+                "content": "Blog Sidebar Banner"
+            },
+            {
+                "type": "checkbox",
+                "id": "blog_banner_enable",
+                "label": "Enable Banner",
+				"default": true
+            },
+            {
+                "type": "text",
+                "id": "blog_banner_size",
+                "label": "Image Size",
+                "info": "Image Size is required.",
+				"default": "270x270"
+            },
+            {
+                "type": "url",
+                "id": "blog_banner_link",
+                "label": "Banner Link"
+            },
+            {
+                "type": "image_picker",
+                "id": "blog_sidebar_image",
+                "label": "Banner Image"
+            },
+            {
+                "type": "header",
+                "content": "Blog Sidebar Tags"
+            },
+            {
+                "type": "checkbox",
+                "id": "blogsidebar_tags_enable",
+                "label": "Enable Tags List?",
+				"default": true
+            },
+            {
+                "type": "text",
+                "id": "blogsidebar_tags_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title",
+				"default": "Articles Tags"
+            },
+            {
+                "type": "text",
+                "id": "blogsidebar_tags_limit",
+                "placeholder": "Ex: 6",
+                "label": "Number Of Tags Limit",
+                "default": "10"
+            }
+        ]
+    }
+{% endschema %}

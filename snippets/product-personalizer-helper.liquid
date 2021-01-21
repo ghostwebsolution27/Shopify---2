@@ -1,0 +1,361 @@
+{% capture all_output %}
+{% comment %} version: 1.6.4 {% endcomment %}
+{% comment %} PLEASE DO NOT MODIFY THIS FILE, DOING SO MAY BREAK YOUR PRODUCT OPTIONS {% endcomment %}
+
+{% comment %} Hide line item pricing rows {% endcomment %}
+{% if pplr == 'hide-pricing-item-row' or product-personalizer-helper == 'hide-pricing-item-row' %}
+{% if item.properties._pc_pricing_ref and item.properties._pc_pricing_qty == null %}
+display:none;
+{% endif %}
+{% endif %}
+
+{% comment %} Add the product pricing ref and pricing product quantity {% endcomment %}
+{% if pplr == 'cart-row-data' or product-personalizer-helper == 'cart-row-data' %}
+{% if item.properties._pc_pricing_ref != null %}
+data-product-personalizer-pricing-ref="{{ item.properties._pc_pricing_ref }}"
+{% endif %}
+{% if item.properties._pc_pricing_qty != null %}
+data-product-personalizer-pricing-qty="{{ item.properties._pc_pricing_qty }}"
+{% endif %}
+{% if item.properties._pc_pricing_origin != null %}
+data-product-personalizer-pricing-origin="{{ item.properties._pc_pricing_origin }}"
+{% endif %}
+
+{% if item.properties._pc_pricing_ref != null and item.properties._pc_pricing_origin == null %}
+data-product-personalizer-pricing-auxiliary="{{ item.properties._pc_pricing_ref }}"
+{% endif %}
+
+{% if item.properties._pc_pricing_qty_split != null %}
+data-product-personalizer-pricing-qty-split="{{ item.properties._pc_pricing_qty_split }}"
+{% endif %}
+
+data-line="{{ forloop.index }}"
+{% endif %}
+
+{% comment %}
+Display the line item properties (default action).
+required: item. optional: file_upload_text (defaults to 'Click to see'), 
+file_upload_class (defaults to null), use_original_file_name (defaults to true)
+{% endcomment %}
+{% if pplr == 'line-item-properties' or  product-personalizer-helper == 'line-item-properties' or  pplr == null and product-personalizer-helper == null %}
+{% assign propertySize = item.properties | size %}
+{% if propertySize > 0 %}
+{% for p in item.properties %}
+{% assign hidden_property = p.first | first | replace: '_', true %}
+{% unless p.last == blank %}
+{% if hidden_property == 'true' %}
+{% if p.first contains 'Option Title' %}
+{{ p.last }}
+{% else %}
+  <span style="display:none;" class="product-personalizer-line-item-prop" data-prop-name="{{ p.first }}">{{ p.first }}: {{ p.last }}</span>
+{% endif %}
+{% else %}
+{% if p.last contains '/assets/' %}
+{% assign foo = p.last %}
+{% assign my_variable = true %}
+{% endif %}
+<span>{{ p.first }}: </span>
+{% if p.last contains '/uploads/' or p.last contains '/assets/' or p.last contains '/products/' %}
+<a target="_blank"  href="{{ p.last }}" src="{{ p.last }}" class="jslghtbx-thmb" data-jslghtbx download>{% if shop.metafields.customify['clickable_text'] %} {{ shop.metafields.customify['clickable_text'] }}{% else %}Click to view image{% endif %}</a>
+{% else %}
+{{ p.last | newline_to_br }}
+{% endif %}
+<br>
+{% endif %}
+{% endunless %}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+{% comment %} Fix the line item remove from cart link {% endcomment %}
+{% if pplr == 'remove-from-cart-href' or product-personalizer-helper == 'remove-from-cart-href' %}
+{% if item.properties._pc_pricing_ref and item.properties._pc_pricing_qty %}
+#pplr_remove
+{% else %}
+{% if forloop == null %}
+/cart/change?quantity=0&id={{ item.key }}
+{% else %}
+/cart/change?line={{ forloop.index }}&amp;quantity=0
+{% endif %}
+{% endif %}
+{% endif %}
+
+{% comment %} Fix the line item remove from cart link {% endcomment %}
+{% if pplr == 'remove-from-cart-class' or product-personalizer-helper == 'remove-from-cart-class' %}
+{% if item.properties._pc_pricing_ref and item.properties._pc_pricing_qty %}
+product-personalizer-cart-remove
+{% else %}
+{{ else_class }}
+{% endif %}
+{% endif %}
+
+{% comment %} Get the line item price. required: item or _item_line_price, items. optional: raw {% endcomment %}
+{% if pplr == 'item-line-price' or product-personalizer-helper == 'item-line-price' %}
+{% if _item_line_price == null %}
+{% assign _item_line_price = item.line_price %}
+{% endif %}
+{% if item.properties._pc_pricing_ref and item.properties._pc_pricing_qty %}
+{% for other_item in items %}
+{% if other_item.properties._pc_pricing_qty == null and other_item.properties._pc_pricing_ref == item.properties._pc_pricing_ref %}
+{% assign _item_line_price = _item_line_price | plus: other_item.line_price %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if raw == true %}
+{{ _item_line_price }}
+{% else %}
+{{ _item_line_price | money }}
+{% endif %}
+{% assign _item_line_price = null %}
+{% endif %}
+
+{% comment %} Get the item price. required: item or _item_price, items. optional: raw {% endcomment %}
+{% if pplr == 'item-price' or product-personalizer-helper == 'item-price' %}
+{% if _item_price == null %}
+{% assign _item_price = item.price %}
+{% endif %}
+{% if item.properties._pc_pricing_ref and item.properties._pc_pricing_qty %}
+{% for other_item in items %}
+{% if other_item.properties._pc_pricing_qty != null and other_item.properties._pc_pricing_ref == item.properties._pc_pricing_ref %}
+{% assign _item_price = _item_price | plus: item.properties._pc_pricing_qty %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if raw == true %}
+{{ _item_price }}
+{% else %}
+{{ _item_price | money }}
+{% endif %}
+{% assign _item_price = null %}
+{% endif %}
+
+{% comment %} Fix the cart bubble count. required: cart. optional: _cart_item_count {% endcomment %}
+{% if pplr == 'cart-item-count' or product-personalizer-helper == 'cart-item-count' %}
+{% if _cart_item_count == null %}
+{% assign _cart_item_count = cart.item_count %}
+{% endif %}
+{% for cart_item in cart.items %}
+{% if cart_item.properties._pc_pricing_ref and cart_item.properties._pc_pricing_qty == null %}
+{% assign _cart_item_count = _cart_item_count | minus: cart_item.quantity %}
+{% endif %}
+{% endfor %}
+{{ _cart_item_count }}
+{% assign _cart_item_count = null %}
+{% endif %}
+
+{% if pplr == 'product-personalizer-script' or product-personalizer-helper == 'product-personalizer-script' %}
+<script>
+
+  var loadScript = function(url, callback) {
+    var script = document.createElement("script")
+    script.type = "text/javascript";
+    if (script.readyState) {
+      script.onreadystatechange = function() {
+        if (script.readyState == "loaded" ||
+            script.readyState == "complete") {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else {
+      script.onload = function() {
+        callback();
+      };
+    }
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  };
+
+  document.addEventListener("DOMContentLoaded", function(event) {
+    if ((typeof $ === 'undefined') && (typeof jQuery === 'undefined')) {
+      loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function() {
+        pplr_cart(jQuery);
+      });
+    }
+    else{
+      pplr_cart(jQuery);
+    }
+    
+    function recursiveajaxdelete(line,this_ref){
+      jQuery.ajax({
+        type: "POST",
+        url: "/cart/change.js",
+        data: "line="+line+"&quantity=0",
+        dataType: "json",
+        success: function(data) { 
+          var noredirect = true ;
+          for (var i = 0;  i < data['items'].length; ++i) {
+            if(data['items'][i]['properties']['_pc_pricing_ref']==this_ref){
+            recursiveajaxdelete(i+1,this_ref);
+              noredirect = false;
+              break;
+            }
+          }
+          if(noredirect){
+          location.href="/cart";
+          }
+        }
+      });
+    }
+    function pplr_cart(jQuery){
+      var cartElSelector = '.product-personalizer-cart-remove,a[href$="pplr_remove"]';
+      jQuery(document).on('click', cartElSelector, function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        var personalizedItemRow = jQuery(this).closest('[data-product-personalizer-pricing-ref][data-product-personalizer-pricing-qty]');
+        var this_ref = personalizedItemRow.attr('data-product-personalizer-pricing-ref');
+        var next_line = personalizedItemRow.siblings('[data-product-personalizer-pricing-ref="'+this_ref+'"]').attr('data-line');
+        if(this_ref!=="" && next_line!=="" && typeof next_line !== typeof undefined){     
+          recursiveajaxdelete(parseInt(personalizedItemRow.attr('data-line')),this_ref); 
+        }
+        else{
+          location.href="/cart/change?line="+personalizedItemRow.attr('data-line')+"&amp;quantity=0";
+        } 
+      });
+
+      function adjust_cart(){
+        jQuery('[data-product-personalizer-pricing-ref][data-product-personalizer-pricing-qty] input:not([type=button]):not([type=submit])').each(function(){
+          var personalizedItemNum = jQuery(this).closest('[data-product-personalizer-pricing-ref][data-product-personalizer-pricing-qty]');
+          personalizedItemNum.find('[href*="/cart/change"]').attr('href','#pplr_remove');
+          personalizedItemNum.find('[class*="minus"]').remove();
+          personalizedItemNum.find('[class*="plus"]').remove();
+          jQuery(this).siblings('.js-change-quantity,.js-qty__adjust,.QuantitySelector__Button').remove();
+          jQuery(this).removeClass('quantity js-qty__input').css("min-width","60px");
+          jQuery(this).prop('type','number');
+          jQuery(this).removeAttr("data-cart-item-input-quantity");
+
+        })
+
+        jQuery('[data-product-personalizer-pricing-ref][data-product-personalizer-pricing-auxiliary]').each(function(){
+          var this_ref = jQuery(this).attr('data-product-personalizer-pricing-ref');
+          var t_m_p =jQuery('[data-product-personalizer-pricing-ref="'+this_ref+'"][data-product-personalizer-pricing-qty]');
+          if(!t_m_p[0]){
+            var line = jQuery(this).attr('data-line');
+            recursiveajaxdelete(parseInt(line),this_ref);
+          }
+        })
+
+        jQuery('[data-product-personalizer-pricing-ref][data-product-personalizer-pricing-origin]').each(function(){
+          var this_ref = jQuery(this).attr('data-product-personalizer-pricing-ref');
+          var t_m_p =jQuery('[data-product-personalizer-pricing-ref="'+this_ref+'"][data-product-personalizer-pricing-auxiliary]');
+          if(!t_m_p[0]){
+            var line = jQuery(this).attr('data-line');
+            recursiveajaxdelete(parseInt(line),this_ref);
+          }
+          jQuery('[data-product-personalizer-pricing-ref][data-product-personalizer-pricing-origin] input[name*="updates["]').each(function(){
+              updatecart_p(this);
+          })
+
+
+        })
+
+
+      }
+      adjust_cart();
+      setTimeout(function() {adjust_cart();}, 3000);
+
+      function updatecart_p(k,e){
+        var personalizedItemNum = jQuery(k).closest('[data-product-personalizer-pricing-ref][data-product-personalizer-pricing-qty]');
+        var ref_pplr = personalizedItemNum.attr('data-product-personalizer-pricing-ref');
+        var qty_pplr = JSON.parse(personalizedItemNum.attr('data-product-personalizer-pricing-qty-split')) || JSON.parse('['+personalizedItemNum.attr('data-product-personalizer-pricing-qty')+']');
+        var qtymain = personalizedItemNum.find('input[name*="updates["]:visible').val();
+        if(qtymain == undefined){
+          qtymain = personalizedItemNum.find('input[type=number]').val();
+        }
+        var eachvariant = $('form:visible [data-product-personalizer-pricing-ref="'+ref_pplr+'"]:not([data-product-personalizer-pricing-qty-split])');
+        var quantitychange = false;
+        eachvariant.each(function(i){
+          var qtyaux = $(this).find('input[name*="updates["]');
+          if(parseInt(qtyaux.val()) !== qty_pplr[i]*qtymain && qtymain !== undefined && qty_pplr[i]){
+            quantitychange = true;
+            qtyaux.val(qty_pplr[i]*qtymain);
+            if(e){
+             e.stopImmediatePropagation();
+            }
+          }
+
+        })
+        if(quantitychange){
+          if(jQuery('input[name="update"],button[name="update"]')[0]){
+            jQuery('input[name="update"],button[name="update"]').trigger('click');
+          }
+          else{
+            jQuery(k).closest('form').append('<button style="display:none" class="pplr_update" type="submit" name="update"></button>');
+            jQuery('#cart_agree').prop('disabled',true);
+            jQuery('.pplr_update').trigger('click'); 
+          }
+        }
+      }
+
+    jQuery(document).on('change', '[data-product-personalizer-pricing-ref][data-product-personalizer-pricing-qty] input', function(event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      updatecart_p(this,event);
+    })
+
+    jQuery(document).on('click', '[data-product-personalizer-pricing-ref] button:not([name="update"]),[data-product-personalizer-pricing-ref] label,[data-product-personalizer-pricing-ref] a', function(event) {
+      updatecart_p(this,event);
+    })
+
+  }
+ })
+
+</script>
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/jsonlylightbox@0.5.5/css/lightbox.min.css" />
+<script src="//cdn.jsdelivr.net/npm/jsonlylightbox@0.5.5/js/lightbox.min.js"></script>
+
+<script>
+  var lightbox = new Lightbox();
+  lightbox.load();
+</script> 
+<style>
+  .jslghtbx-thmb:hover, .jslghtbx-thmb {
+    box-shadow:inherit;margin: 0;
+  }
+  .jslghtbx {
+    z-index: 99999999999 !important;
+  }
+  [data-product-personalizer-pricing-ref] .js-qty__adjust{display:none;}
+  
+     @media screen and (max-height: 3000px) {
+    .jslghtbx-contentwrapper > img.jslghtbx-animate-transition {
+      max-height: 1250px;max-width: 750px;
+    }
+  }
+
+  @media screen and (max-height: 1600px) {
+    .jslghtbx-contentwrapper > img.jslghtbx-animate-transition {
+      max-height: 850px;max-width: 750px;
+    }
+  }
+
+  
+    @media screen and (max-height: 900px) {
+    .jslghtbx-contentwrapper > img.jslghtbx-animate-transition {
+      max-height: 750px;max-width: 650px;
+    }
+  }
+  
+    @media screen and (max-height: 700px) {
+    .jslghtbx-contentwrapper > img.jslghtbx-animate-transition {
+      max-height: 550px;max-width: 550px;
+    }
+  }
+  
+  @media screen and (max-height: 500px) {
+    .jslghtbx-contentwrapper > img.jslghtbx-animate-transition {
+      max-height: 400px;max-width: 400px;
+    }
+  }
+@media screen and (max-width: 500px) {
+    .jslghtbx-contentwrapper > img.jslghtbx-animate-transition {
+      max-height: 500px;max-width: 360px;
+    }
+}
+</style>
+
+{% endif %}
+
+{% endcapture %}{{ all_output | strip }}

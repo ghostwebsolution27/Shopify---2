@@ -1,0 +1,54 @@
+{% assign number_of_comments = article.comments_count %}
+{% if comment and comment.created_at %}
+    {% assign number_of_comments = article.comments_count | plus: 1 %}
+{% endif %}
+{% comment %} {% include 'breadcrumb' %} {% endcomment %}
+<section id="pageContent">
+    <div class="container{%if settings.fullwidth_enable %}-full{% endif %} clearfix">
+        <div class="row" style="display: flex; justify-content: center;">
+            <div class="col-xs-12 col-sm-8 col-md-9">
+                <article class="articleItem" itemscope itemtype="http://schema.org/Article">
+                    {% if article.image %}
+                        {% assign imageSize = 'master' %}
+                        <div class="articleImage">
+                            <img class="img-responsive" src="{{ article.image | img_url: imageSize }}" alt="{{ article.title }}" />
+                        </div>
+                    {% endif %}
+                    <header class="articleHeader">
+                        <h1 class="velaArticleTitle">{{ article.title }}</h1>
+                        <div class="articleMeta">
+                            <time class="articleMeta-date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: " %d %B, %Y " }}</time>
+                            <span class="articleMeta-author"><span>{{ 'blogs.article.author' | t }}</span> {{ article.author }}</span>
+                            <span class="articleMeta-blog"><span>{{ 'blogs.article.blog' | t }}</span> {{ blog.title }}</span>
+                        </div>                      
+                    </header>
+                    <div class="rte" itemprop="articleBody">
+                        {{ article.content }}
+                    </div>
+                    {% include 'vela-product-sharing' %}
+                    <!--
+                    {% include 'vela-article-tags' %}
+                    -->
+                    {% if blog.next_article or blog.previous_article %}
+                        <div class="articleButton clearfix">
+                            {% if blog.previous_article %}
+                                <span class="pull-left">
+                                    {{ 'blogs.article.older_post' | t | link_to: blog.previous_article }}
+                                </span>
+                            {% endif %}
+                            {% if blog.next_article %}
+                                <span class="pull-right">
+                                    {{ 'blogs.article.newer_post' | t | link_to: blog.next_article }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {% include 'vela-article-comment' %}
+                </article>
+            </div>
+            {% comment %} <aside class="velaSidebar col-xs-12 col-sm-4 col-md-3">
+                {% section 'blogsidebar' %}
+            </aside> {% endcomment %}
+        </div>
+    </div>
+</section>

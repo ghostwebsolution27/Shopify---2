@@ -1,0 +1,38 @@
+{% assign respond_js_secret_key = shop.domain | md5 %}
+{% unless search.terms == respond_js_secret_key %}
+    <section id="pageContent">
+        <div class="container">
+            <div class="velaSearchContainer">
+                {% paginate search.results by 12 %}
+                    {% if search.performed %}
+                        {% if search.results_count == 0 %}
+                            <h1 class="velaSearchTitle">{{ 'general.search.no_results_html' | t: terms: search.terms }}</h1>
+                        {% else %}
+                            <h1 class="velaSearchTitle">{{ 'general.search.results_for_html' | t: terms: search.terms }}</h1>
+                        {% endif %}
+                    {% else %}
+                        <h1 class="velaSearchTitle">{{ 'general.search.title' | t }}</h1>
+                    {% endif %}
+                    {% include 'vela-searchpage' %}
+                    {% if search.performed %}
+                        <div class="proList grid">
+                            <div class="velaFlexRow flexRow">
+                                {% for product in search.results %}{% if product.type == 'PPLR_HIDDEN_PRODUCT' %}{% continue %}{% endif %}
+                                    {% include 'product-grid-item' with 'col-xs-12 col-sm-6 col-md-3' %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if paginate.pages > 1 %}
+                        <div id="searchPagination">
+                            {% include 'vela-pagination' %}
+                        </div>
+                    {% endif %}
+                {% endpaginate %}
+            </div>
+        </div>
+    </section>
+{% else %}
+     {% include 'respond' %}
+     {% layout none %}
+{% endunless %}

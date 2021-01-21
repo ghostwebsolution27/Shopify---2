@@ -1,0 +1,26 @@
+
+<script type="text/javascript">
+    $(document).ready( function(){ 
+         $("#velaSearchTop").each( function(){
+            $("#velaSearchIcon").click( function(){
+                 $("#velaSearchbox").toggleClass("show");
+             });
+            $(".btn-close").click( function(){
+                 $("#velaSearchbox").removeClass("show");
+             });
+         }); 
+    });
+</script>
+
+<div id="velaSearchTop">
+    <span id="velaSearchIcon" class="pe-7s-search"></span>
+    <form id="velaSearchbox" class="formSearch" action="/search" method="get">
+        <input type="hidden" name="type" value="product">
+        <input class="velaSearch form-control" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" autocomplete="off" />
+        <button id="velaSearchButton" class="btnVelaSearch" type="submit" >
+            <span><i class="fa fa-search"></i></span>
+            <span class="btnSearchText">{{ 'general.search.submit' | t }}</span>
+        </button>
+        <div class="btn-close"><span class="fa fa-close"></span></div>
+    </form>
+</div>

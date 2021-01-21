@@ -1,0 +1,24 @@
+{% section 'vela-collection-banner' %}
+
+<section id="pageContent">
+    <div class="container{% if settings.collection_full_enable %}-full{% endif %}">
+        <div class="row">
+
+          	<aside id="velaSidebar" class="velaSidebar col-xs-12 col-sm-4 col-md-3 {% if settings.collection_full_enable %}hidden{% endif %}">
+      		    {% section 'sidebartop' %}
+              	{% section 'sidebartag' %}
+              	{% section 'sidebarprice' %}
+              	{% section 'sidebarbanner' %}
+          	</aside>
+          	<div id="proListCollection" class="velaCenterColumn col-xs-12 {% if settings.collection_full_enable %}col-sm-12{% else %}col-sm-8 col-md-9{% endif %}">
+              	{% section 'vela-template-collections' %}
+          	</div>
+        </div>
+    </div>
+
+	{% if collection.url contains 'armbaand' %}
+		{% section 'vela-seo-collection-armband' %}
+	{% elsif collection.url contains 'halskaede' %}
+		{% section 'vela-seo-collection-halskaeder' %}
+	{% endif %}
+</section>

@@ -1,0 +1,238 @@
+<div class="newsletter-submit-wrapper">
+<h3 class="velaTitle">BLIV EN DEL AF CUFF COMMUNITY</h3>
+<div class="newsletterDescription">Modtag en gavekortkode på 10% ved tilmelding af vores nyhedsbrev.</div>
+{% if request.path contains '/en' %}
+<div class="_form_10"></div><script src="https://cuffcopenhagen.activehosted.com/f/embed.php?id=10" type="text/javascript" charset="utf-8"></script>
+{% else %}
+<div class="_form_3"></div><script src="https://cuffcopenhagen.activehosted.com/f/embed.php?id=3" type="text/javascript" charset="utf-8"></script>
+{% endif %}
+
+</div>
+<footer id="footer">
+	<div class="footerCenter">
+	    <div class="container">
+	        <div class="footerCenterWrap">
+	            <div class="velaFooterRow flexRow">
+                  	{% if section.settings.contactinfo_enable %}
+                      <div class="col-xs-12 col-sm-6 col-md-3">
+                        {%- assign contactinfoDesc = section.settings.contactinfo_desc -%}
+                        {%- assign contactinfoAdd = section.settings.contactinfo_add -%}
+                        {%- assign contactinfoPhone = section.settings.contactinfo_phone -%}
+                        {%- assign contactinfoEmail = section.settings.contactinfo_email -%}
+                        {% include 'vela-contactinfo' %}
+                      </div>
+                    {% endif %}
+	                {% for block in section.blocks %}
+                  		<div class="footerMenu{{ forloop.index }} {{ block.settings.menu_class }}">
+                          	{%- assign menuTitle = block.settings.menu_title  -%}
+                          	{%- assign menuHandle = block.settings.menu_handle  -%}
+                          	{% include 'vela-footer-menu' %}
+                  		</div>
+                  	{% endfor %}
+	                {% if section.settings.newsletter_enable %}
+	                	<div class="col-xs-12 col-sm-12 col-md-4">
+	                		{% assign newsletterTitle = section.settings.newsletter_title %}
+	                		{% assign newsletterDesc = section.settings.newsletter_description %}
+                          	{% assign newsletterMailchimp = section.settings.newsletter_mailchimp %}
+                          	{% assign newsletterFormAction = section.settings.newsletter_form_action %}
+	                		{% include 'vela-newsletter' %}
+	                	</div>
+	                {% endif %}
+            	
+                    {% if section.settings.social_enable %}
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="social-icons-wrapper">
+                            <h3 class="velaFooterTitle">
+                                {% if request.path contains '/en' %}Follow us{% else %}Følg os{% endif %}
+                            </h3>
+                            {%- assign socialEnable = section.settings.social_enable -%}
+                            {%- assign socialTitle = section.settings.social_title -%}
+                            {%- assign socialFacebook = section.settings.social_facebook -%}
+                            {%- assign socialTwitter = section.settings.social_twitter -%}
+                            {%- assign socialInstagram = section.settings.social_instagram -%}
+                            {%- assign socialPinterest = section.settings.social_pinterest -%}
+                            {%- assign socialYoutube = section.settings.social_youtube -%}
+                            {%- assign socialGooglePlus = section.settings.social_googleplus -%}
+                            {%- assign socialRss = section.settings.social_rss -%}
+
+                            {% include 'vela-social' %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+	            </div>
+	        </div>
+	    </div>
+    </div>
+    <div class="footerCopyRight">
+    	<div class="container">
+          	<div class="row">  
+              	<div class="col-xs-12 col-sm-12 col-md-12">
+    				<div class="velaCopyRight">{{ 'layout.footer.copyright_html' | t }}</div>
+              	</div>
+          	</div>
+    	</div>
+    </div>
+</footer>
+{% schema %}
+  	{
+        "name": "Footer",
+        "max_blocks": 4,
+        "settings": [
+			{
+              "type": "header",
+              "content": "Block Contact info"
+            },
+            {
+              "type": "checkbox",
+              "id": "contactinfo_enable",
+              "label": "Block Contact info?"
+            },
+            {
+              "type": "image_picker",
+              "id": "contactinfo_logo",
+              "label": "Logo footer"
+            },
+			{
+              "type": "textarea",
+              "id": "contactinfo_desc",
+              "label": "Description"
+            },
+            {
+              "type": "text",
+              "id": "contactinfo_add",
+              "label": "Adress"
+            },
+            {
+              "type": "text",
+              "id": "contactinfo_phone",
+              "label": "Phone"
+            },
+			{
+              "type": "text",
+              "id": "contactinfo_email",
+              "label": "Email"
+            },
+			{
+				"type": "header",
+				"content": "Block Newsletter"
+			},
+            {
+              "type": "checkbox",
+              "id": "newsletter_enable",
+              "label": "Enable?"
+            },	
+			{
+                "type": "text",
+                "id": "newsletter_title",
+                "placeholder": "Title for Block",
+                "label": "Title"
+            },
+            {
+                "type": "textarea",
+                "id": "newsletter_description",
+                "placeholder": "Description for Block",
+                "label": "Description"
+            },
+            {
+                "type": "checkbox",
+                "id": "newsletter_mailchimp",
+                "label": "Use MailChimp",
+                "default": true
+            },
+            {
+                "type": "paragraph",
+                "content": "Uncheck if You use Newsletter of Shopify. Email will be saved to shopify customer. Admin -> Customers -> Accepts Marketting. You must send invite account for customer."
+            },
+            {
+                "type": "text",
+                "id": "newsletter_form_action",
+                "label": "MailChimp form action URL",
+                "info": "[Where do I find my MailChimp form action URL?](http:\/\/docs.shopify.com\/support\/configuration\/store-customization\/where-do-i-get-my-mailchimp-form-action)"
+            },          
+            {
+                "type": "header",
+                "content": "Vela Social"
+            },
+            {
+                "type": "checkbox",
+                "id": "social_enable",
+                "label": "Enable Vela Social?"
+            },
+            {
+                "type": "text",
+                "id": "social_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title",
+                "info": "Title for Block"
+            },
+            {
+                "type": "text",
+                "id": "social_facebook",
+                "placeholder": "Link your Facebook",
+                "label": "Facebook Link"
+            },
+            {
+                "type": "text",
+                "id": "social_twitter",
+                "placeholder": "Link your Twitter",
+                "label": "Twitter Link"
+            },
+            {
+                "type": "text",
+                "id": "social_instagram",
+                "placeholder": "Link your Instagram",
+                "label": "Instagram Link"
+            },
+            {
+                "type": "text",
+                "id": "social_pinterest",
+                "placeholder": "Link your Pinterest",
+                "label": "Pinterest Link"
+            },
+            {
+                "type": "text",
+                "id": "social_youtube",
+                "placeholder": "Link your Youtube",
+                "label": "Youtube Link"
+            },
+            {
+                "type": "text",
+                "id": "social_googleplus",
+                "placeholder": "Link your Googleplus",
+                "label": "Googleplus Link"
+            },
+            {
+                "type": "text",
+                "id": "social_rss",
+                "placeholder": "Link your Rss",
+                "label": "Rss Link"
+            }
+		],
+		"blocks": [
+			{
+                "type": "link",
+                "name": "Footer Menu",
+                "settings": [
+					{
+                        "type": "text",
+                        "id": "menu_class",
+                        "label": "Class",
+						"default": "col-xs-12 col-sm-4"
+                    },
+                    {
+                        "type": "text",
+                        "id": "menu_title",
+                        "label": "Title"
+                    },
+                    {
+                        "type": "link_list",
+                        "id": "menu_handle",
+                        "label": "Choose Menu",
+                        "info": "Choose menu for block. Add new menu: Admin -> Navigation"
+                    }
+                ]
+            }
+		]
+	}
+{% endschema %}

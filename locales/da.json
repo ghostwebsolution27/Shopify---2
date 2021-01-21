@@ -1,0 +1,270 @@
+{
+  "general": {
+    "meta": {
+      "tags": "Tag",
+      "page": "Side"
+    },
+    "breadcrumbs": {
+      "home": "Hjem",
+      "home_link_title": "Tilbage til forside"
+    },
+    "newsletter_form": {
+      "newsletter_email": "Email",
+      "submit": "Tilmeld",
+      "alertsuccess": "Tak for din tilmelding"
+    },
+    "search": {
+      "no_results_html": "Din søgning \"{{ terms }}\" gav ingen resultater.",
+      "results_for_html": "Din søgning \"{{ terms }}\" gav følgende:",
+      "title": "Søg efter produkter",
+      "placeholder": "Søg efter butik",
+      "submit": "Søg",
+      "see_all_results": "Vis alle"
+    },
+    "404": {
+      "title": "404 Siden blev ikke fundet",
+      "subtext_html": "Denne side eksisterer ikke. Klik <a href=\"\/collections\/all\">her<\/a> for at fortsætte med at shoppe."
+    },
+    "password_page": {
+      "opening_soon": "Åbner snart",
+      "login_form_heading": "Se siden med kodeord",
+      "login_form_password_label": "Kodeord",
+      "login_form_password_placeholder": "Kodeord",
+      "login_form_submit": "Log ind",
+      "signup_form_email_label": "Email",
+      "admin_link_html": "Er du ejer? <a href=\"\/admin\" class=\"text-link\">Log ind her<\/a>",
+      "password_link": "Log ind med kodeord"
+    },
+    "quickview": {
+      "title": "Quickview"
+    },
+    "wishlist": {
+      "my_wishlist": "Min ønskeseddel",
+      "product_image": "Produktbillede",
+      "product_name": "Produktnavn",
+      "unit_price": "Pris",
+      "share_wishlist": "Del ønskeseddel",
+      "add_to_wishlist": "Tilføj til ønskeseddel",
+      "added_to_wishlist": "Tilføjet til ønskeseddel",
+      "empty": "Din ønskeseddel er tom",
+      "subtext": "For at oprette en ønskeseddel skal du",
+      "sign_in": "logge in",
+      "or": "eller",
+      "create_account": "oprette en profil",
+      "go_to_wishlist": "Gå til ønskeseddel",
+      "success_text_html": "Tilføjet til din ønskeseddel.",
+      "no_log_html": "Du skal være logget ind for at håndtere din ønskeseddel. <a href=\"\/account\">Log ind her.<\/a>"
+    }
+  },
+  "sections": {
+    "slideshow": {
+      "next_slide": "Næste",
+      "previous_slide": "Forrige",
+      "pause_slideshow": "Pause",
+      "play_slideshow": "Start",
+      "play_video": "Afspil",
+      "close_video": "Luk"
+    },
+    "map": {
+      "address_no_results": "Adressen kunne ikke findes",
+      "address_error": "Fejl i adresse",
+      "get_directions": "Få rutevejledning",
+      "address_query_limit_html": "Du har nået Google API begrænsning. Opgrader til <a href=\"https:\/\/developers.google.com\/maps\/premium\/usage-limits\">Premium Plan<\/a>.",
+      "auth_error_html": "Der var et problem ved identifikation af din Google Maps konto. Opret og tillad <a href=\"https:\/\/developers.google.com\/maps\/documentation\/javascript\/get-api-key\">JavaScript API<\/a> og <a href=\"https:\/\/developers.google.com\/maps\/documentation\/geocoding\/get-api-key\">Geocoding API<\/a> tilladelser i din app."
+    }
+  },
+  "layout": {
+    "header": {
+      "login_html": "Velkommen, {{ fullname }}",
+      "login": "Log ind",
+      "logout": "Log ud",
+      "register": "Registrer",
+      "wishlish": "Ønskeseddel",
+      "checkout": "Kasse",
+      "wellcome": "Velkommen!",
+      "youraccount": "Din profil"
+    },
+    "navigation": {
+      "menu": "Menu"
+    },
+    "cart": {
+      "title": "Kurv",
+      "items_count": {
+        "one": "produkt",
+        "other": "produkter"
+      }
+    },
+    "footer": {
+      "copyright_html": "©2018 Cuff Copenhagen. All Rights Reserved."
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "Beklager, der er ikke nogle produkter i denne kollektion.",
+      "link_title": "Mere {{ title }}",
+      "grid_view": "Gitter",
+      "list_view": "Liste",
+      "items_with_count": {
+        "one": "{{ count }} produkt",
+        "other": "{{ count }} produkter"
+      }
+    },
+    "sidebar": {
+      "clear": "Ryd",
+      "clear_all": "Ryd alt"
+    },
+    "sorting": {
+      "title": "Sorter efter",
+      "featured": "Standard",
+      "best_selling": "Bedst sælgende",
+      "az": "Alfabetisk - A-Å",
+      "za": "Alfabetisk - Å-A",
+      "price_ascending": "Pris - lav til høj",
+      "price_descending": "Pris - høj til lav",
+      "date_descending": "Dato - ny til gammel",
+      "date_ascending": "Dato - gammel til ny"
+    },
+    "paginate": {
+      "showing_html": "VISER {{ minPage }}-{{ maxPage }} AF {{ itemsPage }} RESULTATER"
+    }
+  },
+  "products": {
+    "product": {
+      "sold_out": "Udsolgt",
+      "on_sale": "Tilbud",
+      "label_sale": "Tilbud",
+      "availability": "Tilgængelig",
+      "available": "På lager",
+      "unavailable": "Utilgængelig",
+      "quantity": "Antal",
+      "add_to_cart": "Køb nu",
+      "select_options": "KØB NU",
+      "type": "Produkttype",
+      "vendor": "Sælger"
+    },
+    "sharing": {
+      "share": "Del:",
+      "tweet": "Tweet",
+      "facebook": "Facebook",
+      "google": "Google+",
+      "linkedin": "Linkedin",
+      "pinterest": "Pinterest"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Kurv",
+      "viewcart": "Se kurv",
+      "checkout": "Kasse",
+      "update": "Opdatér kurv",
+      "remove": "Fjern",
+      "close_cart": "Luk kurv",
+      "note": "Kommentar til din ordre",
+      "shipping_at_checkout": "Forsendelse tilføjes ved kassen",
+      "subtotal": "Subtotal",
+      "empty": "Din kurv er tom.",
+      "empty_continue": "Til shoppen",
+      "continue_browsing_html": "Du skal tilføje produkter til kurven, før du kan gå til kassen.<br \/>"
+    },
+    "label": {
+      "product": "Produkt",
+      "image": "Billede",
+      "price": "Pris",
+      "quantity": "Antal",
+      "total": "Total"
+    }
+  },
+  "blogs": {
+    "article": {
+      "date": "Dato:",
+      "blog": "i",
+      "author": "af",
+      "author_on_date_html": "<i class=\"fa fa-user\"><\/i> {{ forfatter }} <i class=\"fa fa-calendar\"><\/i> {{ date }}",
+      "older_post": "← Ældre indlæg",
+      "newer_post": "Nyere indlæg →",
+      "tags": "Tags",
+      "comment_meta_html": "{{ author }} på {{ date }}",
+      "read_more": "Læs mere"
+    },
+    "comments": {
+      "title": "Kommentér",
+      "name": "Navn",
+      "email": "Email",
+      "message": "Besked",
+      "post": "Kommentar til indlæg"
+    },
+    "vela-carousel-blog": {
+      "readmore": "Læs mere"
+    },
+    "vela-blog-sidebar": {
+      "readmore": "Læs mere"
+    }
+  },
+  "contact": {
+    "form": {
+      "name": "Navn",
+      "email": "Email",
+      "phone": "Telefon",
+      "message": "Besked",
+      "send": "Send",
+      "post_success": "Tak for din besked. Vi vender tilbage hurtigst muligt."
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Her er dit {{ value }} gavekort til Cuff Copenhagen!",
+      "subtext": "Her er dit gavekort!",
+      "disabled": "Deaktiveret",
+      "expired": "Udløb d. {{ expiry }}",
+      "active": "Udløber d. {{ expiry }}",
+      "redeem": "Anvend denne kode ved kassen for at modtage dit gavekort",
+      "shop_link": "Shop nu",
+      "print": "Print",
+      "add_to_apple_wallet": "Tilføj til Apple Wallet"
+    }
+  },
+  "customer": {
+    "order": {
+      "title": "Ordre {{ name }}",
+      "date": "Gennemført d. {{ date }}",
+      "cancelled": "Annulleret d. {{ date }}",
+      "cancelled_reason": "Begrundelse: {{ reason }}",
+      "billing_address": "Leveringsadresse",
+      "payment_status": "Betalingsstatus",
+      "shipping_address": "Forsendelsesadresse",
+      "fulfillment_status": "Gennemført status",
+      "discount": "Rabat",
+      "shipping": "Forsendelse",
+      "tax": "Moms",
+      "product": "Produkt",
+      "sku": "SKU",
+      "price": "Pris",
+      "quantity": "Antal",
+      "total": "Total",
+      "fulfilled_at": "Gennemført d. {{ date }}",
+      "subtotal": "Subtotal"
+    }
+  },
+  "date_formats": {
+    "month_day_year": "%d %B %Y"
+  },
+  "shopify": {
+    "checkout": {
+      "general": {
+        "skip_to_content": "Videre til indhold",
+        "complete_purchase_button_label": "Køb",
+        "all_rights_reserved": "All rights reserved {{ shop_name }}",
+        "cart": "Kurv",
+        "back_to_cart": "Tilbage til kurven"
+      },
+      "contact": {
+        "email_label": "Email",
+        "email_placeholder": "Email",
+        "email_or_phone_label": "Emailadresse eller telefonnummer",
+        "email_or_phone_placeholder": "Emailadresse eller telefonnummer",
+        "county_label": "Land",
+        "county_placeholder": "Land"
+      }
+    }
+  }
+}

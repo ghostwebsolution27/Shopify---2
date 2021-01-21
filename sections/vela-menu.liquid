@@ -1,0 +1,228 @@
+{% if section.settings.velamenu_enable %}
+<section id="velaMegamenu" class="velaMegamenu">
+	<div class="container">
+		<nav class="menuContainer">
+			<div class="menuBtnMobile hidden-lg hidden-md">
+				<div id="btnMenuMobile" class="btnMenuMobile">
+					<span class="fa fa-align-justify"></span>
+				</div>
+			</div>
+			<ul class="nav hidden-xs hidden-sm">
+				{% for velaLink in linklists[section.settings.velamenu_linklist].links %}
+					{% assign linkHandle = velaLink.title | handleize %}
+					{% assign isMega = false %}
+					{% for block in section.blocks %}
+                        {% assign menuItem = velaLink.title %}
+                        {% if block.settings.velamenu_item contains menuItem %}
+              				{% include 'vela-megamenu' %}
+                        	{% assign isMega = true %}
+              				{% break %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if isMega == false %}
+                		{% if linklists[linkHandle].links != blank %}
+							{% comment %}====== MENU DROPDOWN LEVEL I ======{% endcomment %}
+							<li class="hasMenuDropdown{% if velaLink.active %} active{% endif %}">
+								<a href="{{ velaLink.url }}" title="">{{ velaLink.title }}</a>
+								<ul class="menuDropdown">
+									{% for velaLink1 in linklists[linkHandle].links %}
+										{% assign linkHandle = velaLink1.title | handleize %}
+										{% if linklists[linkHandle].links != blank %}
+											{% comment %}====== MENU DROPDOWN LEVEL II ======{% endcomment %}
+											<li class="hasMenuDropdown{% if velaLink1.active %} active{% endif %}">
+												<a href="{{ velaLink1.url }}" title="">{{ velaLink1.title }}</a>
+												<ul class="menuDropdown">
+													{% for velaLink2 in linklists[linkHandle].links %}
+														{% assign linkHandle = velaLink2.title | handleize %}
+														{% if linklists[linkHandle].links != blank %}
+															{% comment %}====== MENU DROPDOWN LEVEL III ======{% endcomment %}
+															<li class="hasMenuDropdown{% if velaLink2.active %} active{% endif %}">
+																<a href="{{ velaLink2.url }}" title="">{{ velaLink2.title }}</a>
+																<ul class="menuDropdown">
+																	{% for velaLink3 in linklists[linkHandle].links %}
+																		<li class="{% if velaLink3.active %}active{% endif %}">
+																			<a href="{{ velaLink3.url }}" title="">{{ velaLink3.title }}</a>
+																		</li>
+																	{% endfor %}
+																</ul>
+															</li>
+														{% else %}
+															<li class="{% if velaLink2.active %}active{% endif %}">
+																<a href="{{ velaLink2.url }}" title="">{{ velaLink2.title }}</a>
+															</li>
+														{% endif %}
+													{% endfor %}
+												</ul>
+											</li>
+										{% else %}
+											<li class="{% if velaLink1.active %}active{% endif %}">
+												<a href="{{ velaLink1.url }}" title="">{{ velaLink1.title }}</a>
+											</li>
+										{% endif %}
+									{% endfor %}
+								</ul>
+							</li>
+						{% else %}
+							<li class="{% if velaLink.active %}active{% endif %}">
+								<a href="{{ velaLink.url }}" title="">{{ velaLink.title }}</a>
+							</li>
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</nav>
+	</div>
+</section>
+{% endif %}
+{% if section.settings.velamenu_enable %}
+	{% include 'vela-menu-mobile' %}
+{% endif %}
+{% schema %}
+    {
+        "name": "Megamenu",
+      	"max_blocks": 4,
+      	"settings": [
+            {
+                "type": "checkbox",
+                "id": "velamenu_enable",
+                "label": "Enable Megamenu",
+                "info": "Acitve Vela Menu"
+            },
+            {
+                "type": "link_list",
+                "id": "velamenu_linklist",
+                "label": "Menu",
+                "default": "main-menu"
+            },
+            {
+                "type": "text",
+                "id": "velamenu_menumobile_title",
+                "label": "Menu Mobile Title",
+                "placeholder": "Menu Mobile Title",
+                "default": "Menu Mobile"
+            }
+		],
+        "blocks": [
+            {
+                "type": "text",
+                "name": "Megamenu Item",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "velamenu_item",
+                        "label": "Menu item name",
+                        "info": "Menu item of main-menu. Menu item has dropdown megamenu."
+                    },
+                    {
+                        "type": "header",
+                        "content": "Block navigation",
+                        "info": "Admin -> Navigation -> Menu. Position:1"
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "velamenu_menu_enable",
+                        "label": "Enable navigation"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_menu_col",
+                        "label": "Class for Block",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_menu_menucol",
+                        "label": "Class for each Menu",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Block products",
+                        "info": "Position:2"
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "velamenu_product_enable",
+                        "label": "Enable products"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_product_col",
+                        "label": "Class for Block",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_product_title",
+                        "label": "Block Title"
+                    },
+                    {
+                        "type": "collection",
+                        "id": "velamenu_product_collection",
+                        "label": "Collection"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Block html",
+                        "info": "Position:3"
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "velamenu_html_enable",
+                        "label": "Enable html"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_html_col",
+                        "label": "Class for Block",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_html_title",
+                        "label": "Block Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "velamenu_html_content",
+                        "label": "Content HTML",
+                        "info": "You can input HTML code, img tag, video code, ..."
+                    },
+                    {
+                        "type": "header",
+                        "content": "Block banner",
+                        "info": "Position:4"
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "velamenu_banner_enable",
+                        "label": "Enable banner"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_banner_col",
+                        "label": "Class for Block",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "image_size",
+                        "label": "Image Size",
+                        "default": "255x300",
+                        "info": "[Size parameters](https://help.shopify.com/themes/liquid/filters/url-filters#size-parameters)"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "velamenu_banner",
+                        "label": "Banner image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_banner_link",
+                        "label": "Banner Link"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

@@ -1,0 +1,49 @@
+{% render 'preorder-now-collection-item', product: product %}
+        {% assign current_variant = product.selected_or_first_available_variant %}
+{% include 'breadcrumb' %}
+<section id="pageContent">
+    <div class="container">
+        {% section 'vela-template-product' %}
+    </div>
+</section>
+<script>
+    var selectCallback = function(variant, selector) {
+        vela.productPage({
+            money_format: "{{ shop.money_format }}",
+            variant: variant,
+            selector: selector
+        });
+    };
+    $(document).ready(function() {
+        new Shopify.OptionSelectors('productSelect', {
+            product: {{ product | json }},
+            onVariantSelected: selectCallback,
+            enableHistoryState: true
+        });
+        {% if product.available and product.options.size > 1 %}
+            Shopify.linkOptionSelectors({{ product | json }});
+        {% endif %}
+        {% if product.options.size == 1 and product.options.first != 'Title' %}
+            $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+        {% endif %}
+        {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+            $('.selector-wrapper').hide();
+            $('.swatch').hide();
+        {% endif %}
+        $('.proDetailInfo .nav-tabs li:first, .proDetailInfo .tab-content .tab-pane:first').addClass('active');
+        $('.proDetailInfo .velaPanel:first .panel-collapse').addClass('in');
+
+        $('.mobile-product-images .featured-images').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1,
+            adaptiveHeight: true
+        });
+
+        $('.mobile-product-images .thumbnail-images .product-images-item').on('click', function(){
+            var index = $('.mobile-product-images .thumbnail-images .product-images-item').index($(this));
+            $('.mobile-product-images .featured-images.slick-slider ul.slick-dots li').eq(index).find("button").trigger("click");
+        });
+    });
+</script>

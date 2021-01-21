@@ -1,0 +1,70 @@
+{% if settings.product_social_enable %}
+	<div class="velaProductSharing clearfix">
+			<label class="clearfix">{{ 'products.sharing.share' | t }}</label>
+	    <ul class="socialSharing list-unstyled">
+	        {% if settings.product_social_facebook_enable %}
+	            <li>
+	                <a class="btnSharing btnTwitter" href="javascript:void(0);" data-social="twitter">
+	                    <i class="fa fa-twitter"></i><span>{{ 'products.sharing.tweet' | t }}</span>
+	                </a>
+	            </li>
+	        {% endif %}
+	        {% if settings.product_social_facebook_enable %}
+	            <li>
+	                <a class="btnSharing btnFacebook" href="javascript:void(0);" data-social="facebook">
+	                    <i class="fa fa-facebook"></i><span>{{ 'products.sharing.facebook' | t }}</span>
+	                </a>
+	            </li>
+	        {% endif %}
+	        {% if settings.product_social_google_enable %}
+	            <li>
+	                <a class="btnSharing btnGooglePlus" href="javascript:void(0);" data-social="google-plus">
+	                    <i class="fa fa-google-plus"></i><span>{{ 'products.sharing.google' | t }}</span>
+	                </a>
+	            </li>
+	        {% endif %}
+	        {% if settings.product_social_linkedin_enable %}
+	            <li>
+	                <a class="btnSharing btnLinkedin" href="javascript:void(0);" data-social="linkedin">
+	                    <i class="fa fa-linkedin"></i><span>{{ 'products.sharing.linkedin' | t }}</span>
+	                </a>
+	            </li>
+	        {% endif %}
+	        {% if settings.product_social_pinterest_enable %}
+	            <li>
+	                <a class="btnSharing btnPinterest" href="javascript:void(0);" data-social="pinterest">
+	                    <i class="fa fa-pinterest-p"></i><span>{{ 'products.sharing.pinterest' | t }}</span>
+	                </a>
+	            </li>
+	        {% endif %}
+	    </ul>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+	        $('.btnSharing').on('click', function(){
+	            type = $(this).attr('data-social');
+	            if (type.length)
+	            {
+	                switch(type)
+	                {
+	                    case 'twitter':
+                            window.open("https://twitter.com/intent/tweet?text={{ product.title | truncate: 30 | url_param_escape }} {{ canonical_url }}", "sharertwt", "toolbar=0,status=0,width=640,height=445");
+                            break;
+                        case 'facebook':
+                            window.open("https://www.facebook.com/sharer/sharer.php?u={{ canonical_url }}&p[images][0]={{ featured_image }}", "sharer", "toolbar=0,status=0,width=660,height=445");
+                            break;
+                        case 'google-plus':
+                            window.open("https://plus.google.com/share?url={{ canonical_url }}", "sharer", "toolbar=0,status=0,width=660,height=445");
+                            break;
+                        case 'linkedin':
+                            window.open("http://www.linkedin.com/shareArticle?mini=true&amp;url={{ canonical_url }}&amp;title={{ product.title | truncate: 30 | url_param_escape }}&amp;source={{ canonical_url }}", "sharerpinterest", "toolbar=0,status=0,width=660,height=445");
+                            break;
+                        case 'pinterest':
+                            window.open("http://pinterest.com/pin/create/button/?url={{ canonical_url }}&amp;media={{ featured_image | img_url: "large" }}", "sharerpinterest", "toolbar=0,status=0,width=660,height=445");
+                            break;
+	                }
+	            }
+	        });
+	    });
+	</script>
+{% endif %}

@@ -1,0 +1,340 @@
+<header id="velaHeader" class="velaHeader">
+    <section class="headerWrap">
+        <div id="velaHeaderMain">
+                <div class="headerContent">
+                  	<div class="velaHeaderLeft pull-left">
+                       {% if template == 'index' %}
+                         <h1 class="velaLogo" itemscope itemtype="http://schema.org/Organization">
+                           {% else %}
+                           <div class="velaLogo" itemscope itemtype="http://schema.org/Organization">
+                             {% endif %}
+                             {% if section.settings.logo %}
+                             <a href="/" itemprop="url" class="velaLogoLink">
+                               {% capture image_size %}{{ section.settings.logo_image_size }}{% endcapture %}
+                               {% comment %} <img class="img-responsive" src="{{ 'logo.svg' | asset_img_url }}"
+                                    alt="{{ section.settings.logo.alt | default: shop.name }}"
+                                    itemprop="logo"> {% endcomment %}
+                                {% include 'logo-svg' %}
+                             </a>
+                             {% else %}
+                             <a href="/" itemprop="url">{{ shop.name }}</a>
+                             {% endif %}
+                             {% if template != 'index' %}
+                           </div>
+                           {% else %}
+                         </h1>
+                       {% endif %}
+                    </div>
+                    <div class="velaHeaderRight">
+                      	<div class="menuBtnMobile hidden-lg hidden-md pull-left">
+                           <div id="btnMenuMobile" class="btnMenuMobile">
+                             	<span class="menu-item"></span>
+                              	<span class="menu-item"></span>
+                              	<span class="menu-item"></span>
+                             	<span class="menu-item"></span>
+                           </div>
+                        </div>
+                      	{% if section.settings.velamenu_enable %}
+                            <div id="velaMegamenu" class="velaMegamenu col-md-12">
+                                    <nav class="menuContainer">
+                                        <ul class="nav hidden-xs hidden-sm">
+                                            {% for velaLink in linklists[section.settings.velamenu_linklist].links %}
+                                                {% assign linkHandle = velaLink.title | handleize %}
+                                                {% assign isMega = false %}
+                                                {% for block in section.blocks %}
+                                                    {% assign menuItem = velaLink.title %}
+                                                    {% if block.settings.velamenu_item contains menuItem %}
+                                                        {% include 'vela-megamenu' %}
+                                                        {% assign isMega = true %}
+                                                        {% break %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if isMega == false %}
+                                                    {% if linklists[linkHandle].links != blank %}
+                                                        {% comment %}====== MENU DROPDOWN LEVEL I ======{% endcomment %}
+                                                        <li class="hasMenuDropdown{% if velaLink.active %} active{% endif %}">
+                                                            <a href="{{ velaLink.url }}" title="">{{ velaLink.title }}</a>
+                                                            <ul class="menuDropdown">
+                                                                {% for velaLink1 in linklists[linkHandle].links %}
+                                                                    {% assign linkHandle = velaLink1.title | handleize %}
+                                                                    {% if linklists[linkHandle].links != blank %}
+                                                                        {% comment %}====== MENU DROPDOWN LEVEL II ======{% endcomment %}
+                                                                        <li class="hasMenuDropdown{% if velaLink1.active %} active{% endif %}">
+                                                                            <a href="{{ velaLink1.url }}" title="">{{ velaLink1.title }}</a>
+                                                                            <ul class="menuDropdown">
+                                                                                {% for velaLink2 in linklists[linkHandle].links %}
+                                                                                    {% assign linkHandle = velaLink2.title | handleize %}
+                                                                                    {% if linklists[linkHandle].links != blank %}
+                                                                                        {% comment %}====== MENU DROPDOWN LEVEL III ======{% endcomment %}
+                                                                                        <li class="hasMenuDropdown{% if velaLink2.active %} active{% endif %}">
+                                                                                            <a href="{{ velaLink2.url }}" title="">{{ velaLink2.title }}</a>
+                                                                                            <ul class="menuDropdown">
+                                                                                                {% for velaLink3 in linklists[linkHandle].links %}
+                                                                                                    <li class="{% if velaLink3.active %}active{% endif %}">
+                                                                                                        <a href="{{ velaLink3.url }}" title="">{{ velaLink3.title }}</a>
+                                                                                                    </li>
+                                                                                                {% endfor %}
+                                                                                            </ul>
+                                                                                        </li>
+                                                                                    {% else %}
+                                                                                        <li class="{% if velaLink2.active %}active{% endif %}">
+                                                                                            <a href="{{ velaLink2.url }}" title="">{{ velaLink2.title }}</a>
+                                                                                        </li>
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </ul>
+                                                                        </li>
+                                                                    {% else %}
+                                                                        <li class="{% if velaLink1.active %}active{% endif %}">
+                                                                            <a href="{{ velaLink1.url }}" title="">{{ velaLink1.title }}</a>
+                                                                        </li>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="{% if velaLink.active %}active{% endif %}">
+                                                            <a href="{{ velaLink.url }}" title="">{{ velaLink.title }}</a>
+                                                        </li>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </nav>
+                            </div>
+                            {% endif %}
+                        {% comment %} {% include 'vela-searchtop' %} {% endcomment %}
+                        {% include 'vela-toplinks' %}
+                      	{% include 'vela-carttop' %}                      
+                    </div>                 
+                </div>
+            </div>
+    </section>
+  <script type="text/javascript">
+    (function(e,t,o,n,p,r,i){e.visitorGlobalObjectAlias=n;e[e.visitorGlobalObjectAlias]=e[e.visitorGlobalObjectAlias]||function(){(e[e.visitorGlobalObjectAlias].q=e[e.visitorGlobalObjectAlias].q||[]).push(arguments)};e[e.visitorGlobalObjectAlias].l=(new Date).getTime();r=t.createElement("script");r.src=o;r.async=true;i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)})(window,document,"https://diffuser-cdn.app-us1.com/diffuser/diffuser.js","vgo");
+    vgo('setAccount', '650007615');
+    vgo('setTrackByDefault', true);
+
+    vgo('process');
+</script>
+</header>
+{% if section.settings.velamenu_enable %}
+	{% include 'vela-menu-mobile' %}
+{% endif %}
+
+
+<script>
+    $(function(){
+
+        $(window).on("load", function(){
+            setTimeout(function(){
+                if($(".ssbar.ssbar1173").length > 0){
+                    if($(window).width() < 769){
+                        var slickSettings = {
+                            arrows: false,
+                            slidesToScroll: 1,
+                            dots: false,
+                            fade: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            autoplay: true,
+                            infinite: true,
+                            autoplaySpeed: 2000
+                        };
+
+                        $(".ssbar.ssbar1173 > a span").each(function(){
+                            $(this).text($(this).text().replace("|", ""));
+                        });
+
+                        $(".ssbar.ssbar1173 > a").slick(slickSettings);
+                    
+                        $("#velaHeaderMain").css("padding-top", ($(".ssbar.ssbar1173").height()+20)+"px");
+                    }
+
+                    $(".ssbar.ssbar1173").css("visibility", "visible");
+                }
+            }, 1000);
+        });
+
+        $(window).on("scroll", function(){
+            if($(".ssbar").length > 0 && $(".ssbar").css("display") != "none"){
+                $("#velaHeaderMain.headerFixed").css("margin-top", $(".ssbar.ssbar1173").height()+10+"px");
+                $("#velaHeaderMain:not(.headerFixed)").css("margin-top", "0px");
+            }
+        });
+    });
+</script>
+
+{% schema %}
+	{
+      	"name": "Header",
+		"max_blocks": 4,
+      	"settings": [
+            {
+                "type": "header",
+                "content": "Logo"
+            },
+            {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo image"
+            },
+            {
+                "type": "text",
+                "id": "logo_image_size",
+                "label": "Image Size",
+				"info": "Image Size is required."
+            },
+			{
+                "type": "header",
+                "content": "Vela Menu"
+            },
+            {
+                "type": "checkbox",
+                "id": "velamenu_enable",
+                "label": "Enable Megamenu",
+                "info": "Acitve Vela Menu"
+            },
+            {
+                "type": "link_list",
+                "id": "velamenu_linklist",
+                "label": "Menu",
+                "default": "main-menu"
+            },
+            {
+                "type": "text",
+                "id": "velamenu_menumobile_title",
+                "label": "Menu Mobile Title",
+                "placeholder": "Menu Mobile Title",
+                "default": "Menu Mobile"
+            }
+		],
+        "blocks": [
+            {
+                "type": "text",
+                "name": "Megamenu Item",
+                "settings": [
+					{
+                        "type": "image_picker",
+                        "id": "img_bg",
+                        "label": "background image for block"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_item",
+                        "label": "Menu item name",
+                        "info": "Menu item of main-menu. Menu item has dropdown megamenu."
+                    },
+                    {
+                        "type": "header",
+                        "content": "Block navigation",
+                        "info": "Admin -> Navigation -> Menu. Position:1"
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "velamenu_menu_enable",
+                        "label": "Enable navigation"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_menu_col",
+                        "label": "Class for Block",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_menu_menucol",
+                        "label": "Class for each Menu",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Block products",
+                        "info": "Position:2"
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "velamenu_product_enable",
+                        "label": "Enable products"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_product_col",
+                        "label": "Class for Block",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_product_title",
+                        "label": "Block Title"
+                    },
+                    {
+                        "type": "collection",
+                        "id": "velamenu_product_collection",
+                        "label": "Collection"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Block html",
+                        "info": "Position:3"
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "velamenu_html_enable",
+                        "label": "Enable html"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_html_col",
+                        "label": "Class for Block",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_html_title",
+                        "label": "Block Title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "velamenu_html_content",
+                        "label": "Content HTML",
+                        "info": "You can input HTML code, img tag, video code, ..."
+                    },
+                    {
+                        "type": "header",
+                        "content": "Block banner",
+                        "info": "Position:4"
+                    },
+                    {
+                        "type": "checkbox",
+                        "id": "velamenu_banner_enable",
+                        "label": "Enable banner"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_banner_col",
+                        "label": "Class for Block",
+                        "info": "Ex: 'col-sm-3'. The width of the block is 25%"
+                    },
+                    {
+                        "type": "text",
+                        "id": "image_size",
+                        "label": "Image Size",
+                        "default": "255x300",
+                        "info": "[Size parameters](https://help.shopify.com/themes/liquid/filters/url-filters#size-parameters)"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "velamenu_banner",
+                        "label": "Banner image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "velamenu_banner_link",
+                        "label": "Banner Link"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

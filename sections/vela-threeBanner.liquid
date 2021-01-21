@@ -1,0 +1,212 @@
+<div class="container-full">
+  <div class="threeBanner {% if section.settings.is_influencers == true %} section-influencers-list {% endif %}">
+    {% if section.settings.headline != blank %}
+        <h3 class="velaHomeTitle">{{ section.settings.headline }}</h3>
+    {% endif %}
+      <div class="velaBannerContent clearfix">
+        <div class="row nomargin">
+          <div class="velaBanner col-xs-12 col-sm-4 nopadding">
+              <div class="{{ section.settings.effect }}">
+                  {% if section.settings.link1 != blank %}<a href="{{ section.settings.link1 }}" title="{{ block.settings.image.alt | default: shop.name }}">{% endif %}
+                      {% if section.settings.image1 != blank %}
+                          <img class="img-responsive" alt="{{ section.settings.image1.alt | default: shop.name }}" src="{{ section.settings.image1 | img_url: '2000x' }}" />
+                      {% else %}
+                          <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/610x335.jpg" />
+                      {% endif %}
+                  {% if section.settings.link1 != blank %}</a>{% endif %}
+              </div>
+          </div>
+          <div class="velaBanner col-xs-12 col-sm-4 nopadding">
+              <div class="{{ section.settings.effect }}">
+                  {% if section.settings.link2 != blank %}<a href="{{ section.settings.link2 }}" title="{{ block.settings.image.alt | default: shop.name }}">{% endif %}
+                      {% if section.settings.image2 != blank %}
+                          <img class="img-responsive" alt="{{ section.settings.image.alt | default: shop.name }}" src="{{ section.settings.image2 | img_url: '2000x' }}" />
+                      {% else %}
+                          <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/610x335.jpg" />
+                      {% endif %}
+                  {% if section.settings.link2 != blank %}</a>{% endif %}
+              </div>
+          </div>
+          <div class="velaBanner col-xs-12 col-sm-4 nopadding">
+              <div class="{{ section.settings.effect }}">
+                  {% if section.settings.link3 != blank %}<a href="{{ section.settings.link3 }}" title="{{ block.settings.image.alt | default: shop.name }}">{% endif %}
+                      {% if section.settings.image3 != blank %}
+                          <img class="img-responsive" alt="{{ section.settings.image3.alt | default: shop.name }}" src="{{ section.settings.image3 | img_url: '2000x' }}" />
+                      {% else %}
+                          <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/610x335.jpg" />
+                      {% endif %}
+                  {% if section.settings.link3 != blank %}</a>{% endif %}
+              </div>
+          </div>
+        </div>
+      </div>
+
+    {% if section.settings.enable_show_more == true %}
+        <div class="btn-show-more-wrapper">
+            <a href="javascript:;" class="btn-show-more">Vis flere</a>
+        </div>
+    {% endif %}
+
+    {% if section.settings.enable_show_less == true %}
+        <div class="btn-show-less-wrapper">
+            <a href="javascript:;" class="btn-show-less">Skjul</a>
+        </div>
+    {% endif %}
+  </div>
+</div>
+{% if request.path contains '/en' %}
+<style>
+    .container-full {
+        display: none;
+    }
+</style>
+{% endif %}
+
+<style>
+    .section-influencers-list{
+        display: none;
+    }
+
+    .section-influencers-list .velaHomeTitle{
+      	padding-top: 50px;
+      	letter-spacing: 2px;
+        font-family: "Gotham-Medium";
+        font-weight: 500;
+        font-size: 16px;
+        text-transform: uppercase;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .section-influencers-list .btn-show-more-wrapper,
+    .section-influencers-list .btn-show-less-wrapper{
+        text-align: center;
+        padding: 20px 0px;
+        margin-bottom: 40px;
+
+
+    }
+
+    .section-influencers-list .btn-show-more,
+    .section-influencers-list .btn-show-less{
+        border: 1px solid #000;
+        border-radius: 3px;
+        color: #000;
+        padding: 10px;
+        transition: all .3s;
+    }
+
+    .section-influencers-list .btn-show-more:hover,
+    .section-influencers-list .btn-show-less:hover{
+        color: #FFF;
+        background-color: #000;
+        transition: all .3s;
+    }
+</style>
+
+<script>
+    $(function(){
+        $(".section-influencers-list").eq(0).show();
+
+        $(".section-influencers-list .btn-show-more").on("click", function(){
+            $(".section-influencers-list").show();
+            $(this).parent().hide();
+        });
+
+        $(".section-influencers-list .btn-show-less").on("click", function(){
+            $(".section-influencers-list").hide();
+            $(".section-influencers-list").eq(0).show();
+            $(".section-influencers-list .btn-show-more").parent().show();
+        });
+    });
+</script>
+
+{% schema %}
+    {
+        "name": "Vela Three Banner",
+        "class": "velaFramework",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Block Banner"
+            },
+            {
+                "type": "text",
+                "id": "headline",
+                "label": "Headline"
+            },
+            {
+                "type": "image_picker",
+                "id": "image1",
+                "label": "1st Banner Image"
+            },
+			{
+                "type": "text",
+                "id": "link1",
+                "label": "1st Image Link"
+            },
+			{
+                "type": "image_picker",
+                "id": "image2",
+                "label": "2st Banner Image"
+            },
+			{
+                "type": "text",
+                "id": "link2",
+                "label": "2st Image Link"
+            },
+			{
+                "type": "image_picker",
+                "id": "image3",
+                "label": "3st Banner Image"
+            },
+			{
+                "type": "text",
+                "id": "link3",
+                "label": "3st Image Link"
+            },
+            {
+                "type": "select",
+                "id": "effect",
+                "label": "Effect",
+				"default": "effectOne",
+                "options": [
+                    {
+                        "value": "effectOne",
+                        "label": "Effect one"
+                    },
+                    {
+                        "value": "effectTwo",
+                        "label": "Effect two"
+                    }
+                ]
+            },
+			{
+                "type": "checkbox",
+                "id": "is_influencers",
+                "label": "Influencers"
+            },
+			{
+                "type": "checkbox",
+                "id": "enable_show_more",
+                "label": "Enable show more"
+            },
+			{
+                "type": "checkbox",
+                "id": "enable_show_less",
+                "label": "Enable show less"
+            },
+			{
+                "type": "checkbox",
+                "id": "enable_headline",
+                "label": "Enable headline"
+            }
+        ],
+		"presets": [
+            {
+                "name": "Vela Three Banner",
+                "category": "4. Vela Image"
+            }
+        ]
+    }
+{% endschema %}

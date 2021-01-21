@@ -1,0 +1,63 @@
+<section id="pageContent" class="page404">
+    <div class="container">
+      	<div class="boxImage">
+          	{% if section.settings.page404_image != blank %}
+            	<img class="img-responsive" alt="{{ section.settings.page404_image.alt | default: shop.name }}" src="{{ section.settings.page404_image | img_url: section.settings.image_size }}" />
+            {% else %}
+            	<img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/{{ section.settings.image_size }}" />
+            {% endif %}
+      	</div>
+      	<div class="boxText">
+          	<h3 class="page404Title">{{ section.settings.page404_title }}</h3>
+          	<div class="page404Des">{{ section.settings.page404_description }}</div>
+      	</div>
+      	{% if section.settings.page404_btntext != blank %}
+            <div class="boxButton">
+              	<a class="btn btn404" href="{{ section.settings.page404_btnlink }}">{{ section.settings.page404_btntext }}</a>
+            </div>
+      	{% endif %}
+	</div>
+</section>
+{% schema %}
+  	{
+        "name": "Vela 404 Page",
+        "settings": [
+			{
+                "type": "text",
+                "id": "image_size",
+                "label": "Image Size",
+				"info": "Image Size is required."
+            },
+			{
+                "type": "image_picker",
+                "id": "page404_image",
+                "label": "404 Image",
+                "info": "Default Size: 762x219 pixels"
+			},
+			{
+                "type": "text",
+                "id": "page404_title",
+                "label": "404 Title",
+                "placeholder": "Tittle of Page 404"
+			},
+			{
+                "type": "textarea",
+                "id": "page404_description",
+                "label": "404 Description",
+                "placeholder": "Description of Page 404"
+			},
+			{
+                "type": "text",
+                "id": "page404_btntext",
+                "label": "404 Button Text",
+                "placeholder": "Text of Button"
+			},
+			{
+                "type": "text",
+                "id": "page404_btnlink",
+                "label": "404 Button Link",
+                "placeholder": "Link of Button"
+			}
+		]
+  	}
+{% endschema %}

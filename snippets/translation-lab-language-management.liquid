@@ -1,0 +1,81 @@
+<script>
+
+  (function() {
+
+    function buildLanguageList() {
+      return [
+        {%- for locale in shop.published_locales %}
+        {
+          name: "{{locale.name | split: '(' | first | strip}}",
+          endonym_name: "{{ locale.endonym_name | split: '(' | first | strip}}",
+          iso_code: "{{ locale.iso_code }}",
+          primary: {{ locale.primary }},
+        }{% unless forloop.last %},{% endunless -%}
+        {%- endfor %}
+      ];
+    }
+
+    function findCurrentLocale(l, t) {
+      var p = window.location.pathname.split('/').filter(x => x);
+      if (p && p.length > 0 && l.find(x => x.iso_code.toLowerCase() === p[0].toLowerCase())) {
+        return p[0];
+      } else {
+        return t;
+      }
+    }
+
+    function getSavedLocale(l) {
+      var savedLocale = localStorage.getItem('translation-lab-lang');
+      var sl = savedLocale ? l.find(x => x.iso_code.toLowerCase() === savedLocale.toLowerCase()) : null;
+      return sl ? sl.iso_code : null;
+    }
+
+    function getBrowserLocale(l) {
+      var browserLocale = navigator.language;
+      if (browserLocale) {
+        var localeParts = browserLocale.split('-');
+        var bl = localeParts[0] ? l.find(x => x.iso_code.toLowerCase().startsWith(localeParts[0])) : null;
+        return bl ? bl.iso_code : null;
+      } else {
+        return null;
+      }
+    }
+
+    var l = buildLanguageList();
+    var s = 'https://{{shop.domain}}';
+    var p = l.find(function (x) { return x.primary; });
+    var t = p ? p.iso_code : 'en';
+    var i = findCurrentLocale(l, t);
+    var c = getSavedLocale(l);
+    var b = getBrowserLocale(l)
+    var d = null;
+    var g = t;
+
+    if (c) {
+      g = c;
+    } else if (d) {
+      g = d;
+    } else if (b) {
+      g = b;
+    }
+
+    if (i != g) {
+      languageChange(g);
+    }
+
+    function languageChange(e) {
+      var n = window.location.pathname;
+      var queryString = window.location.search || '';
+      if (e.toLowerCase() === t.toLowerCase()) {
+        var o = '' + s + n.replace('/' + i, '') + queryString;
+        window.location.assign(o);
+      } else if (t.toLowerCase() === i.toLowerCase()) {
+        var r = s + '/' + e + n + queryString;
+        window.location.assign(r);
+      } else {
+        var a = s + '/' + n.replace('/' + i, e) + queryString;
+        window.location.assign(a);
+      }
+    }
+  })();
+</script>

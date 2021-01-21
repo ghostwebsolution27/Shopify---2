@@ -1,0 +1,122 @@
+<section class="shop-seo">
+    <div class="container">
+        {% if section.settings.seo_text != nil %}
+        <div class="seo-content-wrapper">
+            <div class="seo-text">
+                {{ section.settings.seo_text }}
+            </div>
+            {% comment %} <a class="btn-more isMore" href="javascript:;">
+                Load more
+            </a> {% endcomment %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+
+<style>
+    section.shop-seo{
+        padding: 80px 0px 60px;
+    }
+ 
+    @media (max-width: 768px){
+        section.shop-seo{
+            padding: 50px 0px 0px;
+        }
+    }
+
+    section.shop-seo .seo-content-wrapper .seo-text{
+        font-size: 14px;
+        font-style: normal;
+        font-family: "Gotham-Thin";
+        font-weight: bold;
+        line-height: 1.5;
+    }
+
+    section.shop-seo .seo-content-wrapper .seo-text strong{
+        font-family: "Gotham-Medium";
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    section.shop-seo .seo-content-wrapper:not(.collapsed) .seo-text{
+        height: 100%;
+        margin-bottom: 25px;
+    }
+
+    section.shop-seo .seo-content-wrapper.collapsed .seo-text{
+        position: relative;
+        overflow: hidden;
+        transition-property: height;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+        margin-bottom: 20px;
+    }
+
+    section.shop-seo .seo-content-wrapper.collapsed .seo-text:after{
+        content: '';
+        transition-property: top;
+        transition-duration: 300ms;
+        transition-timing-function: ease-in-out;
+        background-image: linear-gradient(rgba(255,255,255,0), #fff 100%);
+        position: absolute;
+        top: calc(100% - 6.25em);
+        left: 0;
+        height: 6.25em;
+        width: 100%;
+    }
+
+    section.shop-seo .seo-content-wrapper .btn-more{
+        border: 1px solid #000;
+        border-radius: 3px;
+        color: #000;
+        padding: 10px;
+        transition: all .3s;
+    }
+
+    section.shop-seo .seo-content-wrapper .btn-more:hover{
+        background-color: #000;
+        color: #FFF;
+        transition: all .3s;
+    }
+</style>
+
+<script>
+    $(function(){
+        $(".seo-content-wrapper .btn-more").on("click", function(){
+            if($(this).hasClass("isMore")){
+                $("section.shop-seo .seo-content-wrapper.collapsed").removeClass("collapsed").css("height", "100%");
+                $(this).removeClass("isMore").text("Show less");
+            }
+            else{
+                $("section.shop-seo .seo-content-wrapper").addClass("collapsed").css("height", "70px");
+                $(this).addClass("isMore").text("Load more");
+            }
+        });
+
+
+    });
+</script>
+
+
+{% schema %}
+  	{
+    	"name": "Vela shop SEO",
+    	"settings": [
+			{
+            	"type": "richtext",
+            	"id": "seo_text",
+            	"label": "SEO text"
+          	}
+		],
+        "presets": [
+            {
+                "name": "Vela shop SEO",
+                "category": "shop SEO",
+				"settings": {
+					"seo_text": "<p>Insert text for SEO</p>"
+				}
+            }
+        ]
+  	}
+{% endschema %}

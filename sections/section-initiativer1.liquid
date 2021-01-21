@@ -1,0 +1,228 @@
+<style>
+
+    .section-initiativer .header-wrapper{
+        padding: 0px 10px;
+    }
+
+    .section-initiativer .header-wrapper h2{
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+    .section-initiativer .header-wrapper .qa-description{
+        font-size: 14px;
+        font-style: normal;
+        font-family: "Gotham-Thin";
+        font-weight: bold;
+        line-height: 2;
+    }
+
+    section.section-initiativer .product__accordion{
+        margin-top: 20px;
+    }
+
+    section.section-initiativer .section-wrapper{
+        max-width: 990px;
+        margin: 0px auto;
+    }
+
+    section.section-initiativer .product__accordion .accordion__pane{
+        padding: 25px 10px;
+        border-top: 1px solid #d3d7d7;
+    }
+
+    section.section-initiativer .product__accordion .accordion__pane:first-child{
+        border-top: 1px solid transparent;
+    }
+
+    section.section-initiativer .product__accordion .accordion__pane:nth-last-child(2){
+        border-bottom: 0px;
+    }
+
+    section.section-initiativer .section-wrapper .accordion__title{
+        font-size: 16px;
+        font-style: normal;
+        font-family: "Gotham-Medium";
+        font-weight: 100;
+        line-height: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    section.section-initiativer .section-wrapper .accordion__content{
+        font-size: 14px;
+        font-style: normal;
+        font-family: "Gotham-Thin";
+        font-weight: bold;
+        line-height: 2;
+        padding: 20px 0;
+        margin-left: 30px;
+        margin-top: 15px;
+        max-width: 650px;
+        display: none;
+    }
+
+    section.section-initiativer .section-wrapper .accordion__title .accordion__state{
+        width: 18px;
+        height: 12px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    section.section-initiativer .section-wrapper .accordion__title .accordion__state:before{
+        content: '';
+        display: block;
+        position: absolute;
+        top: 4.5px;
+        left: 0;
+        width: 17px;
+        height: 2px;
+        background: #4d5e5f;
+        transition: .3s;
+    }
+
+    section.section-initiativer .section-wrapper .accordion__title .accordion__state:after{
+        content: '';
+        display: block;
+        position: absolute;
+        top: 4.5px;
+        left: 0;
+        width: 17px;
+        height: 2px;
+        background: #4d5e5f;
+        transform-origin: 50% 50%;
+        transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        transition: .3s;
+    }
+
+    section.section-initiativer .section-wrapper .accordion__pane.active .accordion__title{
+        color: #85873E;
+    }
+
+    section.section-initiativer .section-wrapper .accordion__pane.active .accordion__title .accordion__state:before,
+    section.section-initiativer .section-wrapper .accordion__pane.active .accordion__title .accordion__state:after{
+        color: #85873E;
+    }
+
+    section.section-initiativer .section-wrapper .accordion__pane.active .accordion__title .accordion__state:after{
+        transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);  
+    }
+
+</style>
+
+
+<script type="text/javascript">
+
+    $(function(){
+        // $("section.section-initiativer .accordion__pane .accordion__state").on("click", function(){
+        //     if($(this).parents(".accordion__pane").hasClass("active")){
+        //         $(this).parents(".accordion__pane").find(".accordion__content").slideUp("fast");
+        //         $(this).parents(".accordion__pane").removeClass("active");
+        //     }
+        //     else{
+        //         $("section.section-initiativer .accordion__pane.active .accordion__content").slideUp("fast");
+        //         $("section.section-initiativer .accordion__pane.active").removeClass("active");
+        //         $(this).parents(".accordion__pane").find(".accordion__content").slideDown("fast");
+        //         $(this).parents(".accordion__pane").addClass("active");
+        //     }
+        // });
+
+        
+        $("section.section-initiativer .section-wrapper .accordion__title").on("click", function(){
+            if($(this).parents(".accordion__pane").hasClass("active")){
+                $(this).parents(".accordion__pane").find(".accordion__content").slideUp("fast");
+                $(this).parents(".accordion__pane").removeClass("active");
+            }
+            else{
+                $("section.section-initiativer .accordion__pane.active .accordion__content").slideUp("fast");
+                $("section.section-initiativer .accordion__pane.active").removeClass("active");
+                $(this).parents(".accordion__pane").find(".accordion__content").slideDown("fast");
+                $(this).parents(".accordion__pane").addClass("active");
+            }
+        });
+    });
+    
+</script>
+
+
+<section class="section-initiativer" data-section-id="{{ section.id }}">
+    <div class="container">
+        <div class="section-wrapper">
+            <div class="header-wrapper js-animate animate-fade-in">
+                {% if section.settings.title != blank %}
+                <h2><span class="banner__title-shape">{{ section.settings.title }}</span></h2>
+                {% endif %}
+                {% if section.settings.description != blank %}
+                    <div class="qa-description">{{ section.settings.description }}</div>
+                {% endif %}
+            </div>
+            <div class="product__accordion accordion" data-accordion>
+            {% if section.blocks.size > 0 %}        
+                {% for block in section.blocks %}
+                <div class="accordion__pane js-animate animate-fade-in {% if forloop.index0 > 3 %} mobile-hide {% endif %}" data-pane>
+                    {% if block.settings.title != blank %}
+                    <div class="accordion__title" data-toggler>
+                        <span class="title">{{ block.settings.title }}</span>
+                        <span class="accordion__state" data-state></span>
+                    </div>
+                    {% endif %}
+                    {% if block.settings.answer != blank %}
+                    <div class="accordion__content" data-content>{{ block.settings.answer }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% schema %}
+{
+    "name": "Questions",
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Main title",
+            "default": "Questions? We have answers."
+        },
+        {
+            "type": "richtext",
+            "id": "description",
+            "label": "Description",
+            "default": "<p>Questions? We have answers.</p>"
+        }
+    ],
+    "blocks": [
+        {
+        "type": "faq",
+        "name": "Faq",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Question title"
+            },
+            {
+                "type": "textarea",
+                "id": "answer",
+                "label": "Answer"
+            }
+        ]
+    }
+    ]
+}
+{% endschema %}

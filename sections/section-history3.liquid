@@ -1,0 +1,94 @@
+<section id="pageContent" class="section-history3">
+
+    <div class="col-md-6 col-xs-12 col-content">
+        <div class="content-wrapper">
+            {% if section.blocks.size > 0 %}
+                {% for block in section.blocks %}
+                    <div class="content-block">
+                        {% if block.settings.title %}
+                            <h2 class="page-title">{{ block.settings.title }}</h2>
+                        {% endif %}
+                        <div class="page-content">
+                            {{ block.settings.content }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xs-12">
+        <img class="section-image" src="{{ section.settings.image_right | img_url: 'master' }}">
+    </div>
+
+</section>
+
+<style>
+    section.section-history3{
+        padding-top: 0px !important;
+        position: relative;
+    }
+
+    section.section-history3 > .col-content{
+        position: initial;
+    }
+
+    section.section-history3 .content-wrapper{
+        padding: 0px 60px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50%;
+    }
+
+    section.section-history3 .content-wrapper .page-title{
+        font-size: 28px;
+        margin-bottom: 30px;
+        font-family: "Gotham-Medium";
+        font-weight: 500;
+    }
+
+    section.section-history3 .content-wrapper .page-content{
+        font-size: 14px;
+        font-style: normal;
+        font-family: "Gotham-Thin";
+        font-weight: bold;
+        line-height: 2.5;
+    }
+
+    section.section-history3 .content-wrapper .content-block{
+        margin-bottom: 70px;
+    }
+</style>
+
+{% schema %}
+{
+    "name": "Section history3",
+    "class": "section-history3",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "image_right",
+            "label": "Image"
+        }
+    ],
+    "blocks": [
+        {
+            "name": "history3 block",
+            "type": "history3-block",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title"
+                },
+                {
+                    "type": "richtext",
+                    "id": "content",
+                    "label": "Content"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

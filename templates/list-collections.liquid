@@ -1,0 +1,35 @@
+{% include 'breadcrumb' %}
+<section id="pageContent">
+    <div class="container">
+        {% paginate collections by 6 %}
+            {% for collection in collections %}
+                <div class="listCollection">
+                    {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+                    <div class="collBoxTop">
+                        <h3 class="headerCollection">{{ collection_title }}</h3>
+                        <div class="moreProducts">
+                            <a href="{{ collection.url }}" title="{{ 'collections.general.link_title' | t: title: collection_title }}">{{ 'collections.general.link_title' | t: title: collection_title }}</a>
+                          </div>
+                    </div>
+                    {% if collection.image %}
+                        <div class="collImage">
+                            <a href="{{ collection.url }}">
+                                <img class="img-responsive" alt="{{ collection.title }}" src="{{ collection.image | collection_img_url: 'master' }}" />
+                            </a>
+                        </div>
+                    {% endif %}
+                    <div class="proList grid">
+                        <div class="row">
+                            {% for product in collection.products limit:4 %}
+                                {% include 'product-grid-item' with 'col-xs-12 col-sm-6 col-md-3' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if paginate.pages > 1 %}
+                {% include 'vela-pagination' %}
+            {% endif %}
+        {% endpaginate %}
+    </div>
+</section>

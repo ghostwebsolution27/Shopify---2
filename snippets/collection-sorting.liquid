@@ -1,0 +1,27 @@
+<div class="collView pull-left">
+    <button type="button" title="{{ 'collections.general.grid_view' | t }}" class="changeView{% unless template contains 'list' %} changeViewActive{% endunless %}" data-view="grid">
+        <span class="iconChangeView">
+            <span class="fa fa-th" aria-hidden="true"></span>
+            <span class="hidden">{{ 'collections.general.grid_view' | t }}</span>
+        </span>
+    </button>
+    <button type="button" title="{{ 'collections.general.list_view' | t }}" class="changeView{% if template contains 'list' %} changeViewActive{% endif %}" data-view="list">
+        <span class="iconChangeView">
+            <span class="fa fa-list" aria-hidden="true"></span>
+            <span class="hidden">{{ 'collections.general.list_view' | t }}</span>
+        </span>
+    </button>
+</div>
+<div class="collSortBy pull-right">
+    <label for="SortBy">{{ 'collections.sorting.title' | t }}</label>
+    <select name="SortBy" id="SortBy" class="form-control">
+        <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+        <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+        <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+        <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+        <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+        <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+        <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+        <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+    </select>
+</div>

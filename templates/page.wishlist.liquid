@@ -1,0 +1,169 @@
+{% include 'breadcrumb' %}
+<section id="pageContent">
+    <div class="container">
+	    <div class="pageContainer wishlisthContainer">
+	    	<h1 class="velaPageTitle hidden">{{ page.title }}</h1>
+	    	<div class="velaContent">
+	    		{% if customer %}
+	    			<div class="table-responsive">
+	  					<table class="table wishlist-product">
+    						<thead>
+      							<tr>
+        							<th>{{ 'general.wishlist.product_image' | t }}</th>
+        							<th>{{ 'general.wishlist.product_name' | t }}</th>
+    								<th class="text-center">{{ 'general.wishlist.unit_price' | t }}</th>
+        							<th class="text-center">{{ 'products.product.add_to_cart' | t }}</th>
+        							<th class="text-center">{{ 'cart.general.remove' | t }}</th>
+      							</tr>
+    						</thead>
+    						<tbody>
+    							{% assign wish_list_active = false %}
+      							{% for tag in customer.tags %}
+      								{% assign the_test = 'nutthin' %}
+  									{% capture tag_id %}{{ tag }}{% endcapture %}
+      								{% assign tag_size = tag_id.size %}
+  									{% for tag in customer.tags %}
+        								{% capture cur_tag %}{{ tag }}{% endcapture %}
+        								{% if cur_tag contains tag_id %}
+      										{% assign difference = tag_size | minus:cur_tag.size %}
+          									{% if difference == 0 %}
+            									{% assign the_test = tag_id %}
+          									{% else %}
+            									{% assign the_test = 'nutthin' %}
+          									{% endif %}
+    									{% endif %}
+      								{% endfor %}
+      								{% for collection in collections %}
+        								{% paginate collection.products by collection.all_products_count %}
+	          								{% for product in collection.products %}
+	            								{% for variant in product.variants %}
+	      											{% capture variant_id %}{{ variant.id }}{% endcapture %}
+	              									{% unless used contains variant_id %}
+	            										{% capture diff %}{{ tag_size | minus:variant_id.size | money_without_currency | times:100 | divided_by:2 }}{% endcapture %}
+	                									{% assign check = diff | split:'.' %}
+	            										{% if check[1] contains '5' %}{% assign display = false %}{% else %}{% assign display = true %}{% endif %}
+	                									{% if display and the_test contains variant_id %}
+		      												{% assign on_sale = false %}
+															{% if product.compare_at_price > product.price %}
+															    {% assign on_sale = true %}
+															{% endif %}
+															{% assign sold_out = true %}
+															{% if product.available %}
+															    {% assign sold_out = false %}
+															{% endif %}
+															{% assign wish_list_active = true %}
+		      												<tr class="row-{{tag_id}} product-item" id="x{{ tag_id }}">
+		        												<td><a href='{{ product.url }}' class="product-grid-image"><img src="{{ product.featured_image.src | product_img_url: 'medium' }}" alt="{{ product.featured_image.alt | escape }}"></a></td>
+														        <td>
+														          	<a href='{{ product.url }}' class="product-title">{{ product.title }}</a>
+														        </td>
+																<td class="text-center">
+																	<div class="proPrice">
+															            <div class="priceProduct priceSale">{{ product.price | money }}</div>
+															            {% if on_sale %}
+															                <div class="priceProduct priceCompare">{{ product.compare_at_price | money }}</div>
+															            {% endif %}
+															        </div>
+																</td>
+																<td class="text-center">
+																	<div class="action">
+																		{% assign variantCount = product.variants | size %}
+																		<form action="/cart/add" method="post" class="formAddToCart" enctype="multipart/form-data">
+																			<input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+																			{% if sold_out %}
+																				<input class="btn btnAddToCart disabled" type="submit" value="{{ 'products.product.sold_out' | t }}" disabled />
+																			{% else %}
+																				{% if variantCount > 1 %}
+																					<a class="btn btnAddToCart" href="{{ product.url }}" title="{{ product.title | escape }}">
+															                            <span class="fa fa-shopping-cart"></span>
+															                            <span class="select_options">{{ 'products.product.select_options' | t }}</span>
+															                        </a>
+																				{% else %}
+																					<button class="btn btnAddToCart" type="submit" value="Submit">
+															                            <span class="fa fa-shopping-cart"></span>
+															                            <span>{{ 'products.product.add_to_cart' | t }}</span>
+															                        </button>
+																				{% endif %}
+																			{% endif %}
+																		</form>
+																	</div>
+																</td>
+																<td class="text-center">
+																	<a href='javascript:void(0)' class="btnRemoveWishlist">{{ 'cart.general.remove' | t }}</a>
+																</td>
+		      												</tr>
+		      												{% capture used %}{{ variant_id }} {{ used }}{% endcapture %}
+	                									{% endif %}
+	              									{% endunless %}
+	            								{% endfor %}
+	          								{% endfor %}
+	        							{% endpaginate %}
+	      							{% endfor %}
+	    						{% endfor %}
+    						</tbody>
+						</table>
+  					</div>
+					<form method='post' action='/contact' id='removeWishlist' accept-charset='UTF-8'>
+						<input name='form_type' type='hidden' value='customer'/>
+					    <input name='utf8' type='hidden' value='✓'>
+					    <input type='hidden' name='contact[email]' value='{{ customer.email }}'/>
+					    <input type='hidden' name='contact[tags]' id='remove-value' value='' />
+					</form>
+					{% capture subject %}My%20{{ shop.name | replace: ' ','%20' }}%20Wish%20List{% endcapture %}
+					{% capture body %}{{ body }}
+					{% for tag in customer.tags %}
+						{% assign the_test = 'nutthin' %}
+						{% capture tag_id %}{{ tag }}{% endcapture %}
+						{% assign tag_count = 0 %}{% assign tag_size = tag_id | size %}
+						{% for tag in customer.tags %}
+							{% capture cur_tag %}{{ tag }}{% endcapture %}
+							{% if cur_tag contains tag_id %}
+								{% assign cur_tag_size = cur_tag | size %}
+								{% assign difference = tag_size | minus: cur_tag_size %}
+								{% if difference == 0 %}
+									{% assign the_test = tag_id %}
+								{% else %}
+									{% assign the_test = 'nutthin' %}
+  								{% endif %}
+  							{% endif %}
+						{% endfor %}
+						{% assign listID = ''%}
+  						{% for collection in collections %}
+  							{% for p in collection.products %}
+    							{% capture pID %}{{ p.id }}{% endcapture %}
+								{% capture difference %}{{ tag_size | minus:pID.size | money_without_currency | times:100 | divided_by: 2 }}{% endcapture %}
+    							{% assign check = difference | split:'.' %}
+    							{% if check[1] contains '5' %}
+            						{% assign display = false %}
+	       						{% else %}
+									{% assign display = true %}
+								{% endif %}
+	    						{% assign listArr = listID | split: ',' %}
+								{% if listArr contains pID %}{% else %}
+									{% if display and the_test contains pID %}%0A%0A{{ p.title | replace: ' ','%20'}}%3A%20%20{{ shop.url }}{{ p.url }}
+										{% assign listID = listID | append: ','| append: pID %}
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						{% endfor %}
+					{% endfor %}
+				{% endcapture %}
+				<div id="wishlist-email-link" class="hidden">
+			    {% if wish_list_active %}
+			      	<a href='mailto:?subject={{ subject }}&amp;body={{ body }}'>{{ 'general.wishlist.share_wishlist' | t }}</a>
+			    {% else %}
+			      	<p>{{ 'general.wishlist.empty' | t }}</p>
+			    {% endif %}
+			  </div>
+		 	{% else %}
+			 	<p>
+				    <span>{{ 'general.wishlist.subtext' | t }}</span>
+				    <a href="/account/login">{{ 'general.wishlist.sign_in' | t }}</a>
+				    <span >{{ 'general.wishlist.or' | t }}</span>
+			    	<a href="/account/register">{{ 'general.wishlist.create_account' | t }}</a>
+			  	</p>
+  			{% endif %}
+	    	</div>
+	    </div>
+    </div>
+</section>

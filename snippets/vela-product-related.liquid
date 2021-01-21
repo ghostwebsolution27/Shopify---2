@@ -1,0 +1,107 @@
+{% if section.settings.product_related_enable %}
+	{% assign proCol = 4 %}
+	{% assign proLimit = section.settings.product_related_limit | plus: 0 %}
+	{% assign currentProduct = product %}
+	{% if collection == null or collection.handle == 'all' %}
+		{% assign foundCollection = false %}
+		{% for item in product.collections %}
+		  	{% if foundCollection == false and item.handle != 'all' and item.all_products_count > 1 %}
+		    	{% assign foundCollection = true %}
+		    	{% assign collection = item %}
+		  	{% endif %}
+		{% endfor %}
+	{% endif %}
+	{% if collection and collection.products_count > 1 %}
+		<section class="proRelated">
+			<div id="relatedProducts" class="velaProducts">
+				{% if section.settings.product_related_title != blank %}
+					<h3 class="velaTitle velaHomeTitle">
+			          	{% if section.settings.product_related_subfix != blank %}
+			          		<span class="subfix"><span>{{ section.settings.product_related_subfix }}</span></span>
+			         	{% endif %}
+			          	{% if section.settings.product_related_title != blank  %}
+			          		<span class="title">{{ section.settings.product_related_title }}</span>
+			          	{% endif %}
+			          	{% if section.settings.product_related_subtitle != blank %}
+			          	<span class="subtitle">{{ section.settings.product_related_subtitle }}</span>
+			          	{% endif %}
+					</h3>
+				{% endif %}
+				<div class="velaContent">
+					<div class="proOwlCarousel proList grid">
+						<div class="owl-carousel proLoading">
+							{% for product in collection.products limit:proLimit %}
+								{% unless product.handle == currentProduct.handle %}
+									<div class="item">
+										{% include 'product-grid-item' %}
+									</div>
+								{% endunless %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	{% endif %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#relatedProducts .owl-carousel').each(function(){
+			  	$(this).owlCarousel({
+			      	items: {{ proCol }},
+			      	navigation: true,
+					loop: true,
+	              	addClassActive: true,
+	              	autoHeight: true,
+					responsive:{
+						320:{
+							items:1,
+							nav:true
+						},
+						360:{
+							items:1,
+							nav:true
+						},
+						480:{
+							items:1,
+							nav:true
+						},
+						768:{
+							items:2,
+							nav:true
+						},
+						979:{
+							items:4,
+							nav:true
+						},
+						1199:{
+							items:4,
+							nav:true
+						}
+					},
+	          		{% if proAutoPlay %}
+	          			autoPlay: 8000,
+	          			stopOnHover: true,
+	                {% endif %}
+	          		{% if proCol == 1 %}
+	          			singleItem : true,
+	          		{% elsif proCol < 4 %}
+	          			itemsDesktop: [1199, 2],
+	                    itemsDesktopSmall: [979, 2],
+	                    itemsTablet: [768, 2],
+	                    itemsTabletSmall: [480, 1],
+	                    itemsMobile: [360, 1],
+	          		{% else %}
+	          			itemsDesktop: [1199, 3],
+	                    itemsDesktopSmall: [979, 2],
+	                    itemsTablet: [768, 2],
+	                    itemsTabletSmall: [480, 2],
+	                    itemsMobile: [360, 1],
+	          		{% endif %}
+	          		afterInit: function(){
+	          			$(".proLoading").removeClass('proLoading');
+	          		}
+		      	}); 
+			});
+		});
+	</script>
+{% endif %}

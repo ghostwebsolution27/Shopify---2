@@ -1,0 +1,68 @@
+<div class="container">
+    {% if section.settings.title != blank %}
+        <h3 class="velaHomeTitle">{{ section.settings.title }}</h3>
+    {% endif %}
+    <div class="velaBanner">
+        <div class="{{ section.settings.effect }}">
+            {% if section.settings.link != blank %}<a href="{{ section.settings.link }}" title="{{ block.settings.image.alt | default: shop.name }}">{% endif %}
+                {% if section.settings.image != blank %}
+                    <img class="img-responsive" alt="{{ section.settings.image.alt | default: shop.name }}" src="{{ section.settings.image | img_url: '2000x' }}" />
+                {% else %}
+                    <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/{{ section.settings.image_size }}" />
+                {% endif %}
+            {% if section.settings.link != blank %}</a>{% endif %}
+        </div>
+    </div>
+</div>
+{% schema %}
+    {
+        "name": "Vela Banner",
+        "class": "velaFramework",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "placeholder": "Title for Block",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "image_size",
+                "label": "Image Size",
+				"info": "Image Size is required."
+            },
+            {
+                "type": "text",
+                "id": "link",
+                "label": "Image Link"
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Banner Image"
+            },
+            {
+                "type": "select",
+                "id": "effect",
+                "label": "Effect",
+				"default": "effectOne",
+                "options": [
+                    {
+                        "value": "effectOne",
+                        "label": "Effect one"
+                    },
+                    {
+                        "value": "effectTwo",
+                        "label": "Effect two"
+                    }
+                ]
+            }
+        ],
+		"presets": [
+            {
+                "name": "Vela Banner",
+                "category": "4. Vela Image"
+            }
+        ]
+    }
+{% endschema %}

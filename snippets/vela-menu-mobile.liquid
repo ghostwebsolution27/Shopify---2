@@ -1,0 +1,61 @@
+<div id="velaMenuMobile" class="menuMobileContainer hidden-md hidden-lg">
+	<div class="memoHeader">
+		<span>{{ section.settings.velamenu_menumobile_title }}</span>
+		<div class="close btnMenuClose"><span>&times;</span></div>
+	</div>
+	<ul class="nav memoNav">
+		{% for velaLink in linklists[section.settings.velamenu_linklist].links %}
+			{% assign linkHandle = velaLink.title | handleize %}
+			{% if linklists[linkHandle].links != blank %}
+				<li class="hasMemoDropdown{% if velaLink.active %} active{% endif %}">
+					<a href="{{ velaLink.url }}" title="">{{ velaLink.title }}</a>
+					<span class="memoBtnDropdown collapsed" data-toggle="collapse" data-target="#memoDropdown1{{ forloop.index }}"><i class="fa fa-angle-down"></i></span>
+					<ul id="memoDropdown1{{ forloop.index }}" class="memoDropdown collapse">
+                      	{% assign ifor = forloop.index %}
+						{% for velaLink1 in linklists[linkHandle].links %}
+							{% assign linkHandle = velaLink1.title | handleize %}
+							{% if linklists[linkHandle].links != blank %}
+								<li class="hasMemoDropdown{% if velaLink1.active %} active{% endif %}">
+									<a href="{{ velaLink1.url }}" title="">{{ velaLink1.title }}</a>
+									<span class="memoBtnDropdown collapsed" data-toggle="collapse" data-target="#memoDropdown2{{ ifor }}{{ forloop.index }}"><i class="fa fa-angle-down"></i></span>
+									<ul id="memoDropdown2{{ ifor }}{{ forloop.index }}" class="memoDropdown collapse">
+                                      	{% assign ifor1 = forloop.index %}
+										{% for velaLink2 in linklists[linkHandle].links %}
+											{% assign linkHandle = velaLink2.title | handleize %}
+											{% if linklists[linkHandle].links != blank %}
+												<li class="hasMemoDropdown{% if velaLink2.active %} active{% endif %}">
+													<a href="{{ velaLink2.url }}" title="">{{ velaLink2.title }}</a>
+													<span class="memoBtnDropdown collapsed" data-toggle="collapse" data-target="#memoDropdown3{{ ifor }}{{ ifor1 }}{{ forloop.index }}"><i class="fa fa-angle-down"></i></span>
+													<ul id="memoDropdown3{{ ifor }}{{ ifor1 }}{{ forloop.index }}" class="memoDropdown collapse">
+														{% for velaLink3 in linklists[linkHandle].links %}
+															<li class="{% if velaLink3.active %}active{% endif %}">
+																<a href="{{ velaLink3.url }}" title="">{{ velaLink3.title }}</a>
+															</li>
+														{% endfor %}
+													</ul>
+												</li>
+											{% else %}
+												<li class="{% if velaLink2.active %}active{% endif %}">
+													<a href="{{ velaLink2.url }}" title="">{{ velaLink2.title }}</a>
+												</li>
+											{% endif %}
+										{% endfor %}
+									</ul>
+								</li>
+							{% else %}
+								<li class="{% if velaLink1.active %}active{% endif %}">
+									<a href="{{ velaLink1.url }}" title="">{{ velaLink1.title }}</a>
+								</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</li>
+			{% else %}
+				<li class="{% if velaLink.active %}active{% endif %}">
+					<a href="{{ velaLink.url }}" title="">{{ velaLink.title }}</a>
+				</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+<div class="menuMobileOverlay hidden-md hidden-lg"></div>

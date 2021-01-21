@@ -1,0 +1,202 @@
+{% if section.settings.sidebar_filtercustag_enable %}
+	{% if current_tags == blank %}
+		{% assign noFilter = true %}
+	{% else %}
+		{% assign noFilter = false %} 
+	{% endif %}
+    <div id="sidebarAjaxFilter" class="velaFilter">
+        <h3 class="titleSidebar">
+        	<span>{{ section.settings.sidebar_filtercustag_title }}</span>
+        	<a href="javascript:void(0)" class="velaClearAll{% if noFilter %} hidden{% endif %}">{{ 'collections.sidebar.clear_all' | t }}</a>
+    	</h3>
+        <div class="velaContent">
+            {% if section.settings.sidebar_filtercustag1_enable %}
+                <div class="ajaxFilter">
+                	<h4 class="ajaxFilterTitle">
+                		<span>{{ section.settings.sidebar_filtercustag1_title }}</span>
+                		<a href="javascript:void(0)" class="velaClear" style="display:none;">{{ 'collections.sidebar.clear' | t }}</a>
+                	</h4>
+                	<ul class="listFilter list-unstyled">
+                		{% assign cusTags = section.settings.sidebar_filtercustag1_list | split: ',' %}
+                		{% for item in cusTags %}
+    				      	{% assign item = item | strip %}
+    				      	{% assign itemHandleize = item | handleize %}      
+    				      	{% if current_tags contains item %}
+    					      	<li class="active" data-filter="{{ itemHandleize }}">
+    						        {{ item | link_to_remove_tag: item }}
+    					      	</li>
+    				      	{% else %}
+    					        {% if collection.tags contains item %} 
+    					          	<li data-filter="{{ itemHandleize }}">
+    					          		{{ item | link_to_add_tag: item }}
+    					          	</li>
+    					        {% endif %}
+    				      	{% endif %}
+    			      	{% endfor %}
+                	</ul>
+                </div>
+            {% endif %}
+            {% if section.settings.sidebar_filtercustag2_enable %}
+                <div class="ajaxFilter">
+                	<h4 class="ajaxFilterTitle">
+                		<span>{{ section.settings.sidebar_filtercustag2_title }}</span>
+                		<a href="javascript:void(0)" class="velaClear" style="display:none;">{{ 'collections.sidebar.clear' | t }}</a>
+                	</h4>
+                	<ul class="listFilter list-unstyled">
+                		{% assign cusTags = section.settings.sidebar_filtercustag2_list | split: ',' %}
+                		{% for item in cusTags %}
+    				      	{% assign item = item | strip %}
+    				      	{% assign itemHandleize = item | handleize %}     
+    				      	{% if current_tags contains item %}
+    					      	<li class="active" data-filter="{{ itemHandleize }}">
+    						        {{ item | link_to_remove_tag: item }}
+    					      	</li>
+    				      	{% else %}
+    					        {% if collection.tags contains item %} 
+    					          	<li data-filter="{{ itemHandleize }}">
+    					          		{{ item | link_to_add_tag: item }}
+    					          	</li>
+    					        {% endif %}
+    				      	{% endif %}
+    			      	{% endfor %}
+                	</ul>
+                </div>
+            {% endif %}
+            {% if section.settings.sidebar_filtercustag3_enable %}
+                <div class="ajaxFilter">
+                	<h4 class="ajaxFilterTitle">
+                		<span>{{ section.settings.sidebar_filtercustag3_title }}</span>
+                		<a href="javascript:void(0)" class="velaClear" style="display:none;">{{ 'collections.sidebar.clear' | t }}</a>
+                	</h4>
+                	<ul class="listFilter listFilterColor list-unstyled">
+                      	{% for block in section.blocks %}
+                      		{%- assign colorName = block.settings.color_name | strip -%}
+                      		{% if collection.tags contains colorName %}
+                      			{%- assign itemHandleize = colorName | handleize -%}
+                      			<li {% if current_tags contains colorName %}class="active"{% endif %} data-filter="{{ itemHandleize }}">
+                                    <a href="javascript:void(0)">
+                                        {% if block.settings.color != blank %}
+                                            <img class="img-responsive" alt="{{ block.settings.color.alt | default: colorName }}" src="{{ block.settings.color | img_url:'50x50' }}" />
+                                        {% else %}
+                                            <img class="img-responsive" alt="{{ shop.name }}" src="//placehold.it/24x24" />
+                                        {% endif %}
+                                    </a>
+                                </li>
+                      		{% endif %}
+                      	{% endfor %}
+                	</ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% schema %}
+    {
+        "name": "Sidebar Filter By Tags",
+		"max_blocks": 20,
+        "settings": [
+            {
+                "type": "header",
+                "content": "SIDEBAR CUSTOMIZE TAGS"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_filtercustag_enable",
+                "label": "Enable Customize Tags?"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filtercustag_title",
+                "placeholder": "Title for Block",
+                "label": "Block Title"
+            },
+            {
+                "type": "header",
+                "content": "Filter by Tags 1",
+                "info": "Located in the block CUSTOMIZE TAGS"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_filtercustag1_enable",
+                "label": "Enable Filter by Tags 1"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filtercustag1_title",
+                "placeholder": "Title for Block",
+                "label": "Filter by Tags 1 Title"
+            },
+            {
+                "type": "textarea",
+                "id": "sidebar_filtercustag1_list",
+                "placeholder": "Tag product 1,Tag product 2",
+                "label": "Product Tags List 1",
+                "info": "Separate by a comma \",\""
+            },
+            {
+                "type": "header",
+                "content": "Filter by Tags 2",
+                "info": "Located in the block CUSTOMIZE TAGS"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_filtercustag2_enable",
+                "label": "Enable Filter by Tags 2"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filtercustag2_title",
+                "placeholder": "Title for Block",
+                "label": "Filter by Tags 2 Title"
+            },
+            {
+                "type": "textarea",
+                "id": "sidebar_filtercustag2_list",
+                "placeholder": "Tag product 1,Tag product 2",
+                "label": "Product Tags List 2",
+                "info": "Separate by a comma \",\""
+            },
+            {
+                "type": "header",
+                "content": "Filter by Tags 3 (Color)",
+                "info": "Located in the block CUSTOMIZE TAGS"
+            },
+            {
+                "type": "checkbox",
+                "id": "sidebar_filtercustag3_enable",
+                "label": "Enable Filter by Tags 3"
+            },
+            {
+                "type": "text",
+                "id": "sidebar_filtercustag3_title",
+                "placeholder": "Title for Block",
+                "label": "Filter by Tags 3 Title"
+            }
+        ],
+		"blocks": [
+			{
+				"type": "item",
+                "name": "Filter Color Item",
+                "settings": [
+					{
+                        "type": "text",
+                        "id": "color_name",
+                        "label": "Color Tags",
+                        "placeholder": "Color name. Ex: \"White\""
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "color",
+                        "label": "Color Image"
+                    }
+				]
+			}
+		]
+    }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,347 @@
+{%- assign proColumn1 = section.settings.column1 | plus:0 -%}
+{%- assign proColumn2 = section.settings.column2 | plus:0 -%}
+{%- assign proColumn3 = section.settings.column3 | plus:0 -%}
+{%- assign proColumn4 = section.settings.column4 | plus:0 -%}
+<div class="velaTestimonials" style="{% if section.settings.img_bg !=blank %}background-image: url({{ section.settings.img_bg | img_url: "master" }});{% endif %}
+                                     {% if section.settings.margin_block !=blank %}margin:{{section.settings.margin_block}}; {% endif %}
+                                     {% if section.settings.padding_block !=blank %}padding:{{section.settings.padding_block}}; {% endif %}">
+		<div class="container{% if section.settings.full_with %}-full{% endif %}">
+    
+      	{% if section.settings.title != blank %}
+		<h3 class="velaTitle velaHomeTitle">
+          	{% if section.settings.subfix != blank %}
+          		<span class="subfix"><span>{{ section.settings.subfix }}</span></span>
+          	{% endif %}
+          	{% if section.settings.title != blank  %}
+          		<span class="title">{{ section.settings.title }}</span>
+          	{% endif %}
+          	{% if section.settings.subtitle != blank %}
+          	<span class="subtitle">{{ section.settings.subtitle }}</span>
+          	{% endif %}
+		</h3>
+		{% endif %}
+        <div class="velaContent">
+            <div class="velaOwlRow owlCarouselPlay">
+                <div class="owl-carousel" 	data-nav="false" 
+                                            data-autoplay="false" 
+                                            data-autospeed="10000" 
+                                            data-speed="300" 
+                                            data-columnone="{{ proColumn1 }}" 
+                                            data-columntwo="{{ proColumn2 }}" 
+                                            data-columnthree="{{ proColumn3 }}"
+                                            data-columnfour="{{ proColumn4 }}">
+                    {% for block in section.blocks %}
+                        <div class="item">
+                            <div class="testimonialItem clearfix media text-{% if block.settings.position_avatar == top or block.settings.position_avatar == bottom %}cetner{% else %}{{ block.settings.position_avatar }} {% endif %}">
+                                {% if block.settings.avatar != blank and block.settings.position_avatar != bottom %}
+                                    <div class="testimonialAvatar pull-{{block.settings.position_avatar}}">
+                                        <img class="img-responsive img-circle" 
+                                             src="{{ block.settings.avatar | img_url: "master" }}" 
+                                             alt="{{ block.settings.avatar.alt | default: block.settings.name }}">
+                                    </div>
+                                {% endif %}
+                              	<div class="media-body">
+                                  <h4 class="testimonialName">{{ block.settings.name }}</h4>
+                                  <div class="testimonialPosition">{{ block.settings.position }}</div>
+                                  <div class="testimonialReview">
+                                      {{ block.settings.review }}
+                                  </div>                                  
+                              	</div>
+                              	{% if block.settings.position_avatar == bottom %}
+                                    <div class="testimonialAvatar">
+                                        <img class="img-responsive img-circle" 
+                                             src="{{ block.settings.avatar | img_url:'65x65' }}" 
+                                             alt="{{ block.settings.avatar.alt | default: block.settings.name }}">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="trustpilot_image">
+                <img src="{{ section.settings.trustpilot_image | img_url: '200x' }}" class="img_trustpilot_image">
+            </div>
+        </div>
+    </div>
+</div>
+{% schema %}
+    {
+        "name": "Vela Testimonial",
+        "class": "velaFramework",
+		"max_blocks": 10,
+        "settings":[
+			{
+                "type": "header",
+                "content": "Design Block"
+            },
+			{
+				"type": "image_picker",
+				"id": "img_bg",
+				"label": "background image for block"
+			},
+			{
+                "type": "text",
+                "id": "margin_block",
+                "label": "Margin",
+                "placeholder": "0px 0px"
+            },
+			{
+                "type": "text",
+                "id": "padding_block",
+                "label": "Padding",
+                "placeholder": "0px 0px"
+            },
+			{
+                "type": "checkbox",
+                "id": "full_with",
+                "label": "Enabel Full Width?"
+            },
+            {
+                "type": "header",
+                "content": "General Settings"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title",
+                "placeholder": "Title of Testimonial"
+            },
+			{
+                "type": "text",
+                "id": "subfix",
+                "label": "Subfix",
+                "placeholder": "subfix of Testimonial"
+            },
+			{
+                "type": "text",
+                "id": "subtitle",
+                "label": "subtitle",
+                "placeholder": "subtitle of Testimonial"
+            },
+			{
+                "type": "image_picker",
+                "id": "trustpilot_image",
+                "label": "Trustpilot image"
+            },
+			{
+              "type": "header",
+              "content": "Carousel Settings"
+            },
+            {
+                "type": "select",
+                "id": "column1",
+                "label": "#Column 1",
+                "default": "4",
+                "info": "Large desktops",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column2",
+                "label": "#Column 2",
+                "default": "3",
+                "info": "Desktops & Tablets landscape",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column3",
+                "label": "#Column 3",
+                "info": "Tablets & Phones landscape",
+                "default": "2",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "select",
+                "id": "column4",
+                "label": "#Column 4",
+                "default": "2",
+                "info": "Smartphones",
+                "options":[
+                    {
+                        "value": "1",
+                        "label": "1"
+                    },
+                    {
+                        "value": "2",
+                        "label": "2"
+                    },
+                    {
+                        "value": "3",
+                        "label": "3"
+                    },
+                    {
+                        "value": "4",
+                        "label": "4"
+                    },
+                    {
+                        "value": "5",
+                        "label": "5"
+                    }
+                ]
+            },
+            {
+                "type": "checkbox",
+                "id": "navigation",
+                "label": "Show Navigation",
+                "default": true
+            },
+            {
+                "type": "checkbox",
+                "id": "infinite",
+                "label": "Active Infinite",
+                "default": false
+            },
+            {
+                "type": "checkbox",
+                "id": "autoplay",
+                "label": "Auto Play",
+                "default": false
+            },
+            {
+                "type": "text",
+                "id": "autoplay_speed",
+                "label": "Auto Play Speed",
+                "info": "Default: 10000(ms)",
+                "default": "10000"
+            },
+            {
+                "type": "text",
+                "id": "speed",
+                "label": "Speed",
+                "info": "Slide/Fade animation speed",
+                "default": "300"
+            }
+        ],
+		"blocks": [
+			{
+                "type": "item",
+                "name": "Testimonial Item",
+                "settings": [
+					{
+                        "type": "image_picker",
+                        "id": "avatar",
+                        "label": "Avatar"
+                    },
+					{
+                        "type": "select",
+                        "id": "position_avatar",
+                        "label": "Avatar Position",
+						"default": "left",
+						"options":[
+                            {
+                                "value": "left",
+                                "label": "left"
+                            },
+                            {
+                                "value": "right",
+                                "label": "right"
+                            },
+                            {
+                                "value": "top",
+                                "label": "top"
+                            },
+                            {
+                                "value": "bottom",
+                                "label": "bottom"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "text",
+                        "id": "name",
+                        "label": "Customer Name"
+                    },
+					{
+                        "type": "text",
+                        "id": "position",
+                        "label": "Customer Position"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "review",
+                        "label": "Customer Review"
+                    }
+                ]
+            }
+		],
+        "presets": [
+            {
+                "name": "Vela Testimonials",
+                "category": "6. Vela Text",
+				"blocks": [
+                    {
+                        "type":"item"
+                    },
+                    {
+                        "type":"item"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

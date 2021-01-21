@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="velaInstagram">
+        <h4 class="velaHomeTitle">{{ section.settings.title }}</h4>
+        <div class="velaContent">
+            <div id="velaIns{{ section.id }}" class="boxInstagram" 
+                 data-id="velaIns{{ section.id }}"
+                 data-clientid="{{ section.settings.clientid }}"
+                 data-userid="{{ section.settings.userid }}"
+                 data-accesstoken="{{ section.settings.accessToken }}"
+                 data-limit="{{ section.settings.limited }}"
+                 data-resolution="{{ section.settings.resolution }}">
+          	</div>
+        </div>
+    </div>
+</div>
+{% schema %}
+    {
+        "name": "Vela Instagram",
+        "class": "velaFramework",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "placeholder": "Title for Block",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "clientid",
+                "placeholder": "Required",
+                "label": "Client Id (*)",
+                "default": "ad4984d48a094264b3679c68d7f1c259",
+                "info": "[Where do I find Client ID?](http:\/\/darkwhispering.com\/how-to\/get-a-instagram-client_id-key)"
+            },
+			{
+                "type": "text",
+                "id": "userid",
+                "label": "User Id (*)",
+                "placeholder": "User Id",
+                "default": "3313174437",
+                "info": "Required when Get Image from: 'User'. [Where do I find User ID and Access Token?](http:\/\/www.pinceladasdaweb.com.br\/instagram\/access-token\/)"
+            },
+            {
+                "type": "text",
+                "id": "accessToken",
+                "label": "Access Token (*)",
+                "placeholder": "Access Token",
+                "default": "3313174437.1677ed0.69792fa67b60440999e3aea07b8e0116",
+                "info": "Required when Get Image from: 'User'."
+            },
+            {
+                "type": "text",
+                "id": "limited",
+                "placeholder": "Ex:8",
+                "label": "Limit The Number of Images",
+                "default": "8"
+            },
+			{
+                "type": "select",
+                "id": "resolution",
+                "label": "Resolution of images",
+                "options": [
+                    {
+                      	"value": "thumbnail",
+                      	"label": "Thumbnail (150x150)"
+                    },
+                    {
+                      	"value": "low_resolution",
+                      	"label": "Low Resolution (320x320)"
+                    },
+                    {
+                      	"value": "standard_resolution",
+                      	"label": "Standard Resolution (640x640)"
+                    }
+                ]
+            }
+        ],
+		"presets": [
+            {
+                "name": "Vela Instagram",
+                "category": "4. Vela Image"
+            }
+        ]
+    }
+{% endschema %}
